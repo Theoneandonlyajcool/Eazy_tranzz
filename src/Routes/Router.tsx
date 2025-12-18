@@ -1,8 +1,8 @@
 // import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "../Pages/LandingPage.tsx";
-import SignIn from "../Pages/SignIn.tsx";
-import SignUp from "../Pages/SignUp.tsx";
+import SignIn from "../Pages/Auth/SignIn.tsx";
+import SignUp from "../Pages/Auth/SignUp.tsx";
 
 const Router = () => {
   return (
