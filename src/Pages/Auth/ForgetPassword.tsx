@@ -1,9 +1,9 @@
 import { Lock, X } from "lucide-react";
-import {Button} from "../../components/ui/button"
-import Input from "../../Components/Ui/input";
-import Label from "../../Components/Ui/label";
+import {Button} from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { useState } from "react";
-import image from "../../assets/easi-logo.png";
+import image from "@/assets/easi-logo.png";
 
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
