@@ -1,9 +1,9 @@
 import { Eye, EyeOff, Lock, Mail, Phone, User, X } from "lucide-react";
 import { useState } from "react";
-import Label from "../../Components/Ui/label";
-import Input from "../../Components/Ui/input";
-import {Button} from "../../components/ui/button";
-import image from "../../assets/easi-logo.png";
+import { Label } from "@/components/ui/label"
+import { Input } from "@/components/ui/input"
+import {Button} from "@/components/ui/button";
+import image from "@/assests/easi-logo.png";
 import { Link } from "react-router-dom";
 
 const SignUp = () => {
