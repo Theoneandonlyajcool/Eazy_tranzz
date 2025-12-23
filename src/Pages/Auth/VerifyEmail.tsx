@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import Button from "../../Components/Ui/button";
+import {Button} from "../../components/ui/button";
 import { Shield, X } from "lucide-react";
 import image from "../../assets/easi-logo.png";
 
