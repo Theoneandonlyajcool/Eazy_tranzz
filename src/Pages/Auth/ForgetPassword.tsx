@@ -1,5 +1,5 @@
 import { Lock, X } from "lucide-react";
-import Button from "../../Components/Ui/button";
+import {Button} from "../../components/ui/button"
 import Input from "../../Components/Ui/input";
 import Label from "../../Components/Ui/label";
 import { useState } from "react";
@@ -76,8 +76,7 @@ const ForgetPassword = () => {
               </div>
 
               <Button
-                type="submit"
-                className="w-full h-12 bg-black hover:bg-gray-800 text-white text-base font-medium rounded-lg transition-colors"
+              variant="outline"
               >
                 Send Verification code
               </Button>
