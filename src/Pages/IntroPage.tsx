@@ -1,7 +1,6 @@
 import * as motion from "motion/react-client";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import Typewriter from "../Components/TypeWriter";
 import logo from "@/assets/Images/thelogo-removebg-preview.png";
 
 const IntroPage = () => {
@@ -11,7 +10,6 @@ const IntroPage = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [textArrayIndex, setTextArrayIndex] = useState(0);
 
-  // Array of texts to cycle through
   const textsToType = ["Where exchange is made easier!"];
 
   const typingSpeed = 100;
@@ -24,23 +22,19 @@ const IntroPage = () => {
     const timer = setTimeout(
       () => {
         if (!isDeleting) {
-          // Typing
           if (currentIndex < currentText.length) {
             setDisplayText(currentText.substring(0, currentIndex + 1));
             setCurrentIndex(currentIndex + 1);
           } else {
-            // Finished typing, pause then start deleting
             setTimeout(() => {
               nav("home");
             }, pauseTime);
           }
         } else {
-          // Deleting
           if (currentIndex > 0) {
             setDisplayText(currentText.substring(0, currentIndex - 1));
             setCurrentIndex(currentIndex - 1);
           } else {
-            // Finished deleting, move to next text
             setIsDeleting(false);
             setTextArrayIndex((textArrayIndex + 1) % textsToType.length);
           }
@@ -51,12 +45,6 @@ const IntroPage = () => {
 
     return () => clearTimeout(timer);
   }, [currentIndex, isDeleting, textArrayIndex]);
-
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     nav("/home");
-  //   }, 4000);
-  // });
 
   return (
     <div>
@@ -82,9 +70,9 @@ const IntroPage = () => {
             <img src={logo} alt="" className="w-24 h-24 animate-pulse" />
           </motion.div>
 
-          <p className=" text-4xl md:text-5xl xl:text-6xl  text-g font-Dancing text-cyan-100">
+          <p className="w-[90%] sm:w-full text-center text-4xl md:text-5xl xl:text-6xl  text-g font-Dancing text-white">
             {displayText}
-            <span className="animate-pulse">|</span>
+            {/* <span className="animate-pulse">|</span> */}
           </p>
         </div>
       </motion.div>
