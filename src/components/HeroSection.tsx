@@ -1,7 +1,7 @@
-import { FaArrowRight } from "react-icons/fa6";
+// import { FaArrowRight } from "react-icons/fa6";
 import HeroVideo from "@/assets/Videos/Digital Projection Of The Earth Mass In Blue Lights.mp4";
 import BackgroundImage from "@/assets/HeroImageRotated.png";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (
