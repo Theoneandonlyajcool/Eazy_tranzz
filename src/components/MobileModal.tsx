@@ -21,10 +21,15 @@ const MobileModal = ({ onClose: closeModal }: MobileModalProps) => {
 
   // const navigate = useNavigate();
   return (
-    <div className="bg-gray-900/30 h-screen w-full top-0 left-0 fixed flex justify-end z-1000 ">
+    <div className="bg-gray-900/50 backdrop-blur-lg h-screen w-full top-0 left-0 fixed flex justify-end z-1000 ">
       {/* Modal */}
-      <div className="bg-transparent h-screen w-full top-0 left-0 fixed flex justify-end ">
-        <div className="bg-white w-full ssr:w-[70%] md:w-[50%] h-full">
+      <motion.div
+        initial={{ opacity: 0, x: 100 }} // negative = left
+        animate={{ opacity: 1, x: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="bg-transparent h-screen w-full top-0 left-0 fixed flex justify-end "
+      >
+        <div className="bg-white w-full max-w-[80%] ssr:w-[70%] md:w-[50%] h-full">
           {/* close */}
           <div className="relative  w-full h-[8vh] flex justify-end items-center">
             <FaXmark
@@ -94,7 +99,7 @@ const MobileModal = ({ onClose: closeModal }: MobileModalProps) => {
             ))}
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };
