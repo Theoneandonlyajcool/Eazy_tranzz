@@ -105,14 +105,14 @@ const Header = () => {
 
               <DropdownMenuItem
                 className="cursor-pointer hover:bg-[#2f1c2f]"
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/sign_up")}
               >
                 Sign Up
               </DropdownMenuItem>
 
               <DropdownMenuItem
                 className="cursor-pointer hover:bg-[#2f1c2f]"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/sign_in")}
               >
                 Log In
               </DropdownMenuItem>
