@@ -3,6 +3,17 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@font-face {
+  font-family: "Dancing";
+  src: url("@/assets/Fonts/DancingScript-Regular.ttf");
+}
+
+@theme {
+  --font-Dancing: Dancing, "sans-serif";
+  --breakpoint-ss: 350px;
+  --breakpoint-navB: 1160px;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
