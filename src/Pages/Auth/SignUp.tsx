@@ -1,12 +1,14 @@
 import { Eye, EyeOff, Lock, Mail, Phone, User, X } from "lucide-react";
 import { useState } from "react";
-import { Label } from "@/components/ui/label"
-import { Input } from "@/components/ui/input"
-import {Button} from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import image from "@/assets/easi-logo.png";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -18,7 +20,7 @@ const SignUp = () => {
           className="rounded-full border-2 border-black cursor-pointer bg-white p-3 text-black shadow-lg transition-colors hover:bg-gray-50 hover:text-gray-900"
           aria-label="Close"
         >
-          <X className="h-6 w-6" />
+          <X className="h-6 w-6" onClick={() => navigate("/home")} />
         </button>
       </div>
       <div className="flex justify-center">
