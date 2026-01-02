@@ -13,39 +13,39 @@ const SignUp = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white p-8">
-      <div className="flex justify-end mb-8">
+    <div className="min-h-screen bg-white p-4 md:p-8">
+      <div className="flex justify-end mb-4 md:mb-8">
         <button
           type="button"
-          className="rounded-full border-2 border-black cursor-pointer bg-white p-3 text-black shadow-lg transition-colors hover:bg-gray-50 hover:text-gray-900"
+          className="rounded-full border-2 border-black cursor-pointer bg-white p-2 md:p-3 text-black shadow-lg transition-colors hover:bg-gray-50 hover:text-gray-900"
           aria-label="Close"
         >
           <X className="h-6 w-6" onClick={() => navigate("/home")} />
         </button>
       </div>
       <div className="flex justify-center">
-        <div className="w-[65%] ">
+        <div className="w-full max-w-2xl md:w-[65%]">
           <div className="relative overflow-hidden rounded-2xl bg-white shadow-2xl">
             {/* Header Section with Purple Gradient */}
-            <div className="bg-linear-to-br from-[#904d8b] to-[#6d3567] flex flex-col items-center px-6 py-12 text-center">
-              <div className="w-30 h-30 rounded-full mb-1">
+            <div className="bg-linear-to-br from-[#904d8b] to-[#6d3567] flex flex-col items-center px-4 md:px-6 py-8 md:py-12 text-center">
+              <div className="w-20 h-20 md:w-30 md:h-30 rounded-full mb-2 md:mb-1">
                 <img
                   src={image}
                   alt="logo"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover rounded-full"
                 />
               </div>
-              <h1 className="mb-2 text-3xl font-bold text-white">
+              <h1 className="mb-2 text-2xl md:text-3xl font-bold text-white">
                 Create your account
               </h1>
-              <p className="text-white/90">
+              <p className="text-sm md:text-base text-white/90">
                 Get started with EazyTranzz and receive payments from anywhere
                 in the world
               </p>
             </div>
 
             {/* Form Section */}
-            <form className="space-y-6 px-8 py-10">
+            <form className="space-y-6 px-6 md:px-8 py-8 md:py-10">
               {/* Full Name */}
               <div className="space-y-2">
                 <Label
@@ -172,12 +172,10 @@ const SignUp = () => {
               <p className="text-center text-sm text-gray-600 flex items-center gap-1 justify-center">
                 Already have an account?{" "}
                 <Link
-                  to={"/sign_in"}
+                  to="/sign_in"
                   className="font-medium text-[#904d8b] hover:underline"
                 >
-                  <nav className="font-medium text-[#904d8b] hover:underline">
-                    Sign In
-                  </nav>
+                  Sign In
                 </Link>
               </p>
             </form>

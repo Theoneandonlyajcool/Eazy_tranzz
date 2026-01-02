@@ -1,4 +1,4 @@
-import * as motion from "motion/react-client";
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "@/assets/Images/thelogo-removebg-preview.png";
