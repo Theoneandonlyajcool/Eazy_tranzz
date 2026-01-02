@@ -3,8 +3,20 @@ import logo from "@/assets/Images/thelogo-removebg-preview.png";
 import { useNavigate } from "react-router-dom";
 import MobileModal from "@/components/MobileModal";
 import { IoIosMenu } from "react-icons/io";
+import { FaRegUserCircle } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { motion } from "motion/react";
+
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 const Header = () => {
   const location = useLocation();
   const currentLocation = location.pathname;
@@ -82,7 +94,31 @@ const Header = () => {
         </div>
 
         {/* Nav b */}
-        <div className="navB:hidden text-white w-full flex justify-end pr-4 mr-6">
+        <div className="navB:hidden text-white w-full flex items-center justify-end pr-4 mr-6">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <FaRegUserCircle className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" />
+            </DropdownMenuTrigger>
+
+            <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
+              <DropdownMenuLabel>Account</DropdownMenuLabel>
+              <DropdownMenuSeparator className="border border-[#300421b7]" />
+
+              <DropdownMenuItem
+                className="cursor-pointer hover:bg-[#2f1c2f]"
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </DropdownMenuItem>
+
+              <DropdownMenuItem
+                className="cursor-pointer hover:bg-[#2f1c2f]"
+                onClick={() => navigate("/login")}
+              >
+                Log In
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <IoIosMenu
             onClick={() => setOpenMobileModal(true)}
             className="text-3xl md:text-5xl cursor-pointer"
@@ -94,3 +130,48 @@ const Header = () => {
 };
 
 export default Header;
+
+//
+
+("use client");
+
+import * as React from "react";
+import { type DropdownMenuCheckboxItemProps } from "@radix-ui/react-dropdown-menu";
+
+import { Button } from "@/components/ui/button";
+
+type Checked = DropdownMenuCheckboxItemProps["checked"];
+
+export function DropdownMenuCheckboxes() {
+  const [showStatusBar, setShowStatusBar] = React.useState<Checked>(true);
+  const [showActivityBar, setShowActivityBar] = React.useState<Checked>(false);
+  const [showPanel, setShowPanel] = React.useState<Checked>(false);
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuContent className="w-56">
+        <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuCheckboxItem
+          checked={showStatusBar}
+          onCheckedChange={setShowStatusBar}
+        >
+          Status Bar
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={showActivityBar}
+          onCheckedChange={setShowActivityBar}
+          disabled
+        >
+          Activity Bar
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuCheckboxItem
+          checked={showPanel}
+          onCheckedChange={setShowPanel}
+        >
+          Panel
+        </DropdownMenuCheckboxItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
