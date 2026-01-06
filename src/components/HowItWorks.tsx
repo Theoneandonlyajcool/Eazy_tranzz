@@ -15,9 +15,9 @@ const StepCard = ({
   image,
   title,
   description,
-  isMiddle,
-  delay,
-}: StepCardProps) => {
+}: //   isMiddle,
+//   delay,
+StepCardProps) => {
   return (
     <div className="flex flex-col justify-between w-[20rem] m-4 rounded-xl overflow-clip shadow-xl hover:shadow-2xl hover:scale-105 md:w-88 h-104 cursor-pointer transition-all ease-in-out duration-300">
       {/* image conatiner */}

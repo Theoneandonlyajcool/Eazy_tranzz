@@ -4,16 +4,16 @@ import BackgroundImage from "@/assets/HeroImageRotated.png";
 import { Button } from "@/components/ui/button";
 import { FaArrowRightLong } from "react-icons/fa6";
 
-import img1 from "@/assets/Images/img1.png";
-import img2 from "@/assets/Images/img2.png";
-import img3 from "@/assets/Images/img3.png";
-import img4 from "@/assets/Images/img4.png";
-import img5 from "@/assets/Images/img5.png";
+// import img1 from "@/assets/Images/img1.png";
+// import img2 from "@/assets/Images/img2.png";
+// import img3 from "@/assets/Images/img3.png";
+// import img4 from "@/assets/Images/img4.png";
+// import img5 from "@/assets/Images/img5.png";
 
 import AutoScrollCarouse from "./AutoScrollCarouse";
 
 const HeroSection = () => {
-  const ScrollingImages = [img1, img2, img3, img4, img5];
+  // const ScrollingImages = [img1, img2, img3, img4, img5];
 
   return (
     <section className="relative min-h-screen h-[110vh] w-full overflow-hidden">
