@@ -1,5 +1,4 @@
 import { useState } from "react";
-import logo from "@/assets/Images/thelogo-removebg-preview.png";
 import { useNavigate } from "react-router-dom";
 import MobileModal from "@/components/MobileModal";
 import { IoIosMenu } from "react-icons/io";
@@ -15,6 +14,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Button } from "./ui/button";
+import newlogo from "@/assets/Images/newLogo.png";
 
 const Header = () => {
   const location = useLocation();
@@ -38,7 +39,7 @@ const Header = () => {
         {/* Image container */}
         <div className="w-[40%]">
           <img
-            src={logo}
+            src={newlogo}
             className="w-12 lg:w-[15%] ml-8 md:ml-10 cursor-pointer"
             alt="logo"
             loading="lazy"
@@ -83,12 +84,19 @@ const Header = () => {
             >
               Log in
             </button>
-            <button
+            {/* <button
               onClick={() => navigate("/sign_up")}
               className="bg-[#75004e] text-white px-8 py-2 rounded-full hover:bg-[#ae157c] cursor-pointer transition-colors duration-300"
             >
-              Sign Up
-            </button>
+              Sign up
+            </button> */}
+
+            <Button
+              className="border rounded-[100px] border-[#E9C4FF] backdrop-blur-xs cursor-pointer px-6 py-2 hover:scale-105 transition-transform duration-200"
+              onClick={() => navigate("/sign_up")}
+            >
+              Get Started
+            </Button>
           </div>
         </div>
 
@@ -105,14 +113,14 @@ const Header = () => {
 
               <DropdownMenuItem
                 className="cursor-pointer hover:bg-[#2f1c2f]"
-                onClick={() => navigate("/signup")}
+                onClick={() => navigate("/sign_up")}
               >
                 Sign Up
               </DropdownMenuItem>
 
               <DropdownMenuItem
                 className="cursor-pointer hover:bg-[#2f1c2f]"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/sign_in")}
               >
                 Log In
               </DropdownMenuItem>
