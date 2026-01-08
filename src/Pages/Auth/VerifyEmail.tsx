@@ -1,78 +1,107 @@
-import type React from "react"
-import { useEffect, useRef, useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Shield, X } from "lucide-react"
+import type React from "react";
+import { useEffect, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Shield, X } from "lucide-react";
 import image from "@/assets/easi-logo.png";
+import toast from "react-hot-toast";
+import axios from "axios";
+import { storage } from "@/config/storage";
+import { PropagateLoader } from "react-spinners";
 
 const VerifyEmail = () => {
-  const [code, setCode] = useState(["", "", "", "", "", ""])
-  const [timer, setTimer] = useState(60)
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+  const [otp, setOtp] = useState(["", "", "", "", "", ""]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [timer, setTimer] = useState(60);
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const BaseUrl = import.meta.env.VITE_BASEURL;
+  const email = storage.get(import.meta.env.VITE_EMAIL);
+  console.log(email);
 
   useEffect(() => {
     if (timer > 0) {
       const interval = setInterval(() => {
-        setTimer((prev) => prev - 1)
-      }, 1000)
-      return () => clearInterval(interval)
+        setTimer((prev) => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
     }
-  }, [timer])
+  }, [timer]);
 
   const handleChange = (index: number, value: string) => {
     // Only allow numbers
-    if (value && !/^\d$/.test(value)) return
+    if (value && !/^\d$/.test(value)) return;
 
-    const newCode = [...code]
-    newCode[index] = value
-    setCode(newCode)
+    const newCode = [...otp];
+    newCode[index] = value;
+    setOtp(newCode);
 
     // Auto-focus next input
     if (value && index < 5) {
-      inputRefs.current[index + 1]?.focus()
+      inputRefs.current[index + 1]?.focus();
     }
-  }
+  };
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (
+    index: number,
+    e: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     // Handle backspace
-    if (e.key === "Backspace" && !code[index] && index > 0) {
-      inputRefs.current[index - 1]?.focus()
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
     }
-  }
+  };
 
   const handlePaste = (e: React.ClipboardEvent) => {
-    e.preventDefault()
-    const pastedData = e.clipboardData.getData("text").slice(0, 6)
-    const newCode = [...code]
+    e.preventDefault();
+    const pastedData = e.clipboardData.getData("text").slice(0, 6);
+    const newCode = [...otp];
 
     for (let i = 0; i < pastedData.length; i++) {
       if (/^\d$/.test(pastedData[i])) {
-        newCode[i] = pastedData[i]
+        newCode[i] = pastedData[i];
       }
     }
 
-    setCode(newCode)
+    setOtp(newCode);
 
     // Focus the next empty input or the last one
-    const nextEmptyIndex = newCode.findIndex((val) => val === "")
+    const nextEmptyIndex = newCode.findIndex((val) => val === "");
     if (nextEmptyIndex !== -1) {
-      inputRefs.current[nextEmptyIndex]?.focus()
+      inputRefs.current[nextEmptyIndex]?.focus();
     } else {
-      inputRefs.current[5]?.focus()
+      inputRefs.current[5]?.focus();
     }
-  }
+  };
 
   const handleResend = () => {
     if (timer === 0) {
-      setTimer(60)
+      setTimer(60);
       // Add resend logic here
     }
-  }
+  };
 
-  const handleVerify = () => {
-    const verificationCode = code.join("")
-    console.log("[v0] Verification code:", verificationCode)
-    // Add verification logic here
-  }
+  const handleVerify = async () => {
+    const verificationCode = otp.join("");
+    setIsLoading(true);
+
+    if (verificationCode.length !== 6) {
+      toast.error("Please enter the 6-digit code");
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const res = await axios.post(`${BaseUrl}/auth/verify`, {
+        otp: verificationCode,
+        email,
+      });
+      console.log(res);
+      setIsLoading(false);
+    } catch (err: any) {
+      toast.error(err.response?.data?.message || "Something went wrong");
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="flex min-h-screen items-center flex-col justify-center bg-gray-50 p-4 md:p-12">
@@ -90,10 +119,16 @@ const VerifyEmail = () => {
         <div className="relative bg-linear-to-br from-[#953E79] to-[#440830] flex flex-col items-center px-4 py-8 text-center md:px-12 md:py-12">
           {/* Glowing logo icon */}
           <div className="w-20 h-20 md:w-30 md:h-30 rounded-full mb-4">
-            <img src={image} alt="logo" className="w-full h-full object-contain" />
+            <img
+              src={image}
+              alt="logo"
+              className="w-full h-full object-contain"
+            />
           </div>
 
-          <h1 className="text-2xl font-bold text-white md:text-4xl text-balance">Verify Your Email</h1>
+          <h1 className="text-2xl font-bold text-white md:text-4xl text-balance">
+            Verify Your Email
+          </h1>
         </div>
 
         {/* Form content */}
@@ -110,13 +145,15 @@ const VerifyEmail = () => {
 
           {/* Input code section */}
           <div className="mb-8">
-            <label className="mb-4 block text-left text-sm font-medium text-gray-900 md:text-lg">Input code</label>
+            <label className="mb-4 block text-left text-sm font-medium text-gray-900 md:text-lg">
+              Input code
+            </label>
             <div className="grid grid-cols-6 gap-2 md:gap-3">
-              {code.map((digit, index) => (
+              {otp.map((digit, index) => (
                 <input
                   key={index}
                   ref={(el) => {
-                    inputRefs.current[index] = el
+                    inputRefs.current[index] = el;
                   }}
                   type="text"
                   inputMode="numeric"
@@ -135,9 +172,19 @@ const VerifyEmail = () => {
           {/* Verify button */}
           <Button
             onClick={handleVerify}
-            className="mb-6 h-12 w-full rounded-xl bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 md:h-14 md:text-lg"
+            className={`mb-6 h-12 w-full cursor-pointer rounded-xl bg-gray-900 text-sm font-medium text-white hover:bg-gray-800 md:h-14 md:text-lg ${
+              isLoading
+                ? "bg-gray-400 text-white cursor-not-allowed opacity-75"
+                : "bg-black text-white cursor-pointer hover:bg-black/90"
+            }`}
           >
-            Verify
+            {isLoading ? (
+              <span className="flex items-center justify-center gap-2">
+                <PropagateLoader color="#ffffff" size={10} />
+              </span>
+            ) : (
+              "Verify"
+            )}
           </Button>
 
           {/* Resend code link */}
@@ -158,7 +205,7 @@ const VerifyEmail = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default VerifyEmail
+export default VerifyEmail;
