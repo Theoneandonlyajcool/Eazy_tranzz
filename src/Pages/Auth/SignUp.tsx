@@ -1,4 +1,13 @@
-import { Eye, EyeOff, Lock, Mail, Phone, User, X } from "lucide-react";
+import {
+  Eye,
+  EyeOff,
+  Lock,
+  Mail,
+  Phone,
+  User,
+  X,
+  AlertCircle,
+} from "lucide-react";
 import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -6,21 +15,78 @@ import { Button } from "@/components/ui/button";
 import image from "@/assets/easi-logo.png";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { type UserReg, userSchema } from "@/schema/userschema";
+import { registerAndSaveUser } from "@/services/authservice";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { PropagateLoader } from "react-spinners";
+import toast from "react-hot-toast";
+import { storage } from "@/config/storage";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<UserReg>({
+    resolver: zodResolver(userSchema),
+  });
+
+  const registerSubmit = async (data: UserReg) => {
+    try {
+      const response = await registerAndSaveUser(data);
+      toast.success(response.message);
+      const email = response?.data?.email;
+      storage.set(import.meta.env.VITE_EMAIL, email);
+      navigate("/verify_email");
+    } catch (err: any) {
+      const message = err.response?.data?.message || "Something went wrong";
+      toast.error(message);
+      setError("email", {
+        type: "manual",
+        message,
+      });
+    }
+  };
+
+  // Helper function to render error messages with styling
+  const renderError = (fieldName: keyof typeof errors) => {
+    if (!errors[fieldName]) return null;
+    return (
+      <div className="flex items-center gap-1.5 mt-2 animate-in fade-in-0 slide-in-from-top-1 duration-200">
+        <AlertCircle className="h-4 w-4 text-red-500 shrink-0" />
+        <p className="text-sm font-medium text-red-600">
+          {errors[fieldName]?.message}
+        </p>
+      </div>
+    );
+  };
+
+  // Helper function for dynamic input border styling
+  const getInputClasses = (fieldName: keyof typeof errors) => {
+    const baseClasses =
+      "h-12 bg-gray-50 pl-10 text-gray-900 placeholder:text-gray-400";
+    const errorClasses = errors[fieldName]
+      ? "border-red-500 border-2 focus:border-red-500"
+      : "border-gray-300 focus:border-purple-500";
+    return `${baseClasses} ${errorClasses}`;
+  };
+
   return (
     <div className="min-h-screen bg-white p-4 md:p-8">
       <div className="flex justify-end mb-4 md:mb-8">
         <button
           type="button"
+          onClick={() => navigate("/home")}
           className="rounded-full border-2 border-black cursor-pointer bg-white p-2 md:p-3 text-black shadow-lg transition-colors hover:bg-gray-50 hover:text-gray-900"
           aria-label="Close"
         >
-          <X className="h-6 w-6" onClick={() => navigate("/home")} />
+          <X className="h-6 w-6" />
         </button>
       </div>
       <div className="flex justify-center">
@@ -33,6 +99,9 @@ const SignUp = () => {
                   src={image}
                   alt="logo"
                   className="w-full h-full object-cover rounded-full"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/placeholder.svg";
+                  }}
                 />
               </div>
               <h1 className="mb-2 text-2xl md:text-3xl font-bold text-white">
@@ -45,7 +114,10 @@ const SignUp = () => {
             </div>
 
             {/* Form Section */}
-            <form className="space-y-6 px-6 md:px-8 py-8 md:py-10">
+            <form
+              onSubmit={handleSubmit(registerSubmit)}
+              className="space-y-6 px-6 md:px-8 py-8 md:py-10"
+            >
               {/* Full Name */}
               <div className="space-y-2">
                 <Label
@@ -60,9 +132,11 @@ const SignUp = () => {
                     id="fullName"
                     type="text"
                     placeholder="John Doe"
-                    className="h-12 border-gray-300 bg-gray-50 pl-10 text-gray-900 placeholder:text-gray-400"
+                    {...register("fullName")}
+                    className={getInputClasses("fullName")}
                   />
                 </div>
+                {renderError("fullName")}
               </div>
 
               {/* Email Address */}
@@ -79,9 +153,11 @@ const SignUp = () => {
                     id="email"
                     type="email"
                     placeholder="you@example.com"
-                    className="h-12 border-gray-300 bg-gray-50 pl-10 text-gray-900 placeholder:text-gray-400"
+                    {...register("email")}
+                    className={getInputClasses("email")}
                   />
                 </div>
+                {renderError("email")}
               </div>
 
               {/* Phone Number */}
@@ -98,9 +174,11 @@ const SignUp = () => {
                     id="phone"
                     type="tel"
                     placeholder="+234 800 000 0000"
-                    className="h-12 border-gray-300 bg-gray-50 pl-10 text-gray-900 placeholder:text-gray-400"
+                    {...register("phone")}
+                    className={getInputClasses("phone")}
                   />
                 </div>
+                {renderError("phone")}
               </div>
 
               {/* Password */}
@@ -117,7 +195,8 @@ const SignUp = () => {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••••••••••••"
-                    className="h-12 border-gray-300 bg-gray-50 px-10 text-gray-900 placeholder:text-gray-400"
+                    {...register("password")}
+                    className={getInputClasses("password")}
                   />
                   <button
                     type="button"
@@ -131,6 +210,7 @@ const SignUp = () => {
                     )}
                   </button>
                 </div>
+                {renderError("password")}
               </div>
 
               {/* Confirm Password */}
@@ -147,7 +227,8 @@ const SignUp = () => {
                     id="confirmPassword"
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="••••••••••••••••••"
-                    className="h-12 border-gray-300 bg-gray-50 px-10 text-gray-900 placeholder:text-gray-400"
+                    {...register("confirmPassword")}
+                    className={getInputClasses("confirmPassword")}
                   />
                   <button
                     type="button"
@@ -161,11 +242,26 @@ const SignUp = () => {
                     )}
                   </button>
                 </div>
+                {renderError("confirmPassword")}
               </div>
 
               {/* Create Account Button */}
-              <Button className="h-12 w-full rounded-lg bg-black text-white cursor-pointer hover:bg-black/90">
-                Create Account
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className={`h-12 w-full rounded-lg transition-all duration-200 cursor-pointer ${
+                  isSubmitting
+                    ? "bg-gray-400 text-white cursor-not-allowed opacity-75"
+                    : "bg-black text-white cursor-pointer hover:bg-black/90"
+                }`}
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <PropagateLoader color="#ffffff" size={10} />
+                  </span>
+                ) : (
+                  "Create Account"
+                )}
               </Button>
 
               {/* Sign In Link */}
