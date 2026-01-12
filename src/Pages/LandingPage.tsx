@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import HowItWorks from "@/components/HowItWorks";
 import PaymentRates from "@/components/PaymentRates/PaymentRates";
 import CoreValuePositions from "./CoreValuePosition";
+import Testimonials from "@/components/Testimonials";
 
 // const images = [".."];
 
@@ -16,6 +17,7 @@ const LandingPage = () => {
       <HowItWorks />
       <PaymentRates />
       <CoreValuePositions />
+      <Testimonials />
     </div>
   );
 };
