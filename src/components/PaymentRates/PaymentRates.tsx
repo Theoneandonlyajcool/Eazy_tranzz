@@ -9,7 +9,7 @@ import payoneerLogo from "@/assets/Images/img4.png";
 import WiseLogo from "@/assets/Images/img5.png";
 import cashAppLogo from "@/assets/Images/img3.png";
 import paypalLogo from "@/assets/Images/img1.png";
-import ZelleLogo from "@/assets/Images/img2.png";
+// import ZelleLogo from "@/assets/Images/img2.png";
 
 const Rates = [
   {

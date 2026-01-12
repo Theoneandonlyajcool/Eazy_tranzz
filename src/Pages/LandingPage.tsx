@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import HowItWorks from "@/components/HowItWorks";
 import PaymentRates from "@/components/PaymentRates/PaymentRates";
 
-const images = [".."];
+// const images = [".."];
 
 const LandingPage = () => {
   return (
