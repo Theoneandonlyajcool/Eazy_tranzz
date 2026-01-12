@@ -34,7 +34,7 @@ const Header = () => {
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="border border-gray-600 w-full max-w-[90%] md:max-w-[80%] 2xl:max-w-7xl bg-black/70 backdrop-blur-md shadow-lg h-full max-h-[80%] rounded-full flex justify-beteween items-center "
+        className="border border-gray-600 w-full max-w-[90%] md:max-w-[80%] 2xl:max-w-7xl bg-black/70 backdrop-blur-md shadow-lg h-full max-h-[80%] rounded-full flex justify-beteween items-center z-[9999px]"
       >
         {/* Image container */}
         <div className="w-[40%]">

@@ -2,6 +2,9 @@ import HeroSection from "@/components/HeroSection";
 import Header from "@/components/Header";
 import HowItWorks from "@/components/HowItWorks";
 import PaymentRates from "@/components/PaymentRates/PaymentRates";
+
+// const images = [".."];
+
 const LandingPage = () => {
   return (
     <div className="min-h-screen">
@@ -11,20 +14,19 @@ const LandingPage = () => {
       {/* How it works section */}
       <HowItWorks />
       <PaymentRates />
-
-      <div className="border-2 border-red-500 h-screen min-h-fit">
-        <div className="border-2  w-full border-blue-600">
-          <h1 className="text-2xl font-bold md:text-4xl lg:text-5xl">
-            How EazyTranzz Works
-          </h1>
-          <p>
-            Get started in theses simple steps and start receiving international
-            payments today.
-          </p>
-        </div>
-      </div>
     </div>
   );
 };
 
 export default LandingPage;
+
+// const stocks = [
+//   { symbol: "AAPL", name: "Apple Inc.", sector: "Technology" },
+//   { symbol: "MSFT", name: "Microsoft Corp.", sector: "Technology" },
+//   { symbol: "GOOGL", name: "Alphabet Inc.", sector: "Technology" },
+//   { symbol: "AMZN", name: "Amazon.com Inc.", sector: "E-commerce" },
+//   { symbol: "META", name: "Meta Platforms Inc.", sector: "Technology" },
+//   { symbol: "TSLA", name: "Tesla Inc.", sector: "Automotive" },
+//   { symbol: "NVDA", name: "NVIDIA Corp.", sector: "Semiconductors" },
+//   { symbol: "NFLX", name: "Netflix Inc.", sector: "Entertainment" },
+// ];
