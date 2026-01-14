@@ -28,7 +28,7 @@ const TestimonialsData = [
   },
   {
     pic: WisImage,
-    name: "Alice Johnson",
+    name: "Wisdom Monday",
     feedback:
       "I've been using eazytranz since 2022, recieving funds from my friends over there in the US, and i haven't had any issues with my transactions, and so far i really appreciate using the service of a sure brand like eazytranz.",
   },
@@ -62,7 +62,7 @@ const Testimonials = () => {
         opts={{
           align: "start",
         }}
-        className="w-full max-w-[75%] md:max-w-[80%] xl:max-w-[90%] 2xl:max-w-7xl "
+        className="w-full max-w-[70%] md:max-w-[80%] xl:max-w-[90%] 2xl:max-w-7xl "
       >
         <CarouselContent>
           {TestimonialsData.map((ele, index) => (
@@ -70,16 +70,16 @@ const Testimonials = () => {
               <div className="p-1">
                 <Card className="bg-black/50 backdrop-blur-md text-white border-white/20 hover:scale-105 transition-transform">
                   <CardContent className="flex flex-col aspect-square items-center justify-center p-6">
+                    <span className="font-bold text-5xl">“</span>
                     <img
                       src={ele.pic}
-                      className="w-[8rem] h-[8rem] object-cover rounded-full object-center"
+                      className="w-32 h-32 object-cover rounded-full object-center"
                       alt=""
                     />
                     <span className="text-2xl my-4 font-semibold">
                       {ele.name}
                     </span>
-
-                    <p className="text-center">{ele.feedback}</p>
+                    <p className={`text-center`}>{ele.feedback}</p>
                   </CardContent>
                 </Card>
               </div>
