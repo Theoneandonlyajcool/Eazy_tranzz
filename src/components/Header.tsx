@@ -67,8 +67,8 @@ const Header = () => {
                 onClick={() => navigate(ele.navTo)}
                 className={`${
                   ele.activePage === currentLocation
-                    ? "text-[#ae157c] font-bold underline underline-offset-8"
-                    : " text-white hover:bg-[#ae157b76]"
+                    ? "text-[#ae157c] font-bold"
+                    : " text-white hover:text-[#ae157c]/50"
                 }   cursor-pointer text-xl transition-colors duration-300 mx-2 px-2 py-1 rounded-tl-md rounded-br-md`}
               >
                 {ele.onPage}
