@@ -1,6 +1,6 @@
 // import React from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
-import IntroPage from "@/Pages/IntroPage.tsx";
+// import IntroPage from "@/Pages/IntroPage.tsx";
 import LandingPage from "../Pages/LandingPage.tsx";
 import SignIn from "../Pages/Auth/SignIn.tsx";
 import SignUp from "../Pages/Auth/SignUp.tsx";
@@ -16,8 +16,8 @@ const Router = () => {
     <HashRouter>
       <Routes>
         <Route path="*" element={<PageNotFound />} />
-        <Route path="/" element={<IntroPage />} />
-        <Route path="/home" element={<LandingPage />} />
+        {/* <Route path="/" element={<IntroPage />} /> */}
+        <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact" element={<ContactPage />} />

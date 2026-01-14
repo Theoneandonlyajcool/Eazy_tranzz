@@ -53,7 +53,7 @@ const Header = () => {
           {/* Links */}
           <ul className="flex items-center">
             {[
-              { onPage: "Home", navTo: "/home", activePage: "/home" },
+              { onPage: "Home", navTo: "/", activePage: "/" },
               { onPage: "About", navTo: "/about", activePage: "/about" },
               {
                 onPage: "Services",

@@ -4,6 +4,7 @@ import HowItWorks from "@/components/HowItWorks";
 import PaymentRates from "@/components/PaymentRates/PaymentRates";
 import CoreValuePositions from "./CoreValuePosition";
 import Testimonials from "@/components/Testimonials";
+import { FAQSection } from "@/components/FAQ";
 
 // const images = [".."];
 
@@ -18,6 +19,7 @@ const LandingPage = () => {
       <PaymentRates />
       <CoreValuePositions />
       <Testimonials />
+      <FAQSection />
     </div>
   );
 };

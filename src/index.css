@@ -14,6 +14,25 @@
   --breakpoint-navB: 1160px;
 }
 
+/* ---------- Infinite carousel animation ---------- */
+@keyframes carousel-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-33.3333%);
+  }
+}
+
+/* Custom utility using Tailwind v4 @utility */
+@utility animate-carousel {
+  animation: carousel-scroll 20s linear infinite;
+}
+
+@utility pause-animation {
+  animation-play-state: paused;
+}
+
 /* Infinite scroll */
 
 @layer utilities {

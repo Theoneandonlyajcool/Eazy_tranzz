@@ -132,7 +132,7 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="border-2 border-red-600 relative overflow-hidden bg-background py-16 md:py-24">
+    <section className="relative overflow-hidden bg-background py-16 md:py-24">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
