@@ -22,3 +22,10 @@ export const userSchema = z
   });
 
 export type UserReg = z.infer<typeof userSchema>;
+
+export const signinSchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(1),
+});
+
+export type UserSignIn = z.infer<typeof signinSchema>;
