@@ -34,7 +34,7 @@ const Header = () => {
         initial={{ opacity: 0, y: -100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="border border-gray-600 w-full max-w-[90%] md:max-w-[80%] 2xl:max-w-7xl bg-black/70 backdrop-blur-md shadow-lg h-full max-h-[80%] rounded-full flex justify-beteween items-center "
+        className="border border-gray-600 w-full max-w-[90%] md:max-w-[80%] 2xl:max-w-7xl bg-black/70 backdrop-blur-md shadow-lg h-full max-h-[80%] rounded-full flex justify-beteween items-center z-[9999px]"
       >
         {/* Image container */}
         <div className="w-[40%]">
@@ -53,7 +53,7 @@ const Header = () => {
           {/* Links */}
           <ul className="flex items-center">
             {[
-              { onPage: "Home", navTo: "/home", activePage: "/home" },
+              { onPage: "Home", navTo: "/", activePage: "/" },
               { onPage: "About", navTo: "/about", activePage: "/about" },
               {
                 onPage: "Services",
@@ -67,8 +67,8 @@ const Header = () => {
                 onClick={() => navigate(ele.navTo)}
                 className={`${
                   ele.activePage === currentLocation
-                    ? "text-[#ae157c] font-bold underline underline-offset-8"
-                    : " text-white hover:bg-[#ae157b76]"
+                    ? "text-[#ae157c] font-bold"
+                    : " text-white hover:text-[#ae157c]/50"
                 }   cursor-pointer text-xl transition-colors duration-300 mx-2 px-2 py-1 rounded-tl-md rounded-br-md`}
               >
                 {ele.onPage}

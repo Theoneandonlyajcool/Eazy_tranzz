@@ -1,35 +1,26 @@
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 
-const paymentMethods = [
-  { name: "PayPal", icon: "P", color: "#00457C" },
-  { name: "Wise", icon: "W", color: "#9FE870" },
-  { name: "CashApp", icon: "$", color: "#00D632" },
-  { name: "Zelle", icon: "Z", color: "#6D1ED4" },
-  { name: "Payoneer", icon: "P", color: "#FF4800" },
-];
+import RatesImage from "@/assets/Images/RatesSupport.png";
+
+// const paymentMethods = [
+//   { name: "PayPal", icon: "P", color: "#00457C" },
+//   { name: "Wise", icon: "W", color: "#9FE870" },
+//   { name: "CashApp", icon: "$", color: "#00D632" },
+//   { name: "Zelle", icon: "Z", color: "#6D1ED4" },
+//   { name: "Payoneer", icon: "P", color: "#FF4800" },
+// ];
 
 const PaymentLogos = () => {
   return (
-    <div className="flex flex-wrap items-center justify-center gap-6 md:gap-10 lg:gap-14">
-      {paymentMethods.map((method, index) => (
-        <motion.div
-          key={method.name}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: index * 0.1, duration: 0.5 }}
-          className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer group"
-        >
-          <div
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
-            style={{ backgroundColor: method.color }}
-          >
-            {method.icon}
-          </div>
-          <span className="text-sm md:text-base font-medium tracking-wide">
-            {method.name}
-          </span>
-        </motion.div>
-      ))}
+    <div className=" w-full h-[15vh] md:h-[30vh] min-h-fit bg-[url('@/assets/Images/exch_bg.jpg')] bg-center bg-no-repeat bg-cover flex flex-col items-center justify-center space-y-6 py-10">
+      {/* Header Text */}
+      <p className="text-white md:text-2xl font-bold 2xl:text-3xl">
+        We Support Every Major Client Payment Method
+      </p>
+
+      <div className="w-full md:max-w-[75%]  md:h-[90%] ">
+        <img className="w-full h-full object-cover " src={RatesImage} alt="" />
+      </div>
     </div>
   );
 };

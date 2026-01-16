@@ -14,6 +14,176 @@
   --breakpoint-navB: 1160px;
 }
 
+/* ---------- Infinite carousel animation ---------- */
+@keyframes carousel-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-33.3333%);
+  }
+}
+
+/* Custom utility using Tailwind v4 @utility */
+@utility animate-carousel {
+  animation: carousel-scroll 20s linear infinite;
+}
+
+@utility pause-animation {
+  animation-play-state: paused;
+}
+
+/* Infinite scroll */
+
+@layer utilities {
+  /* @keyframes infinite-scroll {
+    from {
+      transform: translateX(50%);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-infinite-scroll {
+    animation: infinite-scroll 10s linear infinite;
+  }
+
+  .animate-infinite-scroll:hover {
+    animation-play-state: paused;
+  } */
+
+  /* Second option */
+
+  /* @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 18s linear infinite;
+    will-change: transform;
+  }
+
+  .animate-marquee:hover {
+    animation-play-state: paused; 
+  }
+
+  .animate-marquee-reverse {
+    animation-direction: reverse;
+  } */
+
+  /* Third option */
+
+  /* EXACT same animation */
+  @keyframes carousel-scroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-100% / 3));
+    }
+  }
+
+  .animate-carousel {
+    animation: carousel-scroll 20s linear infinite;
+  }
+
+  /* EXACT same mask */
+  .carousel-mask {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+  }
+
+  /* Custom Scroll bar */
+
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 16px;
+    height: 2px;
+    cursor: grab;
+  }
+  .scrollbar-custom::-webkit-scrollbar {
+    width: 12px;
+    height: 2px;
+    cursor: grab;
+    /* background-color: white; */
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #512451;
+    /* color: pink; */
+    border-radius: 999px;
+  }
+
+  .scrollbar-custom::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* Browsers scroll bar*/
+  /* 
+  html::-webkit-scrollbar {
+    @apply w-2;
+  }
+
+  html::-webkit-scrollbar-track {
+    @apply bg-slate-950;
+  }
+
+  html::-webkit-scrollbar-thumb {
+    @apply bg-blue-500 rounded-full;
+  }
+
+  html::-webkit-scrollbar-thumb:hover {
+    @apply bg-blue-600;
+  }
+
+  html {
+    scrollbar-width: thin;
+    scrollbar-color: theme(colors.blue.500) theme(colors.slate.950);
+  } */
+
+  /* Option 2 */
+
+  html {
+    scrollbar-width: 12px;
+    scrollbar-color: #3f0d2b #3f3f3f; /* thumb then track */
+  }
+
+  /* WebKit browsers (Chrome, Edge, Safari) */
+  html::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  html::-webkit-scrollbar-track {
+    background: #3f3f3f; /* track */
+  }
+
+  html::-webkit-scrollbar-thumb {
+    background: #3f0d2b; /* thumb */
+    border-radius: 9999px;
+  }
+
+  html::-webkit-scrollbar-thumb:hover {
+    background: #5a2b3b;
+  }
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

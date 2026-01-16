@@ -43,7 +43,7 @@ const MobileModal = ({ onClose: closeModal }: MobileModalProps) => {
               {
                 onPage: "Home",
                 icon: <IoHomeSharp />,
-                NavTo: "/home",
+                NavTo: "/",
               },
               {
                 onPage: "About",

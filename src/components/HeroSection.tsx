@@ -1,5 +1,5 @@
 // import { FaArrowRight } from "react-icons/fa6";
-import HeroVideo from "@/assets/Videos/Digital Projection Of The Earth Mass In Blue Lights.mp4";
+import HeroVideo from "@/assets/Videos/1992-153555258_medium.mp4";
 import BackgroundImage from "@/assets/HeroImageRotated.png";
 import { Button } from "@/components/ui/button";
 import { FaArrowRightLong } from "react-icons/fa6";
@@ -40,8 +40,9 @@ const HeroSection = () => {
 
       {/* CONTENT */}
       <div className="relative z-30 flex flex-col h-full items-center justify-center text-white text-center ">
-        <h1 className="border text-3xl md:text-6xl lg:text-7xl 2xl:text-8xl font-bold">
-          Get Paid From Anywhere. <br /> No Limits, No Stress.
+        <h1 className="text-[1.65rem] md:text-6xl lg:text-7xl 2xl:text-8xl font-bold flex flex-col">
+          <p className="whitespace-nowrap">Get Paid From Anywhere.</p>
+          <p>No Limits, No Stress.</p>
         </h1>
 
         {/* buttons */}
@@ -51,7 +52,7 @@ const HeroSection = () => {
             Get Started <FaArrowRightLong />
           </Button>
 
-          <Button className="ml-4 bg-transparent text-white border hover:bg-transparent px-4 py-6 cursor-pointer text-xl">
+          <Button className="ml-4 bg-transparent text-white border hover:bg-transparent px-4 py-6 cursor-pointer text-xs md:text-lg hover:scale-105 xl:text-xl">
             Check today's rates
           </Button>
         </div>
