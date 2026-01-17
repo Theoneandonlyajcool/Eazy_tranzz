@@ -7,16 +7,18 @@ import toast from "react-hot-toast";
 import axios from "axios";
 import { storage } from "@/config/storage";
 import { PropagateLoader } from "react-spinners";
+import { useNavigate } from "react-router-dom";
+import { UserAuth } from "@/app/store";
 
 const VerifyEmail = () => {
   const [otp, setOtp] = useState(["", "", "", "", "", ""]);
   const [isLoading, setIsLoading] = useState(false);
   const [timer, setTimer] = useState(60);
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const navigate = useNavigate();
 
   const BaseUrl = import.meta.env.VITE_BASEURL;
   const email = storage.get(import.meta.env.VITE_EMAIL);
-  console.log(email);
 
   useEffect(() => {
     if (timer > 0) {
@@ -73,10 +75,20 @@ const VerifyEmail = () => {
     }
   };
 
-  const handleResend = () => {
+  const handleResend = async () => {
     if (timer === 0) {
       setTimer(60);
-      // Add resend logic here
+
+      try {
+        const response = await axios.post(`${BaseUrl}/auth/resend-otp`, {
+          email: email,
+        });
+        toast.success(response?.data?.message);
+        const user = response?.data;
+        UserAuth.getState().setUser(user);
+      } catch (err: any) {
+        toast.error(err.response?.data?.message);
+      }
     }
   };
 
@@ -95,7 +107,7 @@ const VerifyEmail = () => {
         otp: verificationCode,
         email,
       });
-      console.log(res);
+      toast.success(res?.data?.data?.message);
       setIsLoading(false);
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Something went wrong");
@@ -110,6 +122,7 @@ const VerifyEmail = () => {
           type="button"
           className="rounded-full border-2 border-black cursor-pointer bg-white p-2 md:p-3 text-black shadow-lg transition-colors hover:bg-gray-50 hover:text-gray-900"
           aria-label="Close"
+          onClick={() => navigate("/home")}
         >
           <X className="h-5 w-5 md:h-6 md:w-6" />
         </button>
