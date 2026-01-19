@@ -13,42 +13,42 @@ const features = [
     title: "Global Coverage",
     description: "Receive payments from any country, any platform",
     variant: "coral" as const,
-    bgColor: "#fe8030",
+    bgColor: "bg-[#fe8030]/10",
   },
   {
     icon: Zap,
     title: "Fast Confirmation",
     description: "5-10 minutes typical processing",
     variant: "orange" as const,
-    bgColor: "#2B7FFF33",
+    bgColor: "bg-[#2B7FFF33]",
   },
   {
     icon: TrendingUp,
     title: "Best Rates in Nigeria",
     description: "Competitive, transparent, updated daily",
     variant: "green" as const,
-    bgColor: "#00C950CC",
+    bgColor: "bg-[#00C950CC]",
   },
   {
     icon: Shield,
     title: "Secure & Verified",
     description: "No scams, no risks — we only work with legit workers",
     variant: "blue" as const,
-    bgColor: "#340BC6CC",
+    bgColor: "bg-[#340BC6CC]",
   },
   {
     icon: HeadphonesIcon,
     title: "Human Support",
     description: "24/7 WhatsApp & chat support",
     variant: "purple" as const,
-    bgColor: "#FA0E1ACC",
+    bgColor: "bg-[#FA0E1ACC]",
   },
   {
     icon: FileCheck,
     title: "Proof of Work Required",
     description: "Protecting you and your clients from fraud",
     variant: "teal" as const,
-    bgColor: "#FF0BE7CC",
+    bgColor: "bg-[#FF0BE7CC]",
   },
 ];
 
@@ -88,8 +88,8 @@ const CoreValuePosition = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                style={{ backgroundColor: `${feature.bgColor}` }}
-                className={`rounded-2xl p-6 sm:p-8 transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl`}
+                // style={{ backgroundColor: `${feature.bgColor}` }}
+                className={`rounded-2xl p-6 sm:p-8 transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl  flex flex-col items-center text-center ${feature.bgColor} shadow-xl backdrop-blur-sm`}
               >
                 <div className="bg-white/20 backdrop-blur-sm w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
                   <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />

@@ -5,6 +5,8 @@ import PaymentRates from "@/components/PaymentRates/PaymentRates";
 import CoreValuePositions from "./CoreValuePosition";
 import Testimonials from "@/components/Testimonials";
 import { FAQSection } from "@/components/FAQ";
+import Hero from "@/components/FreelancerHero";
+import CAS from "@/components/CAS";
 
 // const images = [".."];
 
@@ -20,6 +22,8 @@ const LandingPage = () => {
       <CoreValuePositions />
       <Testimonials />
       <FAQSection />
+      <CAS />
+      <Hero />
     </div>
   );
 };
