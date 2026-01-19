@@ -20,8 +20,8 @@ const HeroSection = () => {
       {/* BACKGROUND IMAGE */}
       <img
         src={BackgroundImage}
-        alt="Hero background"
         className="absolute inset-0 w-full h-full object-cover z-0 "
+        alt="Hero background"
       />
 
       {/* VIDEO (semi-transparent so image shows through) */}
