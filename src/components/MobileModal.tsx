@@ -33,7 +33,7 @@ const MobileModal = ({ onClose: closeModal }: MobileModalProps) => {
           <div className="relative  w-full h-[8vh] flex justify-end items-center">
             <FaXmark
               onClick={() => closeModal(false)}
-              className="text-3xl text-gray-700 cursor-pointer"
+              className="text-3xl text-gray-700 cursor-pointer mr-4"
             />
           </div>
 
@@ -51,9 +51,9 @@ const MobileModal = ({ onClose: closeModal }: MobileModalProps) => {
                 NavTo: "/about",
               },
               {
-                onPage: "Services",
-                icon: <MdWork />,
-                NavTo: "/services",
+                onPage: "Contact",
+                icon: <FaPhone />,
+                NavTo: "/contact",
               },
               // {
               //   onPage: "Projects",
@@ -66,9 +66,9 @@ const MobileModal = ({ onClose: closeModal }: MobileModalProps) => {
               //   NavTo: "/opensource",
               // },
               {
-                onPage: "Contact",
-                icon: <FaPhone />,
-                NavTo: "/contact",
+                onPage: "Blog",
+                icon: <MdWork />,
+                NavTo: "/blog",
               },
             ].map((ele, idx) => (
               <button

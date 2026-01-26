@@ -78,13 +78,13 @@ const HeroSection = () => {
             Check today's rates
           </Button>
         </div>
-        <div className="border-l-2 border-r-2 border-gray-500 h-[15vh] my-6 z-40 w-full max-w-[50%]">
+        <div className="border-l-2 border-r-2 border-gray-500 h-[15vh] my-6 z-40 w-full max-w-[90%] xl:max-w-[50%]">
           <div className="w-full max-w-[95%] flex justify-between h-full items-center">
             {images.map((ele, idx) => {
               return (
                 <img
                   key={idx}
-                  className="w-[17%] rounded-2xl overflow-clip h-full "
+                  className="w-[15%]  rounded-2xl overflow-clip h-full object-cover object-center"
                   src={ele.src}
                   alt=""
                 />
