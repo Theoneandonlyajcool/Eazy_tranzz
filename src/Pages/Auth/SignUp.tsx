@@ -82,7 +82,7 @@ const SignUp = () => {
       <div className="flex justify-end mb-4 md:mb-8">
         <button
           type="button"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/")}
           className="rounded-full border-2 border-black cursor-pointer bg-white p-2 md:p-3 text-black shadow-lg transition-colors hover:bg-gray-50 hover:text-gray-900"
           aria-label="Close"
         >

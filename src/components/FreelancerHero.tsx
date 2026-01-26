@@ -1,6 +1,7 @@
-import { ArrowRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+// import { ArrowRight } from "lucide-react";
+// import { Button } from "@/components/ui/button";
 import { FiCheckCircle } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 const stats = [
   { value: "10,000+", label: "Active Freelancers" },
@@ -17,6 +18,8 @@ const features = [
 ];
 
 const Hero = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="bg-[#0a091c] relative min-h-screen w-full overflow-hidden text-white">
       {/* Background glow effects */}
@@ -86,8 +89,8 @@ const Hero = () => {
           </div>
 
           {/* Right card */}
-          <div className="flex justify-center lg:justify-end border-2 border-blue-300">
-            <div className="w-full max-w-md border-gradient rounded-2xl bg-gradient-card p-8 backdrop-blur-xl">
+          <div className="flex flex-col justify-center items-center  border border-[#362155] rounded-2xl h-[30vh] xl:h-[50vh] min-h-fit bg-linear-to-tr from-[#0A0A0F] to-[#1A1A2E] w-full">
+            {/* <div className="w-full max-w-md border-gradient rounded-2xl bg-gradient-card p-8 backdrop-blur-xl">
               <div className="space-y-6">
                 <div className="space-y-2 text-center">
                   <h2 className="text-xl font-semibold text-foreground">
@@ -122,7 +125,6 @@ const Hero = () => {
                   </a>
                 </p>
 
-                {/* Trust indicators */}
                 <div className="flex items-center justify-center gap-4 border-t border-border pt-6">
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <div className="h-2 w-2 rounded-full bg-green-500" />
@@ -134,7 +136,46 @@ const Hero = () => {
                   </div>
                 </div>
               </div>
+            </div> */}
+
+            {/* <button className="w-full max-w-[80%]"></button> */}
+
+            <div className="flex items-center justify-center w-full">
+              <div className="relative group w-full max-w-[80%] flex justify-center  ">
+                <button
+                  onClick={() => navigate("/sign_up")}
+                  className="w-full relative inline-block p-px font-semibold leading-6 text-white bg-linear-to-l from-[#440830] to-[#953E79] shadow-2xl cursor-pointer rounded-2xl  transition-all duration-300 ease-in-out hover:scale-105 active:scale-95"
+                >
+                  <span className="absolute inset-0 rounded-2xl  p-0.5 opacity-0 transition-opacity duration-500 group-hover:opacity-100"></span>
+                  <span className="w-full flex justify-center items-center relative z-10 block px-6 py-3 rounded-2xl ">
+                    <div className="relative z-10 flex items-center space-x-3">
+                      <span className="transition-all duration-500 group-hover:translate-x-1.5">
+                        Creating my account
+                      </span>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 24 24"
+                        fill="currentColor"
+                        className="w-7 h-7 transition-all duration-500 group-hover:translate-x-1.5 "
+                      >
+                        <path d="M16.172 11l-5.364-5.364 1.414-1.414L20 12l-7.778 7.778-1.414-1.414L16.172 13H4v-2z"></path>
+                      </svg>
+                    </div>
+                  </span>
+                </button>
+              </div>
             </div>
+
+            <p className="my-6 text-center">
+              By signing up, you agree to our{" "}
+              <span className="text-[#a166d5] cursor-pointer">
+                Terms of Service
+              </span>{" "}
+              and{" "}
+              <span className="text-[#a166d5] cursor-pointer">
+                Privacy Policy
+              </span>
+            </p>
           </div>
         </div>
       </div>

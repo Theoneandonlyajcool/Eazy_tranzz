@@ -88,18 +88,20 @@ const CoreValuePosition = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                // style={{ backgroundColor: `${feature.bgColor}` }}
-                className={`rounded-2xl p-6 sm:p-8 transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl  flex flex-col items-center text-center ${feature.bgColor} shadow-xl backdrop-blur-sm`}
+                className={`rounded-2xl p-6 sm:p-8 transition-transform duration-300 hover:scale-[1.02] hover:shadow-2xl  flex flex-col  text-center bg-linear-to-tl from-[#440830] to-[#953E79] shadow-xl backdrop-blur-sm`}
               >
                 <div className="bg-white/20 backdrop-blur-sm w-12 h-12 sm:w-14 sm:h-14 rounded-xl flex items-center justify-center mb-4 sm:mb-6">
                   <feature.icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                 </div>
-                <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">
-                  {feature.title}
-                </h3>
-                <p className="text-white/80 text-sm sm:text-base leading-relaxed">
-                  {feature.description}
-                </p>
+
+                <div className="flex flex-col items-start">
+                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-2 sm:mb-3">
+                    {feature.title}
+                  </h3>
+                  <p className="text-white/80 text-sm sm:text-base leading-relaxed text-start">
+                    {feature.description}
+                  </p>
+                </div>
               </div>
             ))}
           </div>

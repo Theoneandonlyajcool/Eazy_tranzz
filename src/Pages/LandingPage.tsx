@@ -2,7 +2,7 @@ import HeroSection from "@/components/HeroSection";
 import Header from "@/components/Header";
 import HowItWorks from "@/components/HowItWorks";
 import PaymentRates from "@/components/PaymentRates/PaymentRates";
-import CoreValuePositions from "./CoreValuePosition";
+import CoreValuePositions from "@/components/CoreValuePosition";
 import Testimonials from "@/components/Testimonials";
 import { FAQSection } from "@/components/FAQ";
 import Hero from "@/components/FreelancerHero";
