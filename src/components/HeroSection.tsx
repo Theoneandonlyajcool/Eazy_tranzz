@@ -2,17 +2,39 @@
 import HeroVideo from "@/assets/Videos/1992-153555258_medium.mp4";
 import BackgroundImage from "@/assets/HeroImageRotated.png";
 import { Button } from "@/components/ui/button";
+// import AutoScrollCarousel from "@/components/AutoScrollCarousel";
 import { FaArrowRightLong } from "react-icons/fa6";
 
-// import img1 from "@/assets/Images/img1.png";
-// import img2 from "@/assets/Images/img2.png";
-// import img3 from "@/assets/Images/img3.png";
-// import img4 from "@/assets/Images/img4.png";
-// import img5 from "@/assets/Images/img5.png";
-
-import AutoScrollCarouse from "./AutoScrollCarouse";
+import img1 from "@/assets/Images/img1.png";
+import img2 from "@/assets/Images/img2.png";
+import img3 from "@/assets/Images/img3.png";
+import img4 from "@/assets/Images/img4.png";
+import img5 from "@/assets/Images/img5.png";
 
 const HeroSection = () => {
+  const images = [
+    {
+      src: img1,
+      alt: "Image 1",
+    },
+    {
+      src: img2,
+      alt: "Image 2",
+    },
+    {
+      src: img3,
+      alt: "Image 3",
+    },
+    {
+      src: img4,
+      alt: "Image 4",
+    },
+    {
+      src: img5,
+      alt: "Image 5",
+    },
+  ];
+
   // const ScrollingImages = [img1, img2, img3, img4, img5];
 
   return (
@@ -56,9 +78,23 @@ const HeroSection = () => {
             Check today's rates
           </Button>
         </div>
-      </div>
+        <div className="border-l-2 border-r-2 border-gray-500 h-[15vh] my-6 z-40 w-full max-w-[50%]">
+          <div className="w-full max-w-[95%] flex justify-between h-full items-center">
+            {images.map((ele, idx) => {
+              return (
+                <img
+                  key={idx}
+                  className="w-[17%] rounded-2xl overflow-clip h-full "
+                  src={ele.src}
+                  alt=""
+                />
+              );
+            })}
+          </div>
 
-      <AutoScrollCarouse />
+          {/* <AutoScrollCarousel images={images} heightClass="h-full" /> */}
+        </div>
+      </div>
     </section>
   );
 };
