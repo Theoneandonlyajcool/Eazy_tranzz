@@ -56,11 +56,11 @@ const Header = () => {
               { onPage: "Home", navTo: "/", activePage: "/" },
               { onPage: "About", navTo: "/about", activePage: "/about" },
               {
-                onPage: "Services",
-                navTo: "/services",
-                activePage: "/services",
+                onPage: "Contact",
+                navTo: "/contact",
+                activePage: "/contact",
               },
-              { onPage: "Contact", navTo: "/contact", activePage: "/contact" },
+              { onPage: "Blog", navTo: "/blog", activePage: "/blog" },
             ].map((ele, idx) => (
               <li
                 key={idx}

@@ -19,10 +19,10 @@ const LandingPage = () => {
       {/* How it works section */}
       <HowItWorks />
       <PaymentRates />
+      <CAS />
       <CoreValuePositions />
       <Testimonials />
       <FAQSection />
-      <CAS />
       <Hero />
     </div>
   );

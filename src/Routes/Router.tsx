@@ -8,7 +8,7 @@ import VerifyEmail from "../Pages/Auth/VerifyEmail.tsx";
 import ForgetPassword from "../Pages/Auth/ForgetPassword.tsx";
 import PageNotFound from "@/Pages/PageNotFound.tsx";
 import AboutPage from "@/Pages/AboutPage.tsx";
-import ServicesPage from "@/Pages/ServicesPage.tsx";
+import BlogPage from "@/Pages/BlogPage.tsx";
 import ContactPage from "@/Pages/ContactPage.tsx";
 
 const Router = () => {
@@ -19,8 +19,8 @@ const Router = () => {
         {/* <Route path="/" element={<IntroPage />} /> */}
         <Route path="/" element={<LandingPage />} />
         <Route path="/about" element={<AboutPage />} />
-        <Route path="/services" element={<ServicesPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/blog" element={<BlogPage />} />
         <Route path="/sign_in" element={<SignIn />} />
         <Route path="/sign_up" element={<SignUp />} />
         <Route path="/verify_email" element={<VerifyEmail />} />
