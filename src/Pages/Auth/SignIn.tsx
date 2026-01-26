@@ -6,10 +6,33 @@ import { Button } from "@/components/ui/button";
 import image from "@/assets/easi-logo.png";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { signinSchema, type UserSignIn } from "@/schema/userschema";
+import { loginAndSaveUser } from "@/services/authservice";
+import toast from "react-hot-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { PropagateLoader } from "react-spinners";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { isSubmitting },
+  } = useForm<UserSignIn>({
+    resolver: zodResolver(signinSchema),
+  });
+
+  const handleLogin = async (data: UserSignIn) => {
+    try {
+      const res = await loginAndSaveUser(data);
+      toast.success(res.message);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white p-4 md:p-8">
@@ -18,8 +41,9 @@ const SignIn = () => {
           type="button"
           className="rounded-full border-2 border-black cursor-pointer bg-white p-2 md:p-3 text-black shadow-lg transition-colors hover:bg-gray-50 hover:text-gray-900"
           aria-label="Close"
+          onClick={() => navigate("/home")}
         >
-          <X className="h-6 w-6" onClick={() => navigate("/")} />
+          <X className="h-6 w-6" />
         </button>
       </div>
       <div className="flex justify-center">
@@ -41,7 +65,10 @@ const SignIn = () => {
               </p>
             </div>
 
-            <form className="space-y-6 px-6 md:px-8 py-8 md:py-10">
+            <form
+              className="space-y-6 px-6 md:px-8 py-8 md:py-10"
+              onSubmit={handleSubmit(handleLogin)}
+            >
               <div className="space-y-2">
                 <Label
                   htmlFor="email"
@@ -55,6 +82,7 @@ const SignIn = () => {
                     id="email"
                     type="email"
                     placeholder="you@example.com"
+                    {...register("email")}
                     className="h-12 border-gray-300 bg-gray-50 pl-10 text-gray-900 placeholder:text-gray-400"
                   />
                 </div>
@@ -73,6 +101,7 @@ const SignIn = () => {
                     id="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="••••••••••••••••••"
+                    {...register("password")}
                     className="h-12 border-gray-300 bg-gray-50 px-10 text-gray-900 placeholder:text-gray-400"
                   />
                   <button
@@ -89,16 +118,45 @@ const SignIn = () => {
                 </div>
               </div>
 
-              <div className-="w-full flex justify-between items-center">
-                <section className="flex items-center gap-1">
-                  <input type="checkbox" className="" />
-                  <span className="text-#314158-100">Remember me</span>
-                </section>
-                <button className="text-#0092B8-50">Forgot password?</button>
+              {/* Fixed Section - Always side by side */}
+              <div className="w-full flex flex-row justify-between items-center">
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="checkbox"
+                    id="remember"
+                    className="h-4 w-4 rounded border-gray-300 text-[#904d8b] focus:ring-[#904d8b]"
+                  />
+                  <Label
+                    htmlFor="remember"
+                    className="text-sm font-medium text-gray-700 cursor-pointer whitespace-nowrap"
+                  >
+                    Remember me
+                  </Label>
+                </div>
+
+                <Link
+                  to="/forgot-password"
+                  className="text-sm font-medium text-[#0092B8] hover:text-[#007a99] hover:underline whitespace-nowrap"
+                >
+                  Forgot password?
+                </Link>
               </div>
 
-              <Button className="h-12 w-full rounded-lg bg-black text-white cursor-pointer hover:bg-black/90">
-                Sign In
+              <Button
+                disabled={isSubmitting}
+                className={`h-12 w-full rounded-lg transition-all duration-200 cursor-pointer ${
+                  isSubmitting
+                    ? "bg-gray-400 text-white cursor-not-allowed opacity-75"
+                    : "bg-black text-white cursor-pointer hover:bg-black/90"
+                }`}
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <PropagateLoader color="#ffffff" size={10} />
+                  </span>
+                ) : (
+                  "Sign In"
+                )}
               </Button>
 
               <p className="text-center text-sm text-gray-600 flex items-center gap-1 justify-center">
