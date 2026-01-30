@@ -17,21 +17,13 @@ const Router = () => {
     <HashRouter>
       <Routes>
         <Route path="*" element={<PageNotFound />} />
-<<<<<<< HEAD
         <Route path="/" element={<HomeLayout />}>
           {/* <Route path="/" element={<IntroPage />} /> */}
           <Route path="" element={<LandingPage />} />
           <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/blog" element={<BlogPage />} />
           <Route path="/contact" element={<ContactPage />} />
         </Route>
-=======
-        {/* <Route path="/" element={<IntroPage />} /> */}
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="/blog" element={<BlogPage />} />
->>>>>>> 09a70620dc97e8d71e0d36540b6bc643d1cc823c
         <Route path="/sign_in" element={<SignIn />} />
         <Route path="/sign_up" element={<SignUp />} />
         <Route path="/verify_email" element={<VerifyEmail />} />
