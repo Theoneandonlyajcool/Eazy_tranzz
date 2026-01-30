@@ -20,7 +20,6 @@ import newlogo from "@/assets/Images/newLogo.png";
 const Header = () => {
   const location = useLocation();
   const currentLocation = location.pathname;
-  console.log("Current Location:", currentLocation);
 
   const [openMobileModal, setOpenMobileModal] = useState(false);
 
@@ -28,7 +27,6 @@ const Header = () => {
   return (
     <nav className="h-[10vh] md:h-[15vh] fixed top-0 left-0 right-0 z-50 w-full flex items-center justify-center">
       {/* container */}
-
       {openMobileModal && <MobileModal onClose={setOpenMobileModal} />}
       <motion.div
         initial={{ opacity: 0, y: 100 }}
