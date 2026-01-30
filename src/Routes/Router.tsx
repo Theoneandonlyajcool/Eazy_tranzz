@@ -4,7 +4,7 @@ import { HashRouter, Route, Routes } from "react-router-dom";
 import LandingPage from "../Pages/LandingPage.tsx";
 import SignIn from "../Pages/Auth/SignIn.tsx";
 import SignUp from "../Pages/Auth/SignUp.tsx";
-import VerifyEmail from "../Pages/Auth/VerifyEmail.tsx";
+// import VerifyEmail from "../Pages/Auth/VerifyEmail.tsx";
 import ForgetPassword from "../Pages/Auth/ForgetPassword.tsx";
 import PageNotFound from "@/Pages/PageNotFound.tsx";
 import AboutPage from "@/Pages/AboutPage.tsx";
@@ -23,7 +23,7 @@ const Router = () => {
         <Route path="/blog" element={<BlogPage />} />
         <Route path="/sign_in" element={<SignIn />} />
         <Route path="/sign_up" element={<SignUp />} />
-        <Route path="/verify_email" element={<VerifyEmail />} />
+        {/* <Route path="/verify_email" element={<VerifyEmail />} /> */}
         <Route path="/forgetPassowrd" element={<ForgetPassword />} />
       </Routes>
     </HashRouter>
