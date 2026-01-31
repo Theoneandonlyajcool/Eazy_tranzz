@@ -1,0 +1,52 @@
+import { useState } from "react";
+import { Outlet } from "react-router-dom";
+import { Bell, Menu } from "lucide-react";
+import DashboardSidebar from "./DashboardSidebar";
+
+const DashboardLayout = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  return (
+    <div className="min-h-screen flex w-full bg-[#0A0A0F]">
+      <DashboardSidebar
+        isOpen={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+      />
+
+      <div className="flex-1 flex flex-col min-h-screen md:ml-64">
+        {/* Header */}
+        <header className="h-16 border-b border-[#2a2a2a] flex items-center justify-between px-4 md:px-6 bg-[#0a0a0a]">
+          <div className="flex items-center gap-4">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="md:hidden p-2 rounded-lg hover:bg-[#1f1f1f] text-white"
+            >
+              <Menu className="w-5 h-5" />
+            </button>
+            <div>
+              <h1 className="text-white font-bold text-lg md:text-xl">
+                Dashboard Overview
+              </h1>
+              <p className="text-[#6b7280] text-xs md:text-sm">
+                Here's what's happening with your account
+              </p>
+            </div>
+          </div>
+
+          <button className="relative p-2 rounded-full hover:bg-[#1f1f1f] transition-colors">
+            <Bell className="w-5 h-5 text-[#9ca3af]" />
+            <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center">
+              3
+            </span>
+          </button>
+        </header>
+        {/* Main Content */}
+        <main className="flex-1 overflow-auto p-4 md:p-6">
+          <Outlet />
+        </main>
+      </div>
+    </div>
+  );
+};
+
+export default DashboardLayout;

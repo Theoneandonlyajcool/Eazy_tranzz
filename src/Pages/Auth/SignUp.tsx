@@ -92,8 +92,7 @@ const SignUp = () => {
       <div className="flex justify-center">
         <div className="w-full max-w-2xl md:w-[65%]">
           <div className="relative overflow-hidden rounded-2xl bg-white shadow-2xl">
-            {/* Header Section with Purple Gradient */}
-            <div className="bg-linear-to-br from-[#904d8b] to-[#6d3567] flex flex-col items-center px-4 md:px-6 py-8 md:py-12 text-center">
+            <div className="bg-linear-to-br from-[#953E79] to-[#440830] flex flex-col items-center px-4 md:px-6 py-8 md:py-12 text-center">
               <div className="w-20 h-20 md:w-30 md:h-30 rounded-full mb-2 md:mb-1">
                 <img
                   src={image}
@@ -113,12 +112,10 @@ const SignUp = () => {
               </p>
             </div>
 
-            {/* Form Section */}
             <form
               onSubmit={handleSubmit(registerSubmit)}
               className="space-y-6 px-6 md:px-8 py-8 md:py-10"
             >
-              {/* Full Name */}
               <div className="space-y-2">
                 <Label
                   htmlFor="fullName"
@@ -139,7 +136,6 @@ const SignUp = () => {
                 {renderError("fullName")}
               </div>
 
-              {/* Email Address */}
               <div className="space-y-2">
                 <Label
                   htmlFor="email"
@@ -160,7 +156,6 @@ const SignUp = () => {
                 {renderError("email")}
               </div>
 
-              {/* Phone Number */}
               <div className="space-y-2">
                 <Label
                   htmlFor="phone"
@@ -213,7 +208,6 @@ const SignUp = () => {
                 {renderError("password")}
               </div>
 
-              {/* Confirm Password */}
               <div className="space-y-2">
                 <Label
                   htmlFor="confirmPassword"
@@ -245,7 +239,6 @@ const SignUp = () => {
                 {renderError("confirmPassword")}
               </div>
 
-              {/* Create Account Button */}
               <Button
                 type="submit"
                 disabled={isSubmitting}
@@ -264,7 +257,6 @@ const SignUp = () => {
                 )}
               </Button>
 
-              {/* Sign In Link */}
               <p className="text-center text-sm text-gray-600 flex items-center gap-1 justify-center">
                 Already have an account?{" "}
                 <Link
