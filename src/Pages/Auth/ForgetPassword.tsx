@@ -5,14 +5,30 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import image from "@/assets/easi-logo.png";
-
+import axios from "axios";
+import toast from "react-hot-toast";
+import { PropagateLoader } from "react-spinners";
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const BaseUrl = "https://easy-tranz.onrender.com";
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     console.log("Sending verification code to:", email);
     // Handle send verification code logic here
+    setLoading(true);
+    try {
+      const res = await axios.post(`${BaseUrl}/api/v1/auth/forgot-password`, {
+        email: email,
+      });
+      toast.success(res?.data?.data?.message);
+      setLoading(false);
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+      setLoading(false);
+    }
   };
 
   return (
@@ -73,9 +89,16 @@ const ForgotPassword = () => {
 
               <Button
                 variant="outline"
-                className="w-full bg-[#101114] text-white cursor-pointer h-11 md:h-12 text-sm md:text-base"
+                className={`w-full bg-[#101114] text-white cursor-pointer h-11 md:h-12 text-sm md:text-base flex items-center justify-center ${
+                  loading ? "opacity-70 cursor-not-allowed" : ""
+                }`}
+                disabled={loading}
               >
-                Send Verification code
+                {loading ? (
+                  <PropagateLoader color="#ffffff" size={8} />
+                ) : (
+                  "Send Verification code"
+                )}
               </Button>
             </form>
           </div>
