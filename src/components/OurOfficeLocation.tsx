@@ -28,42 +28,42 @@ const officeData = [
 
 const OurOfficeLocation = () => {
   return (
-    <div className="h-full w-full bg-gradient-to-b from-[#0A0A10] to-[#0A0A0F] flex items-center justify-center">
-      <article className="h-[90%] w-[90%] mt-35 flex flex-col gap-[64px] px-4 md:px-0">
-        <div className="flex flex-col items-center gap-[16px] px-4 sm:px-0">
-          <h1 className="font-inter font-bold text-[36px] leading-[40px] text-white text-center max-w-full sm:max-w-[364px]">
+    <div className="h-full w-full bg-linear-to-b from-[#0A0A10] to-[#0A0A0F] flex items-center justify-center">
+      <article className="h-[90%] w-[90%] mt-35 flex flex-col gap-16 px-4 md:px-0">
+        <div className="flex flex-col items-center gap-4 px-4 sm:px-0">
+          <h1 className="font-inter font-bold text-[36px] leading-10 text-white text-center max-w-full sm:max-w-[364px]">
             Our Office Locations
           </h1>
-          <p className="font-inter font-normal text-[16px] md:text-[17px] leading-[24px] text-[#99A1AF] text-center max-w-full sm:max-w-[398px]">
+          <p className="font-inter font-normal text-[16px] md:text-[17px] leading-6 text-[#99A1AF] text-center max-w-full sm:max-w-[398px]">
             Visit us in person at any of our offices across Nigeria
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[64px] justify-center">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 justify-center">
           {officeData.map((office, idx) => (
             <div
               key={idx}
               className="
-                w-full rounded-[14px] border border-[#545457] p-[24px]
-                flex flex-col gap-[16px] bg-[#16161B]
+                w-full rounded-[14px] border border-[#545457] p-6
+                flex flex-col gap-4 bg-[#16161B]
                 md:last:col-span-2 md:last:max-w-[420px] md:last:mx-auto
                 lg:last:col-span-1 lg:last:max-w-none
               "
             >
               <div className="pl-2 flex flex-col gap-4">
                 <div className="flex flex-col gap-4">
-                  <div className="w-[56px] h-[56px] rounded-[14px] flex items-center justify-center bg-gradient-to-r from-[#AD46FF33] to-[#2B7FFF33]">
+                  <div className="w-14 h-14 rounded-[14px] flex items-center justify-center bg-lineat-to-r from-[#AD46FF33] to-[#2B7FFF33]">
                     <FiMapPin className="w-6 h-6 text-[#C27AFF]" />
                   </div>
-                  <h2 className="font-inter font-bold text-[24px] leading-[32px] text-white">
+                  <h2 className="font-inter font-bold text-[24px] leading-8 text-white">
                     {office.city}
                   </h2>
                 </div>
 
-                <div className="flex flex-col gap-[12px]">
+                <div className="flex flex-col gap-3">
                   <div className="flex items-center gap-2 text-[#99A1AF]">
                     <FiMapPin className="w-4 h-4 text-[#C27AFF]" />
-                    <span className="font-inter font-normal text-[15px] leading-[24px]">
+                    <span className="font-inter font-normal text-[15px] leading-6">
                       {office.address1}
                       <br />
                       {office.address2}
@@ -72,14 +72,14 @@ const OurOfficeLocation = () => {
 
                   <div className="flex items-center gap-2 text-[#99A1AF]">
                     <IoMdTime className="w-4 h-4 text-[#C27AFF]" />
-                    <span className="font-inter font-normal text-[15px] leading-[24px]">
+                    <span className="font-inter font-normal text-[15px] leading-6">
                       {office.hours}
                     </span>
                   </div>
 
                   <div className="flex items-center gap-2 text-[#99A1AF]">
                     <IoCallOutline className="w-4 h-4 text-[#C27AFF]" />
-                    <span className="font-inter font-normal text-[15px] leading-[24px]">
+                    <span className="font-inter font-normal text-[15px] leading-6">
                       {office.phone}
                     </span>
                   </div>

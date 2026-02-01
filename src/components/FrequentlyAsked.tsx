@@ -29,27 +29,27 @@ const faqData = [
 
 const FrequentlyAsked = () => {
   return (
-    <section className="w-full bg-gradient-to-b from-[#0A0A10] to-[#0A0A0F] flex justify-center">
+    <section className="w-full bg-linear-to-b from-[#0A0A10] to-[#0A0A0F] flex justify-center">
       <div className="w-full max-w-[1200px] mt-32 sm:mt-20">
-        <div className="w-full bg-[linear-gradient(to_bottom,_#00000000,_#2B7FFF0D,_#00000000)] rounded-[16px] flex flex-col items-center px-4 py-12 gap-[48px]">
-          <div className="flex flex-col items-center gap-[16px]">
-            <h1 className="font-inter font-bold text-[36px] leading-[40px] text-white text-center w-full sm:w-[500px]">
+        <div className="w-full bg-[linear-gradient(to_bottom,#00000000,#2B7FFF0D,#00000000)] rounded-3xl flex flex-col items-center px-4 py-12 gap-12">
+          <div className="flex flex-col items-center gap-4">
+            <h1 className="font-inter font-bold text-[36px] leading-10 text-white text-center w-full sm:w-[500px]">
               Frequently Asked Questions
             </h1>
-            <p className="font-inter font-normal text-[16px] leading-[24px] text-[#99A1AF] text-center w-full sm:w-[398px]">
+            <p className="font-inter font-normal text-[16px] leading-6 text-[#99A1AF] text-center w-full sm:w-[398px]">
               Quick answers to common questions about contacting us
             </p>
           </div>
 
-          <div className="flex flex-col gap-[16px] w-full max-w-[900px]">
+          <div className="flex flex-col gap-4 w-full max-w-[900px]">
             {faqData.map((faq, idx) => (
               <div
                 key={idx}
-                className="w-full rounded-[14px] border border-[#545457] p-[25px] flex flex-col gap-[8px] bg-[#14161E]"
+                className="w-full rounded-[14px] border border-[#545457] p-[25px] flex flex-col gap-2 bg-[#14161E]"
               >
                 <div className="flex items-start gap-2">
                   <IoMdCheckmarkCircleOutline className="text-[#05DF72] w-5 h-6 mt-1" />
-                  <h3 className="font-inter font-semibold text-[18px] leading-[28px] text-white">
+                  <h3 className="font-inter font-semibold text-[18px] leading-7 text-white">
                     {faq.question}
                   </h3>
                 </div>

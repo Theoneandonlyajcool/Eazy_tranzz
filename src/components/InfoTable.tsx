@@ -1,4 +1,3 @@
-import React from "react";
 import { TbWorld } from "react-icons/tb";
 import {
   FiClock,
@@ -13,9 +12,9 @@ import {
 
 const InfoTable = () => {
   return (
-    <section className="w-full flex justify-center py-10 bg-gradient-to-b from-[#000000] via-[#0A0A10] via-[#120D1B] to-[#0A0A0F]">
+    <section className="w-full flex justify-center py-10 bg-linear-to-b from-[#000000] via-[#120D1B] to-[#0A0A0F]">
       <div className="w-full max-w-[1200px] px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-10">
-        <article className="w-full rounded-[16px] p-[33px] flex flex-col gap-3 border border-[#37363D] bg-gradient-to-b from-[#16161B] via-[#191522] to-[#211F28]">
+        <article className="w-full rounded-3xl p-[33px] flex flex-col gap-3 border border-[#37363D] bg-linear-to-b from-[#16161B] via-[#191522] to-[#211F28]">
           <h1 className="font-inter font-bold text-[26px] sm:text-[30px] text-white">
             Send Us a Message
           </h1>
@@ -57,11 +56,11 @@ const InfoTable = () => {
               </label>
               <textarea
                 placeholder="Tell us how we can help you..."
-                className="w-full h-[160px] px-4 py-3 rounded-[10px] border border-[#545457] bg-[#201D26] text-white resize-none focus:outline-none"
+                className="w-full h-40 px-4 py-3 rounded-[10px] border border-[#545457] bg-[#201D26] text-white resize-none focus:outline-none"
               />
             </div>
 
-            <button className="w-full h-[50px] bg-gradient-to-r from-[#953E79] to-[#440830] rounded-[10px] text-white font-bold flex items-center justify-center gap-2">
+            <button className="w-full h-[50px] bg-linear-to-r from-[#953E79] to-[#440830] rounded-[10px] text-white font-bold flex items-center justify-center gap-2">
               <FiSend className="w-5 h-5" />
               Send Message
             </button>
@@ -69,7 +68,7 @@ const InfoTable = () => {
         </article>
 
         <aside className="w-full flex flex-col gap-6">
-          <div className="rounded-[16px] border border-[#37363D] p-[33px] bg-[#16161B]">
+          <div className="rounded-3xl border border-[#37363D] p-[33px] bg-[#16161B]">
             <h2 className="font-bold text-[22px] text-white mb-4">
               Quick Information
             </h2>
@@ -96,7 +95,7 @@ const InfoTable = () => {
                 },
               ].map((i, x) => (
                 <div key={x} className="flex gap-4">
-                  <div className="w-[50px] h-[50px] rounded-[10px] flex items-center justify-center bg-gradient-to-r from-[#AD46FF33] to-[#2B7FFF33]">
+                  <div className="w-[50px] h-[50px] rounded-[10px] flex items-center justify-center bg-lineat-to-r from-[#AD46FF33] to-[#2B7FFF33]">
                     {i.icon}
                   </div>
                   <div>
@@ -108,7 +107,7 @@ const InfoTable = () => {
               ))}
 
               <div className="flex gap-4">
-                <div className="w-[50px] h-[50px] rounded-[10px] flex items-center justify-center bg-gradient-to-r from-[#AD46FF33] to-[#2B7FFF33]">
+                <div className="w-[50px] h-[50px] rounded-[10px] flex items-center justify-center bg-linear-to-r from-[#AD46FF33] to-[#2B7FFF33]">
                   <TbWorld className="text-[#C27AFF] w-6 h-6" />
                 </div>
                 <div>
@@ -121,7 +120,7 @@ const InfoTable = () => {
             </div>
           </div>
 
-          <div className="rounded-[16px] border border-[#37363D] p-[33px] bg-[#1B1622]">
+          <div className="rounded-3xl border border-[#37363D] p-[33px] bg-[#1B1622]">
             <p className="font-bold text-[22px] text-white mb-2">
               Connect With Us
             </p>
@@ -134,7 +133,7 @@ const InfoTable = () => {
                 (Icon, i) => (
                   <div
                     key={i}
-                    className="w-[48px] h-[48px] rounded-[10px] flex items-center justify-center bg-[#2D2B33] border border-[#57555C]"
+                    className="w-12 h-12 rounded-[10px] flex items-center justify-center bg-[#2D2B33] border border-[#57555C]"
                   >
                     <Icon className="text-white w-5 h-5" />
                   </div>
@@ -143,7 +142,7 @@ const InfoTable = () => {
             </div>
           </div>
 
-          <div className="rounded-[16px] border border-[#481219] p-[33px] bg-gradient-to-b from-[#FB2C361A] to-[#FB2C360D]">
+          <div className="rounded-3xl border border-[#481219] p-[33px] bg-linear-to-b from-[#FB2C361A] to-[#FB2C360D]">
             <p className="font-bold text-[18px] text-[#FF6467]">
               Emergency Support
             </p>

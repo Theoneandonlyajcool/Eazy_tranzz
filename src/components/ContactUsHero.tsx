@@ -1,20 +1,19 @@
-import React from "react";
 import ContactHeroPics from "@/assets/Images/ContactHeroPics.jpg";
 import { Button } from "@/components/ui/button";
 
 const ContactUsHero = () => {
   return (
-    <section className="relative h-[90vh] w-full overflow-hidden">
+    <section className="relative h-screen w-full overflow-hidden">
       <img
         src={ContactHeroPics}
         alt=""
-        className="absolute top-0 left-0 w-full h-[90vh] object-cover z-0 bg-center bg-no-repeat"
+        className="absolute top-0 left-0 w-full h-full object-cover z-0 bg-center bg-no-repeat"
       />
 
       <div className="absolute inset-0 bg-black/70"></div>
 
-      <div className="relative z-30 flex flex-col h-full items-center justify-center text-white text-center absolute top-0 left-0 w-full h-[100vh] px-4 sm:px-6">
-        <Button className="w-[119px] h-[42px] rounded-full border-[2.18px] mt-10 border-[#AD46FF33] bg-gradient-to-r from-[#AD46FF33] to-[#2B7FFF33] text-white flex items-center justify-center cursor-pointer">
+      <div className="z-30 flex flex-col  items-center justify-center text-white text-center absolute top-0 left-0 w-full h-screen px-4 sm:px-6">
+        <Button className="w-[119px] h-[42px] rounded-full border-[2.18px] mt-10 border-[#AD46FF33] bg-linear-to-r from-[#AD46FF33] to-[#2B7FFF33] text-white flex items-center justify-center cursor-pointer">
           Get In Touch
         </Button>
 
@@ -24,7 +23,7 @@ const ContactUsHero = () => {
           </h1>
           <h1
             className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold 
-                 bg-gradient-to-r from-[#953E79] to-[#440830] 
+                 bg-linear-to-r from-[#953E79] to-[#440830] 
                  text-transparent bg-clip-text mt-2"
           >
             24/7 Support

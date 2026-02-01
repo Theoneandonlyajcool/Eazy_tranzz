@@ -1,4 +1,3 @@
-import React from "react";
 import { FiMusic } from "react-icons/fi";
 
 const Questions = () => {
@@ -6,8 +5,8 @@ const Questions = () => {
     <section
       className="
         w-full
-        min-h-[100vh]
-        bg-gradient-to-b from-[#0A0A10] to-[#0A0A0F]
+        min-h-screen
+        bg-linear-to-b from-[#0A0A10] to-[#0A0A0F]
         flex justify-center
         items-start lg:items-center
         px-3 sm:px-4
@@ -18,8 +17,8 @@ const Questions = () => {
         <div
           className="
             border border-[#481B62]
-            bg-gradient-to-br from-[#1B091F] to-[#252736]
-            rounded-[16px]
+            bg-linear-to-br from-[#1B091F] to-[#252736]
+            rounded-3xl
             flex flex-col items-center justify-center
             gap-2 sm:gap-3 lg:gap-4
             px-4 py-6
@@ -27,7 +26,7 @@ const Questions = () => {
             lg:px-12 lg:py-12
           "
         >
-          <div className="w-[52px] h-[52px] sm:w-[58px] sm:h-[58px] lg:w-[64px] lg:h-[64px] mb-0">
+          <div className="w-[52px] h-[52px] sm:w-[58px] sm:h-[58px] lg:w-16 lg:h-16 mb-0">
             <FiMusic className="w-full h-full text-[#7B0E58]" />
           </div>
 
@@ -35,7 +34,7 @@ const Questions = () => {
             className="
               font-inter font-bold text-white text-center
               text-[22px] sm:text-[26px] lg:text-[30px]
-              leading-[26px] sm:leading-[30px] lg:leading-[36px]
+              leading-[26px] sm:leading-[30px] lg:leading-9
               max-w-[95%] sm:max-w-[420px] lg:max-w-[312px]
             "
           >
@@ -46,7 +45,7 @@ const Questions = () => {
             className="
               font-inter font-normal text-[#D1D5DC] text-center
               text-[13px] sm:text-[15px] lg:text-[16px]
-              leading-[18px] sm:leading-[22px] lg:leading-[24px]
+              leading-[18px] sm:leading-[22px] lg:leading-6
               max-w-[95%] sm:max-w-[520px] lg:max-w-[619px]
             "
           >
@@ -62,7 +61,7 @@ const Questions = () => {
               w-full justify-center
             "
           >
-            <button className="w-full sm:w-[177.88px] h-[52px] lg:h-[58.21px] rounded-[10px] bg-gradient-to-r from-[#953E79] to-[#440830] text-white font-inter font-semibold text-[16px]">
+            <button className="w-full sm:w-[177.88px] h-[52px] lg:h-[58.21px] rounded-[10px] bg-linear-to-r from-[#953E79] to-[#440830] text-white font-inter font-semibold text-[16px]">
               Start Live Chat
             </button>
 

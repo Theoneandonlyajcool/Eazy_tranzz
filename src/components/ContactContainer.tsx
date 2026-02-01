@@ -40,7 +40,7 @@ const ContactContainer = () => {
   ];
 
   return (
-    <section className="bg-[#00000000] py-10">
+    <section className="bg-[#0A0A0F] py-10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 
@@ -67,11 +67,11 @@ px-4 sm:px-6 md:px-10 lg:px-0"
                   {item.text2}
                 </p>
 
-                <h3 className="font-inter font-semibold text-xs sm:text-sm leading-5 sm:leading-6 text-[#C27AFF] mb-2 break-words">
+                <h3 className="font-inter font-semibold text-xs sm:text-sm leading-5 sm:leading-6 text-[#C27AFF] mb-2 wrap-break-word">
                   {item.contact}
                 </h3>
 
-                <button className="w-full sm:w-[180px] lg:w-[220px] h-[36px] sm:h-[38px] rounded-lg border border-[#545457] bg-[#2A2A2E] text-white font-inter text-sm flex items-center justify-center">
+                <button className="w-full sm:w-[180px] lg:w-[220px] h-9 sm:h-[38px] rounded-lg border border-[#545457] bg-[#2A2A2E] text-white font-inter text-sm flex items-center justify-center">
                   {item.buttonText}
                 </button>
               </div>
