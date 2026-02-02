@@ -29,6 +29,7 @@ const SignIn = () => {
     try {
       const res = await loginAndSaveUser(data);
       toast.success(res.message);
+      navigate("/dashboard");
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
     }

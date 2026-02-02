@@ -22,6 +22,7 @@ const Header = () => {
   const currentLocation = location.pathname;
 
   const [openMobileModal, setOpenMobileModal] = useState(false);
+  const initials = JSON.stringify(localStorage.getItem("auth-storage"));
 
   const navigate = useNavigate();
   return (
@@ -100,30 +101,35 @@ const Header = () => {
 
         {/* Nav b */}
         <div className="navB:hidden text-white w-full flex items-center justify-end pr-4 mr-6">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <FaRegUserCircle className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" />
-            </DropdownMenuTrigger>
+          {initials ? (
+            "A"
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <FaRegUserCircle className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" />
+              </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
-              <DropdownMenuLabel>Account</DropdownMenuLabel>
-              <DropdownMenuSeparator className="border border-[#300421b7]" />
+              <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
+                <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuSeparator className="border border-[#300421b7]" />
 
-              <DropdownMenuItem
-                className="cursor-pointer hover:bg-[#2f1c2f]"
-                onClick={() => navigate("/sign_up")}
-              >
-                Sign Up
-              </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer hover:bg-[#2f1c2f]"
+                  onClick={() => navigate("/sign_up")}
+                >
+                  Sign Up
+                </DropdownMenuItem>
 
-              <DropdownMenuItem
-                className="cursor-pointer hover:bg-[#2f1c2f]"
-                onClick={() => navigate("/sign_in")}
-              >
-                Log In
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem
+                  className="cursor-pointer hover:bg-[#2f1c2f]"
+                  onClick={() => navigate("/sign_in")}
+                >
+                  Log In
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+
           <IoIosMenu
             onClick={() => setOpenMobileModal(true)}
             className="text-3xl md:text-5xl cursor-pointer"
