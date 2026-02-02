@@ -29,7 +29,9 @@ const SignIn = () => {
     try {
       const res = await loginAndSaveUser(data);
       toast.success(res.message);
-      navigate("/dashboard");
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000);
     } catch (error: any) {
       toast.error(error?.response?.data?.message);
     }
