@@ -1,5 +1,4 @@
 import HeroSection from "@/components/HeroSection";
-import Header from "@/components/Header";
 import HowItWorks from "@/components/HowItWorks";
 import PaymentRates from "@/components/PaymentRates/PaymentRates";
 import CoreValuePositions from "@/components/CoreValuePosition";
@@ -13,10 +12,7 @@ import CAS from "@/components/CAS";
 const LandingPage = () => {
   return (
     <div className="min-h-screen">
-      <Header />
       <HeroSection />
-
-      {/* How it works section */}
       <HowItWorks />
       <PaymentRates />
       <CAS />
