@@ -22,7 +22,7 @@ const Header = () => {
   const currentLocation = location.pathname;
 
   const [openMobileModal, setOpenMobileModal] = useState(false);
-  const initials = JSON.stringify(localStorage.getItem("auth-storage"));
+  const initials = sessionStorage.getItem("initials");
 
   const navigate = useNavigate();
   return (
@@ -102,7 +102,7 @@ const Header = () => {
         {/* Nav b */}
         <div className="navB:hidden text-white w-full flex items-center justify-end pr-4 mr-6">
           {initials ? (
-            "A"
+            <div className="bg-[#621c4b] m-2"></div>
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
