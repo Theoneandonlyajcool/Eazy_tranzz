@@ -45,7 +45,7 @@ const VerifyEmail = () => {
 
   const handleKeyDown = (
     index: number,
-    e: React.KeyboardEvent<HTMLInputElement>
+    e: React.KeyboardEvent<HTMLInputElement>,
   ) => {
     // Handle backspace
     if (e.key === "Backspace" && !otp[index] && index > 0) {
