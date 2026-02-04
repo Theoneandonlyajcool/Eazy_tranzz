@@ -10,6 +10,7 @@ export const createUser = async (payload: UserReg) => {
 
 export const logUser = async (payload: UserSignIn) => {
   const signIn = await axios.post(`${BaseUrl}/auth/login`, payload);
-  sessionStorage.setItem("initials", signIn.data.data);
+  sessionStorage.setItem("fullName", signIn.data.data.fullName);
+  sessionStorage.setItem("mail", signIn.data.data.email);
   return signIn.data;
 };
