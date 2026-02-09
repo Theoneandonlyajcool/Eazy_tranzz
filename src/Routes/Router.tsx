@@ -27,10 +27,10 @@ import { Analytics } from "@vercel/analytics/react";
 const Router = () => {
   return (
     <HashRouter>
-      <Routes>
-        {/* Web analytics */}
-        <Analytics />
+      {/* Web analytics */}
+      <Analytics />
 
+      <Routes>
         {/* Routes */}
         <Route path="*" element={<PageNotFound />} />
         <Route path="/" element={<HomeLayout />}>
