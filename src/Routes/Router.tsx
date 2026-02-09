@@ -28,7 +28,10 @@ const Router = () => {
   return (
     <HashRouter>
       <Routes>
+        {/* Web analytics */}
         <Analytics />
+
+        {/* Routes */}
         <Route path="*" element={<PageNotFound />} />
         <Route path="/" element={<HomeLayout />}>
           {/* <Route path="/" element={<IntroPage />} /> */}
