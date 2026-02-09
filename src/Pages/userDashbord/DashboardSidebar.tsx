@@ -108,7 +108,7 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
             ${
               isActive
                 ? "rounded-[14px] bg-[linear-gradient(135deg,rgba(149,62,121,0.6),rgba(68,8,48,0.6))] shadow-[0_4px_6px_-4px_rgba(173,70,255,0.3)] text-white"
-                : "text-[#9ca3af] hover:bg-[#1f1f1f] hover:text-white"
+                : "text-[#9ca3af]"
             }
             `
                   }

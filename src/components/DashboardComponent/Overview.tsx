@@ -1,5 +1,64 @@
 import { TrendingUp, DollarSign, Shield, Zap, Clock } from "lucide-react";
 
+const stats = [
+  {
+    title: "Account Balance",
+    value: "₦2,450,000",
+    subValue: "$1,482.42 USD",
+    icon: <DollarSign size={24} className="text-white" />,
+    iconBg: "bg-green-500",
+    change: "+12.5%",
+    changeIcon: <TrendingUp size={16} style={{ color: "#05DF72" }} />,
+    changeColor: "text-green-400",
+  },
+  {
+    title: "Total Transactions",
+    value: "47",
+    subValue: "This month",
+    icon: (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+      >
+        <path
+          d="M21.9937 11.9961H19.5144C19.0775 11.9952 18.6524 12.1374 18.3039 12.401C17.9555 12.6646 17.703 13.035 17.585 13.4557L15.2357 21.8133C15.2205 21.8652 15.189 21.9108 15.1457 21.9433C15.1024 21.9757 15.0498 21.9932 14.9958 21.9932C14.9417 21.9932 14.8891 21.9757 14.8458 21.9433C14.8025 21.9108 14.771 21.8652 14.7558 21.8133L9.23742 2.17897C9.22228 2.12706 9.1907 2.08146 9.14744 2.04901C9.10418 2.01656 9.05156 1.99902 8.99749 1.99902C8.94341 1.99902 8.89079 2.01656 8.84753 2.04901C8.80427 2.08146 8.7727 2.12706 8.75756 2.17897L6.40824 10.5366C6.29073 10.9556 6.03972 11.3248 5.69331 11.5883C5.34689 11.8517 4.92399 11.9949 4.48879 11.9961H1.99951"
+          stroke="white"
+          stroke-width="1.99942"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
+      </svg>
+    ),
+    iconBg: "bg-[linear-gradient(#953E79,#440830)]",
+    change: "+8",
+    changeIcon: <TrendingUp size={16} style={{ color: "#05DF72" }} />,
+    changeColor: "text-green-400",
+  },
+  {
+    title: "Pending Transfers",
+    value: "2",
+    subValue: "Awaiting confirmation",
+    icon: <Clock size={24} className="text-white" />,
+    iconBg: "bg-orange-500",
+    change: "-2",
+    changeIcon: null,
+    changeColor: "text-green-400",
+  },
+  {
+    title: "KYC Status",
+    value: "Verified",
+    subValue: "Level 3",
+    icon: <Shield size={24} className="text-white" />,
+    iconBg: "bg-blue-500",
+    change: null,
+    changeIcon: null,
+    changeColor: "",
+  },
+];
+
 const Overview = () => {
   return (
     <div className="min-h-screen bg-transparent">
@@ -16,60 +75,31 @@ const Overview = () => {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {/* Account Balance */}
-          <div className="bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-700 hover:border-slate-600 transition-colors">
-            <div className="flex justify-between items-start mb-4">
-              <div className="bg-green-500 rounded-lg p-3">
-                <DollarSign size={24} className="text-white" />
-              </div>
-              <span className="text-green-400 text-sm font-semibold">
-                📈 +12.5%
-              </span>
-            </div>
-            <p className="text-gray-400 text-sm mb-2">Account Balance</p>
-            <p className="text-white text-2xl font-bold mb-1">₦2,450,000</p>
-            <p className="text-gray-500 text-xs">$1,482.42 USD</p>
-          </div>
+          {stats.map((stat, index) => (
+            <div
+              key={index}
+              className="bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-700 hover:border-slate-600 transition-colors"
+            >
+              <div className="flex justify-between items-start mb-4">
+                <div className={`${stat.iconBg} rounded-lg p-3`}>
+                  {stat.icon}
+                </div>
 
-          {/* Total Transactions */}
-          <div className="bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-700 hover:border-slate-600 transition-colors">
-            <div className="flex justify-between items-start mb-4">
-              <div className="bg-purple-600 rounded-lg p-3">
-                <TrendingUp size={24} className="text-white" />
+                {stat.change && (
+                  <span
+                    className={`${stat.changeColor} text-sm font-semibold flex items-center gap-[5px]`}
+                  >
+                    {stat.changeIcon && stat.changeIcon}
+                    {stat.change}
+                  </span>
+                )}
               </div>
-              <span className="text-green-400 text-sm font-semibold">
-                📈 +8
-              </span>
-            </div>
-            <p className="text-gray-400 text-sm mb-2">Total Transactions</p>
-            <p className="text-white text-2xl font-bold mb-1">47</p>
-            <p className="text-gray-500 text-xs">This month</p>
-          </div>
 
-          {/* Pending Transfers */}
-          <div className="bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-700 hover:border-slate-600 transition-colors">
-            <div className="flex justify-between items-start mb-4">
-              <div className="bg-orange-500 rounded-lg p-3">
-                <Clock size={24} className="text-white" />
-              </div>
-              <span className="text-green-400 text-sm font-semibold">-2</span>
+              <p className="text-gray-400 text-sm mb-2">{stat.title}</p>
+              <p className="text-white text-2xl font-bold mb-1">{stat.value}</p>
+              <p className="text-gray-500 text-xs">{stat.subValue}</p>
             </div>
-            <p className="text-gray-400 text-sm mb-2">Pending Transfers</p>
-            <p className="text-white text-2xl font-bold mb-1">2</p>
-            <p className="text-gray-500 text-xs">Awaiting confirmation</p>
-          </div>
-
-          {/* KYC Status */}
-          <div className="bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-700 hover:border-slate-600 transition-colors">
-            <div className="flex justify-between items-start mb-4">
-              <div className="bg-blue-500 rounded-lg p-3">
-                <Shield size={24} className="text-white" />
-              </div>
-            </div>
-            <p className="text-gray-400 text-sm mb-2">KYC Status</p>
-            <p className="text-white text-2xl font-bold mb-1">Verified</p>
-            <p className="text-gray-500 text-xs">Level 3</p>
-          </div>
+          ))}
         </div>
 
         {/* Quick Actions */}
@@ -171,31 +201,47 @@ const Overview = () => {
               {/* Activity Item 1 */}
               <div className="bg-slate-800 rounded-lg p-4 border border-slate-700 hover:border-slate-600 transition-colors">
                 <div className="flex items-center gap-4">
-                  <div className="bg-green-500 rounded-lg p-3">
+                  <div className="bg-[rgba(0,201,80,0.20)] rounded-lg p-3">
                     <svg
-                      className="w-6 h-6 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
                       fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
+                      <g clip-path="url(#clip0_1079_4406)">
+                        <path
+                          d="M18.1673 8.33357C18.5479 10.2013 18.2767 12.1431 17.3989 13.8351C16.5211 15.527 15.0897 16.8669 13.3436 17.6313C11.5975 18.3957 9.64203 18.5384 7.80342 18.0355C5.96482 17.5327 4.35417 16.4147 3.24007 14.8681C2.12597 13.3214 1.57577 11.4396 1.68123 9.53639C1.78668 7.63318 2.5414 5.82364 3.81955 4.40954C5.09769 2.99545 6.82199 2.06226 8.70489 1.76561C10.5878 1.46897 12.5155 1.82679 14.1665 2.7794"
+                          stroke="#05DF72"
+                          stroke-width="1.66667"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M7.5 9.16732L10 11.6673L18.3333 3.33398"
+                          stroke="#05DF72"
+                          stroke-width="1.66667"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_1079_4406">
+                          <rect width="20" height="20" fill="white" />
+                        </clipPath>
+                      </defs>
                     </svg>
                   </div>
                   <div className="flex-1">
                     <p className="text-white font-medium">
                       USD to NGN Exchange
                     </p>
+                    <p className="text-white font-semibold">$500 → ₦825,000</p>
                     <p className="text-gray-400 text-sm">
                       PayPal · 2 hours ago
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-white font-semibold">$500 → ₦825,000</p>
                     <span className="inline-block bg-green-900 text-green-300 px-3 py-1 rounded text-xs font-semibold mt-1">
                       completed
                     </span>
@@ -206,31 +252,47 @@ const Overview = () => {
               {/* Activity Item 2 */}
               <div className="bg-slate-800 rounded-lg p-4 border border-slate-700 hover:border-slate-600 transition-colors">
                 <div className="flex items-center gap-4">
-                  <div className="bg-green-500 rounded-lg p-3">
+                  <div className="bg-[rgba(0,201,80,0.20)] rounded-lg p-3">
                     <svg
-                      className="w-6 h-6 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
                       fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
+                      <g clip-path="url(#clip0_1079_4406)">
+                        <path
+                          d="M18.1673 8.33357C18.5479 10.2013 18.2767 12.1431 17.3989 13.8351C16.5211 15.527 15.0897 16.8669 13.3436 17.6313C11.5975 18.3957 9.64203 18.5384 7.80342 18.0355C5.96482 17.5327 4.35417 16.4147 3.24007 14.8681C2.12597 13.3214 1.57577 11.4396 1.68123 9.53639C1.78668 7.63318 2.5414 5.82364 3.81955 4.40954C5.09769 2.99545 6.82199 2.06226 8.70489 1.76561C10.5878 1.46897 12.5155 1.82679 14.1665 2.7794"
+                          stroke="#05DF72"
+                          stroke-width="1.66667"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M7.5 9.16732L10 11.6673L18.3333 3.33398"
+                          stroke="#05DF72"
+                          stroke-width="1.66667"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_1079_4406">
+                          <rect width="20" height="20" fill="white" />
+                        </clipPath>
+                      </defs>
                     </svg>
                   </div>
                   <div className="flex-1">
                     <p className="text-white font-medium">
                       USD to NGN Exchange
                     </p>
-                    <p className="text-gray-400 text-sm">Zelle · 5 hours ago</p>
-                  </div>
-                  <div className="text-right">
                     <p className="text-white font-semibold">
                       $1,000 → ₦1,655,000
                     </p>
+                    <p className="text-gray-400 text-sm">Zelle · 5 hours ago</p>
+                  </div>
+                  <div className="text-right">
                     <span className="inline-block bg-green-900 text-green-300 px-3 py-1 rounded text-xs font-semibold mt-1">
                       completed
                     </span>
@@ -241,17 +303,17 @@ const Overview = () => {
               {/* Activity Item 3 */}
               <div className="bg-slate-800 rounded-lg p-4 border border-slate-700 hover:border-slate-600 transition-colors">
                 <div className="flex items-center gap-4">
-                  <div className="bg-orange-500 rounded-lg p-3">
-                    <Clock className="w-6 h-6 text-white" />
+                  <div className="bg-[rgba(255,105,0,0.20)] rounded-lg p-3">
+                    <Clock className="w-6 h-6 text-[#FF8904]" />
                   </div>
                   <div className="flex-1">
                     <p className="text-white font-medium">
                       USD to NGN Exchange
                     </p>
+                    <p className="text-white font-semibold">$250 → ₦411,250</p>
                     <p className="text-gray-400 text-sm">CashApp · Yesterday</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-white font-semibold">$250 → ₦411,250</p>
                     <span className="inline-block bg-orange-900 text-orange-300 px-3 py-1 rounded text-xs font-semibold mt-1">
                       pending
                     </span>
@@ -262,29 +324,45 @@ const Overview = () => {
               {/* Activity Item 4 */}
               <div className="bg-slate-800 rounded-lg p-4 border border-slate-700 hover:border-slate-600 transition-colors">
                 <div className="flex items-center gap-4">
-                  <div className="bg-green-500 rounded-lg p-3">
+                  <div className="bg-[rgba(0,201,80,0.20)] rounded-lg p-3">
                     <svg
-                      className="w-6 h-6 text-white"
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
                       fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
+                      <g clip-path="url(#clip0_1079_4406)">
+                        <path
+                          d="M18.1673 8.33357C18.5479 10.2013 18.2767 12.1431 17.3989 13.8351C16.5211 15.527 15.0897 16.8669 13.3436 17.6313C11.5975 18.3957 9.64203 18.5384 7.80342 18.0355C5.96482 17.5327 4.35417 16.4147 3.24007 14.8681C2.12597 13.3214 1.57577 11.4396 1.68123 9.53639C1.78668 7.63318 2.5414 5.82364 3.81955 4.40954C5.09769 2.99545 6.82199 2.06226 8.70489 1.76561C10.5878 1.46897 12.5155 1.82679 14.1665 2.7794"
+                          stroke="#05DF72"
+                          stroke-width="1.66667"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                        <path
+                          d="M7.5 9.16732L10 11.6673L18.3333 3.33398"
+                          stroke="#05DF72"
+                          stroke-width="1.66667"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </g>
+                      <defs>
+                        <clipPath id="clip0_1079_4406">
+                          <rect width="20" height="20" fill="white" />
+                        </clipPath>
+                      </defs>
                     </svg>
                   </div>
                   <div className="flex-1">
                     <p className="text-white font-medium">Bank Withdrawal</p>
+                    <p className="text-white font-semibold">₦500,000</p>
                     <p className="text-gray-400 text-sm">
                       GT Bank · 2 days ago
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-white font-semibold">₦500,000</p>
                     <span className="inline-block bg-green-900 text-green-300 px-3 py-1 rounded text-xs font-semibold mt-1">
                       completed
                     </span>
@@ -297,7 +375,7 @@ const Overview = () => {
           {/* Right Sidebar */}
           <div className="space-y-6">
             {/* Market Summary */}
-            <div className="bg-[linear-gradient(#1A1A2E,#0A0A0F))] rounded-xl p-6 shadow-lg border border-slate-700">
+            <div className="bg-[linear-gradient(#1A1A2E,#0A0A0F)] rounded-xl p-8 shadow-lg border border-slate-700">
               <div className="flex justify-between items-center mb-6">
                 <h3 className="text-white text-lg font-semibold">
                   Market Summary
@@ -306,29 +384,30 @@ const Overview = () => {
               </div>
 
               <div className="space-y-4">
-                <div>
+                <div className="flex items-center justify-between">
                   <p className="text-gray-400 text-sm mb-1">Best Buy Rate</p>
-                  <p className="text-white text-2xl font-bold">₦1,655</p>
+                  <p className="text-[#05DF72] text-[18px] font-bold">₦1,655</p>
                 </div>
-                <div>
+                <div className="flex items-center justify-between">
                   <p className="text-gray-400 text-sm mb-1">Best Sell Rate</p>
-                  <p className="text-blue-400 text-2xl font-bold">₦1,685</p>
+                  <p className="text-[#51A2FF] text-[18px] font-bold">₦1,685</p>
                 </div>
-                <div>
+                <div className="flex items-center justify-between">
                   <p className="text-gray-400 text-sm mb-1">Market Trend</p>
-                  <p className="text-green-400 text-lg font-semibold">
-                    📈 +2.3%
+                  <p className="text-green-400 text-sm font-semibold flex items-center gap-[5px]">
+                    <TrendingUp size={16} />
+                    +2.3%
                   </p>
                 </div>
               </div>
 
-              <button className="w-full bg-gradient-to-r from-purple-600 to-purple-700 hover:from-purple-700 hover:to-purple-800 text-white py-2 rounded-lg font-medium mt-4 transition-colors flex items-center justify-center gap-2">
+              <button className="w-full bg-[linear-gradient(#AD46FF33,#2B7FFF33)] cursor-pointer text-white py-2 rounded-lg font-medium mt-4 transition-colors flex items-center justify-center gap-2">
                 <TrendingUp size={18} /> View Full Board
               </button>
             </div>
 
             {/* Premium Member */}
-            <div className="bg-[linear-gradient(#F0B10033,#FF690033,#FB2C3633))] rounded-xl p-6 shadow-lg">
+            <div className="bg-[linear-gradient(#F0B10033,#FF690033,#FB2C3633)] rounded-xl p-8 shadow-lg">
               <div className="flex justify-center mb-4">
                 <div className="bg-orange-500 rounded-2xl p-4">
                   <svg

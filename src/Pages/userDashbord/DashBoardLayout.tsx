@@ -1,10 +1,63 @@
 import { useState } from "react";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Bell, Menu } from "lucide-react";
 import DashboardSidebar from "./DashboardSidebar";
 
+const pageTitles = [
+  {
+    title: "Dashboard Overview",
+    url: "/dashboard",
+    subTitle: "Here's what's happening with your account",
+  },
+  {
+    title: "Start Transaction",
+    url: "/dashboard/transaction",
+    subTitle: "Start a new exchange transaction",
+  },
+  {
+    title: "Payment Options",
+    url: "/dashboard/payments",
+    subTitle: "View and manage payment methods",
+  },
+  {
+    title: "Live Rate Board",
+    url: "/dashboard/rates",
+    subTitle: "Live exchange rates updated every 5 seconds",
+  },
+  {
+    title: "Recent Activities",
+    url: "/dashboard/activities",
+    subTitle: "Your transaction history",
+  },
+  {
+    title: "Profile",
+    url: "/dashboard/profile",
+    subTitle: "Manage your account settings",
+  },
+  {
+    title: "Settings",
+    url: "/dashboard/settings",
+    subTitle: "Configure your account preferences",
+  },
+  {
+    title: "KYC Verification",
+    url: "/dashboard/kyc",
+    subTitle: "Verification and compliance",
+  },
+  {
+    title: "Support",
+    url: "/dashboard/support",
+    subTitle: "Get help from our support team",
+  },
+];
+
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const location = useLocation();
+
+  const currentTitle = pageTitles.find(
+    (item) => item.url === location.pathname,
+  );
 
   return (
     <div className="min-h-screen flex w-full bg-[#0A0A0F]">
@@ -15,7 +68,7 @@ const DashboardLayout = () => {
 
       <div className="flex-1 flex flex-col min-h-screen md:ml-64">
         {/* Header */}
-        <header className="h-16 border-b border-[#2a2a2a] flex items-center justify-between px-4 md:px-6 bg-[#0a0a0a]">
+        <header className="fixed top-0 right-0 left-0 md:left-64 h-16 border-b border-[#2a2a2a] flex items-center justify-between px-4 md:px-6 bg-[#0a0a0a] z-50">
           <div className="flex items-center gap-4">
             <button
               onClick={() => setSidebarOpen(true)}
@@ -23,12 +76,13 @@ const DashboardLayout = () => {
             >
               <Menu className="w-5 h-5" />
             </button>
+
             <div>
               <h1 className="text-white font-bold text-lg md:text-xl">
-                Dashboard Overview
+                {currentTitle?.title}
               </h1>
               <p className="text-[#6b7280] text-xs md:text-sm">
-                Here's what's happening with your account
+                {currentTitle?.subTitle}
               </p>
             </div>
           </div>
@@ -40,8 +94,9 @@ const DashboardLayout = () => {
             </span>
           </button>
         </header>
+
         {/* Main Content */}
-        <main className="flex-1 overflow-auto p-4 md:p-6">
+        <main className="flex-1 overflow-auto p-4 md:p-6 mt-18">
           <Outlet />
         </main>
       </div>

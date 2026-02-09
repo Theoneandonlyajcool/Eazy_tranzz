@@ -138,7 +138,7 @@ const SignIn = () => {
                 </div>
 
                 <Link
-                  to="/forgot-password"
+                  to="/forgetPassowrd"
                   className="text-sm font-medium text-[#0092B8] hover:text-[#007a99] hover:underline whitespace-nowrap"
                 >
                   Forgot password?
