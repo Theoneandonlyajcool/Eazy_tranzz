@@ -21,6 +21,7 @@ import Settings from "@/components/DashboardComponent/Settings.tsx";
 import ProfilePic from "@/components/DashboardComponent/ProfilePic.tsx";
 import Kyc from "@/components/DashboardComponent/Kyc.tsx";
 import Support from "@/components/DashboardComponent/Support.tsx";
+import VerifyEmail from "@/Pages/Auth/VerifyEmail.tsx";
 
 const Router = () => {
   return (
@@ -47,7 +48,7 @@ const Router = () => {
         </Route>
         <Route path="/sign_in" element={<SignIn />} />
         <Route path="/sign_up" element={<SignUp />} />
-        {/* <Route path="/verify_email" element={<VerifyEmail />} /> */}
+        <Route path="/verify_email" element={<VerifyEmail />} />
         <Route path="/forgetPassowrd" element={<ForgetPassword />} />
       </Routes>
     </HashRouter>
