@@ -22,7 +22,7 @@ import ProfilePic from "@/components/DashboardComponent/ProfilePic.tsx";
 import Kyc from "@/components/DashboardComponent/Kyc.tsx";
 import Support from "@/components/DashboardComponent/Support.tsx";
 import VerifyEmail from "@/Pages/Auth/VerifyEmail.tsx";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 const Router = () => {
   return (
