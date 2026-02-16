@@ -11,7 +11,7 @@ import {
   LogOut,
   X,
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { useNavigate, NavLink } from "react-router-dom";
 import image from "../../assets/gemini-logo.svg";
 
 const navItems = [
@@ -32,6 +32,7 @@ interface DashboardSidebarProps {
 }
 
 const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
+  const navigate = useNavigate();
   return (
     <>
       {/* Mobile Overlay */}
@@ -55,7 +56,7 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
         {/* Header */}
         <div className="p-4 border-b border-[#2a2a2a] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#7B0E58] to-[#440830] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#7B0E58] to-[#440830] flex items-center justify-center">
               <img src={image} alt="" />
             </div>
             <span className="text-white font-bold text-lg">EazyTranz</span>
@@ -71,7 +72,7 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
         {/* User Profile Section */}
         <div className="p-4 border-b border-[#2a2a2a]">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-r from-[#953E79] to-[#440830] flex items-center justify-center text-white font-semibold">
+            <div className="w-10 h-10 rounded-full bg-linear-to-r from-[#953E79] to-[#440830] flex items-center justify-center text-white font-semibold">
               A
             </div>
             <div className="flex-1 min-w-0">
@@ -123,7 +124,10 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
 
         {/* Footer */}
         <div className="p-2 border-t border-[#2a2a2a]">
-          <button className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors w-full">
+          <button
+            onClick={() => navigate("/")}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors w-full"
+          >
             <LogOut className="w-5 h-5" />
             <span>Sign Out</span>
           </button>
