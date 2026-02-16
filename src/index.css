@@ -24,9 +24,18 @@
   }
 }
 
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
 /* Custom utility using Tailwind v4 @utility */
 @utility animate-carousel {
-  animation: carousel-scroll 20s linear infinite;
+  animation: carousel-scroll 10s linear infinite;
 }
 
 @utility pause-animation {
@@ -36,22 +45,13 @@
 /* Infinite scroll */
 
 @layer utilities {
-  /* @keyframes infinite-scroll {
-    from {
-      transform: translateX(50%);
-    }
-    to {
-      transform: translateX(-50%);
-    }
-  }
-
   .animate-infinite-scroll {
     animation: infinite-scroll 10s linear infinite;
   }
 
   .animate-infinite-scroll:hover {
     animation-play-state: paused;
-  } */
+  }
 
   /* Second option */
 
@@ -90,7 +90,7 @@
   }
 
   .animate-carousel {
-    animation: carousel-scroll 20s linear infinite;
+    animation: carousel-scroll 10s linear infinite;
   }
 
   /* EXACT same mask */
