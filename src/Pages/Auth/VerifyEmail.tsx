@@ -108,6 +108,7 @@ const VerifyEmail = () => {
         email,
       });
       toast.success(res?.data?.data?.message);
+      navigate("/dashboard");
       setIsLoading(false);
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Something went wrong");
