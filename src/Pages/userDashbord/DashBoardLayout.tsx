@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Outlet, useLocation } from "react-router-dom";
-import { Bell, Menu } from "lucide-react";
+import { Bell } from "lucide-react";
 import DashboardSidebar from "./DashboardSidebar";
+import ChatBox from "@/components/ChatBox";
 
 const pageTitles = [
   {
@@ -70,11 +71,18 @@ const DashboardLayout = () => {
         {/* Header */}
         <header className="fixed top-0 right-0 left-0 md:left-64 h-16 border-b border-[#2a2a2a] flex items-center justify-between px-4 md:px-6 bg-[#0a0a0a] z-50">
           <div className="flex items-center gap-4">
-            <button
-              onClick={() => setSidebarOpen(true)}
-              className="md:hidden p-2 rounded-lg hover:bg-[#1f1f1f] text-white"
-            >
-              <Menu className="w-5 h-5" />
+            <button className="md:hidden p-2 rounded-lg cursor-pointer">
+              <label className="flex flex-col gap-2 w-5 h-5 cursor-pointer">
+                <input
+                  className="peer hidden cursor-pointer"
+                  type="checkbox"
+                  checked={sidebarOpen}
+                  onChange={() => setSidebarOpen(!sidebarOpen)}
+                />
+                <div className="rounded-2xl h-[3px] w-1/2 bg-white duration-500 peer-checked:rotate-225 origin-right peer-checked:-translate-x-3 peer-checked:-translate-y-px"></div>
+                <div className="rounded-2xl h-[3px] w-full bg-white duration-500 peer-checked:-rotate-45"></div>
+                <div className="rounded-2xl h-[3px] w-1/2 bg-white duration-500 place-self-end peer-checked:rotate-225 origin-left peer-checked:translate-x-3 peer-checked:translate-y-px"></div>
+              </label>
             </button>
 
             <div>
@@ -100,6 +108,7 @@ const DashboardLayout = () => {
           <Outlet />
         </main>
       </div>
+      <ChatBox />
     </div>
   );
 };

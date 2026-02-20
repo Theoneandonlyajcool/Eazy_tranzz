@@ -23,6 +23,7 @@ import Kyc from "@/components/DashboardComponent/Kyc.tsx";
 import Support from "@/components/DashboardComponent/Support.tsx";
 import VerifyEmail from "@/Pages/Auth/VerifyEmail.tsx";
 import { Analytics } from "@vercel/analytics/react";
+import RatesPage from "@/Pages/RatesPage.tsx";
 
 const Router = () => {
   return (
@@ -39,7 +40,14 @@ const Router = () => {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/blog" element={<BlogPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/allRates" element={<RatesPage />} />
         </Route>
+
+        <Route path="/sign_in" element={<SignIn />} />
+        <Route path="/sign_up" element={<SignUp />} />
+        <Route path="/verify_email" element={<VerifyEmail />} />
+        <Route path="/forgetPassowrd" element={<ForgetPassword />} />
+
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="" element={<Overview />} />
           <Route path="transaction" element={<Transaction />} />
@@ -51,10 +59,6 @@ const Router = () => {
           <Route path="kyc" element={<Kyc />} />
           <Route path="support" element={<Support />} />
         </Route>
-        <Route path="/sign_in" element={<SignIn />} />
-        <Route path="/sign_up" element={<SignUp />} />
-        <Route path="/verify_email" element={<VerifyEmail />} />
-        <Route path="/forgetPassowrd" element={<ForgetPassword />} />
       </Routes>
     </HashRouter>
   );

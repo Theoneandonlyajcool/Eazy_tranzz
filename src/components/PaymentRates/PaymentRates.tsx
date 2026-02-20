@@ -10,6 +10,8 @@ import WiseLogo from "@/assets/Images/img5.png";
 import cashAppLogo from "@/assets/Images/img3.png";
 import paypalLogo from "@/assets/Images/img1.png";
 // import ZelleLogo from "@/assets/Images/img2.png";
+import { useNavigate } from "react-router-dom";
+import { ArrowRight } from "lucide-react";
 
 const Rates = [
   {
@@ -50,6 +52,8 @@ const Rates = [
 ];
 
 const PaymentRates = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-screen w-full bg-background overflow-hidden">
       <PaymentLogos />
@@ -122,12 +126,12 @@ const PaymentRates = () => {
                           rate.platForm === "Wise"
                             ? WiseLogo
                             : rate.platForm === "Payoneer"
-                            ? payoneerLogo
-                            : rate.platForm === "CashApp"
-                            ? cashAppLogo
-                            : rate.platForm === "PayPal"
-                            ? paypalLogo
-                            : ""
+                              ? payoneerLogo
+                              : rate.platForm === "CashApp"
+                                ? cashAppLogo
+                                : rate.platForm === "PayPal"
+                                  ? paypalLogo
+                                  : ""
                         }
                         alt={rate.platForm}
                         className="w-10 h-10 mr-2 inline-block rounded-2xl "
@@ -143,8 +147,12 @@ const PaymentRates = () => {
               ))}
             </tbody>
           </table>
-          <div className="p-4 text-center text-gray-400">
+          <div
+            onClick={() => navigate("/allrates")}
+            className="p-4 text-center text-gray-400 cursor-pointer hover:text-gray-200 transition-all ease-in-out duration-500 mt-4 flex  justify-center items-center"
+          >
             See Rates full page
+            <ArrowRight className="inline-block ml-2" size={16} />
           </div>
         </div>
       </section>
