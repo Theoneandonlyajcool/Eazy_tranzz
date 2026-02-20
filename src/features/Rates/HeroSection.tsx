@@ -1,10 +1,6 @@
 import BackgroundImage from "@/assets/Images/RatesBg.png";
-import { Search } from "lucide-react";
-import { useState } from "react";
 
 const BlogHero = () => {
-  const [article, setArticle] = useState("");
-
   return (
     <section className="relative min-h-screen h-[110vh] w-full overflow-hidden">
       {/* BACKGROUND IMAGE */}
