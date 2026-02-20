@@ -88,7 +88,7 @@ const HeroSection = () => {
               return (
                 <img
                   key={idx}
-                  className="w-[5rem]  rounded-2xl overflow-clip mx-4 h-[5rem] object-fit object-center shrink-0 "
+                  className="w-20 rounded-2xl overflow-clip mx-4 h-20 object-fit object-center shrink-0 "
                   src={ele.src}
                   alt=""
                 />
