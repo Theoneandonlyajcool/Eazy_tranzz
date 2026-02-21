@@ -5,7 +5,7 @@ const Questions = () => {
     <section
       className="
         w-full
-        min-h-screen
+        min-h-[400px]
         bg-linear-to-b from-[#0A0A10] to-[#0A0A0F]
         flex justify-center
         items-start lg:items-center
