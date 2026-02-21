@@ -48,7 +48,7 @@ const Router = () => {
         <Route path="/sign_up" element={<SignUp />} />
         <Route path="/verify_email" element={<VerifyEmail />} />
         <Route path="/forgetPassowrd" element={<ForgetPassword />} />
-        <Route path="/kyc" element={<KYCPage />} />
+        <Route path="/kyc_verification" element={<KYCPage />} />
 
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="" element={<Overview />} />
