@@ -1,19 +1,298 @@
-import React from "react";
+import React, { useState, useCallback } from "react";
 import {
   ChevronLeft,
+  ChevronRight,
   ShieldCheck,
   User,
   IdCard,
   Upload,
   Camera,
   Home,
+  Check,
+  X,
+  FileText,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import logo from "@/assets/Images/logo.png";
 
+type Step = {
+  id: number;
+  title: string;
+  subtitle: string;
+  icon: React.ReactNode;
+};
+
+const steps: Step[] = [
+  {
+    id: 1,
+    title: "Personal Information",
+    subtitle: "Personal Info",
+    icon: <User className="w-5 h-5" />,
+  },
+  {
+    id: 2,
+    title: "Identity Verification",
+    subtitle: "Identity",
+    icon: <IdCard className="w-5 h-5" />,
+  },
+  {
+    id: 3,
+    title: "Upload Documents",
+    subtitle: "Documents",
+    icon: <Upload className="w-5 h-5" />,
+  },
+];
+
+interface UploadedFile {
+  name: string;
+  size: number;
+  type: string;
+  preview?: string;
+}
+
 const KYCPage = () => {
+  const [currentStep, setCurrentStep] = useState(1);
+  const [uploadedFiles, setUploadedFiles] = useState<{
+    idDocument: UploadedFile | null;
+    proofOfAddress: UploadedFile | null;
+    selfiePhoto: UploadedFile | null;
+  }>({
+    idDocument: null,
+    proofOfAddress: null,
+    selfiePhoto: null,
+  });
+  const [dragActive, setDragActive] = useState<string | null>(null);
+
+  const handleNext = () => {
+    if (currentStep < steps.length) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handlePrevious = () => {
+    if (currentStep > 1) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  const handleDrag = useCallback((e: React.DragEvent, fieldName: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (e.type === "dragenter" || e.type === "dragover") {
+      setDragActive(fieldName);
+    } else if (e.type === "dragleave") {
+      setDragActive(null);
+    }
+  }, []);
+
+  const handleDrop = useCallback(
+    (e: React.DragEvent, fieldName: keyof typeof uploadedFiles) => {
+      e.preventDefault();
+      e.stopPropagation();
+      setDragActive(null);
+
+      const files = e.dataTransfer.files;
+      if (files && files[0]) {
+        const file = files[0];
+        const fileObj: UploadedFile = {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          preview: file.type.startsWith("image/")
+            ? URL.createObjectURL(file)
+            : undefined,
+        };
+        setUploadedFiles((prev) => ({
+          ...prev,
+          [fieldName]: fileObj,
+        }));
+      }
+    },
+    [],
+  );
+
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+    fieldName: keyof typeof uploadedFiles,
+  ) => {
+    const files = e.target.files;
+    if (files && files[0]) {
+      const file = files[0];
+      const fileObj: UploadedFile = {
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        preview: file.type.startsWith("image/")
+          ? URL.createObjectURL(file)
+          : undefined,
+      };
+      setUploadedFiles((prev) => ({
+        ...prev,
+        [fieldName]: fileObj,
+      }));
+    }
+  };
+
+  const removeFile = (fieldName: keyof typeof uploadedFiles) => {
+    setUploadedFiles((prev) => ({
+      ...prev,
+      [fieldName]: null,
+    }));
+  };
+
+  const formatFileSize = (bytes: number) => {
+    if (bytes === 0) return "0 Bytes";
+    const k = 1024;
+    const sizes = ["Bytes", "KB", "MB", "GB"];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+  };
+
+  const renderProgressIndicator = () => (
+    <div className="flex items-center justify-center gap-2 md:gap-4 mb-8">
+      {steps.map((step, index) => (
+        <React.Fragment key={step.id}>
+          <div className="flex items-center gap-2">
+            <div
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 ${
+                currentStep === step.id
+                  ? "bg-gradient-to-r from-[#440830] to-[#953E79] border-2 border-[#AD46FF] text-white shadow-lg shadow-primary/30 scale-110"
+                  : currentStep > step.id
+                    ? "bg-green-500 border-2 border-green-400 text-white"
+                    : "bg-white/5 border-2 border-white/10 text-white/40"
+              }`}
+            >
+              {currentStep > step.id ? (
+                <Check className="w-5 h-5" />
+              ) : (
+                step.icon
+              )}
+            </div>
+            <span
+              className={`text-xs font-medium hidden md:block transition-colors ${
+                currentStep === step.id ? "text-white" : "text-white/40"
+              }`}
+            >
+              {step.subtitle}
+            </span>
+          </div>
+          {index < steps.length - 1 && (
+            <div
+              className={`w-12 md:w-20 h-0.5 transition-all duration-300 ${
+                currentStep > step.id ? "bg-green-500" : "bg-white/10"
+              }`}
+            />
+          )}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+
+  const renderPersonalInfoSection = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+      <KYCInputField label="First Name" placeholder="Emmanuel" />
+      <KYCInputField label="Last Name" placeholder="Tochukwu" />
+      <KYCInputField label="Date of Birth" placeholder="DD / MM / YYYY" />
+      <KYCInputField label="Gender" placeholder="Select Gender" />
+      <KYCInputField
+        label="Nationality"
+        placeholder="Nigeria"
+        className="md:col-span-2"
+      />
+      <KYCInputField label="Phone Number" placeholder="+234 800 123 4567" />
+      <KYCInputField
+        label="Email Address"
+        placeholder="emmanuel871@gmail.com"
+      />
+    </div>
+  );
+
+  const renderIdentitySection = () => (
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+      <KYCInputField label="ID Type" placeholder="Select ID Type" />
+      <KYCInputField label="ID Number" placeholder="Enter ID Number" />
+      <KYCInputField label="Issue Date" placeholder="DD / MM / YYYY" />
+      <KYCInputField label="Expiry Date" placeholder="DD / MM / YYYY" />
+      <KYCInputField
+        label="Occupation"
+        placeholder="e.g. Software Engineer, Business Owner"
+        className="md:col-span-2"
+      />
+      <KYCInputField
+        label="Purpose of Account"
+        placeholder="Select Purpose"
+        className="md:col-span-2"
+      />
+    </div>
+  );
+
+  const renderDocumentsSection = () => (
+    <div className="p-6 space-y-8">
+      <KYCDropZone
+        label="ID Document"
+        icon={<IdCard className="w-8 h-8" />}
+        text="Upload your ID document"
+        fieldName="idDocument"
+        uploadedFile={uploadedFiles.idDocument}
+        dragActive={dragActive}
+        onDragEnter={(e) => handleDrag(e, "idDocument")}
+        onDragLeave={(e) => handleDrag(e, "idDocument")}
+        onDragOver={(e) => handleDrag(e, "idDocument")}
+        onDrop={(e) => handleDrop(e, "idDocument")}
+        onFileChange={(e) => handleFileChange(e, "idDocument")}
+        onRemove={() => removeFile("idDocument")}
+        formatFileSize={formatFileSize}
+      />
+      <KYCDropZone
+        label="Proof of Address"
+        icon={<Home className="w-8 h-8" />}
+        text="Upload proof of address (Utility Bill, Bank statement)"
+        fieldName="proofOfAddress"
+        uploadedFile={uploadedFiles.proofOfAddress}
+        dragActive={dragActive}
+        onDragEnter={(e) => handleDrag(e, "proofOfAddress")}
+        onDragLeave={(e) => handleDrag(e, "proofOfAddress")}
+        onDragOver={(e) => handleDrag(e, "proofOfAddress")}
+        onDrop={(e) => handleDrop(e, "proofOfAddress")}
+        onFileChange={(e) => handleFileChange(e, "proofOfAddress")}
+        onRemove={() => removeFile("proofOfAddress")}
+        formatFileSize={formatFileSize}
+      />
+      <KYCDropZone
+        label="Selfie Photo"
+        icon={<Camera className="w-8 h-8" />}
+        text="Upload a clear selfie holding your ID"
+        fieldName="selfiePhoto"
+        uploadedFile={uploadedFiles.selfiePhoto}
+        dragActive={dragActive}
+        onDragEnter={(e) => handleDrag(e, "selfiePhoto")}
+        onDragLeave={(e) => handleDrag(e, "selfiePhoto")}
+        onDragOver={(e) => handleDrag(e, "selfiePhoto")}
+        onDrop={(e) => handleDrop(e, "selfiePhoto")}
+        onFileChange={(e) => handleFileChange(e, "selfiePhoto")}
+        onRemove={() => removeFile("selfiePhoto")}
+        formatFileSize={formatFileSize}
+      />
+    </div>
+  );
+
+  const renderCurrentSection = () => {
+    switch (currentStep) {
+      case 1:
+        return renderPersonalInfoSection();
+      case 2:
+        return renderIdentitySection();
+      case 3:
+        return renderDocumentsSection();
+      default:
+        return null;
+    }
+  };
+
+  const currentStepData = steps.find((s) => s.id === currentStep);
+
   return (
     <div className="min-h-screen bg-black pb-20 selection:bg-primary/30">
       {/* Background Decorative Elements */}
@@ -28,12 +307,6 @@ const KYCPage = () => {
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,var(--tw-gradient-from)_0%,transparent_70%)] opacity-30 animate-pulse" />
 
         <div className="relative z-10 flex flex-col items-center gap-4 animate-fade-in">
-          {/* <div className="w-20 h-20 rounded-full bg-white/5 backdrop-blur-xl flex items-center justify-center border border-white/10 shadow-2xl relative group"> */}
-          {/* <div className="absolute inset-0 rounded-full bg-primary/20 blur-xl group-hover:bg-primary/40 transition-all duration-500" />
-            <div className="relative w-12 h-12 rounded-full bg-gradient-to-tr from-primary to-accent flex items-center justify-center text-white shadow-inner">
-              <ShieldCheck className="w-7 h-7" />
-            </div> */}
-          {/* </div> */}
           <img
             src={logo}
             alt="Eazytranzz Logo"
@@ -82,92 +355,43 @@ const KYCPage = () => {
           </p>
         </div>
 
-        {/* Form Sections */}
+        {/* Progress Indicator */}
+        {renderProgressIndicator()}
+
+        {/* Form Section */}
         <div className="space-y-16">
-          {/* Section 1: Personal Information */}
           <SectionContainer
-            icon={<User className="w-5 h-5" />}
-            title="Personal Information"
-            subtitle="Personal Info"
+            icon={currentStepData?.icon}
+            title={currentStepData?.title || ""}
+            subtitle={currentStepData?.subtitle || ""}
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-              <KYCInputField label="First Name" placeholder="Emmanuel" />
-              <KYCInputField label="Last Name" placeholder="Tochukwu" />
-              <KYCInputField
-                label="Date of Birth"
-                placeholder="DD / MM / YYYY"
-              />
-              <KYCInputField label="Gender" placeholder="Select Gender" />
-              <KYCInputField
-                label="Nationality"
-                placeholder="Nigeria"
-                className="md:col-span-2"
-              />
-              <KYCInputField
-                label="Phone Number"
-                placeholder="+234 800 123 4567"
-              />
-              <KYCInputField
-                label="Email Address"
-                placeholder="emmanuel871@gmail.com"
-              />
-            </div>
-          </SectionContainer>
-
-          {/* Section 2: Identity Verification */}
-          <SectionContainer
-            icon={<IdCard className="w-5 h-5" />}
-            title="Identity Verification"
-            subtitle="Identity"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
-              <KYCInputField label="ID Type" placeholder="Select ID Type" />
-              <KYCInputField label="ID Number" placeholder="Enter ID Number" />
-              <KYCInputField label="Issue Date" placeholder="DD / MM / YYYY" />
-              <KYCInputField label="Expiry Date" placeholder="DD / MM / YYYY" />
-              <KYCInputField
-                label="Occupation"
-                placeholder="e.g. Software Engineer, Business Owner"
-                className="md:col-span-2"
-              />
-              <KYCInputField
-                label="Purpose of Account"
-                placeholder="Select Purpose"
-                className="md:col-span-2"
-              />
-            </div>
-          </SectionContainer>
-
-          {/* Section 3: Upload Documents */}
-          <SectionContainer
-            icon={<Upload className="w-5 h-5" />}
-            title="Upload Documents"
-            subtitle="Documents"
-          >
-            <div className="p-6 space-y-8">
-              <KYCUploadArea
-                label="ID Document"
-                icon={<IdCard className="w-8 h-8" />}
-                text="Upload your ID document"
-              />
-              <KYCUploadArea
-                label="Proof of Address"
-                icon={<Home className="w-8 h-8" />}
-                text="Upload proof of address (Utility Bill, Bank statement)"
-              />
-              <KYCUploadArea
-                label="Selfie Photo"
-                icon={<Camera className="w-8 h-8" />}
-                text="Upload a clear selfie holding your ID"
-              />
-            </div>
+            {renderCurrentSection()}
           </SectionContainer>
         </div>
 
-        {/* Submit Button */}
-        <div className="pt-8">
-          <Button className="w-full h-14 text-lg font-bold uppercase tracking-widest bg-linear-to-l from-[#440830] to-[#953E79] hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(139,29,97,0.3)] cursor-pointer">
-            Continue <ChevronLeft className="ml-2 h-5 w-5 rotate-180" />
+        {/* Navigation Buttons */}
+        <div className="flex gap-4 pt-8">
+          {currentStep > 1 && (
+            <Button
+              onClick={handlePrevious}
+              className="flex-1 h-14 text-lg font-bold uppercase tracking-widest bg-white/10 hover:bg-white/20 text-white border border-white/10 transition-all cursor-pointer"
+            >
+              <ChevronLeft className="mr-2 h-5 w-5" /> Previous
+            </Button>
+          )}
+          <Button
+            onClick={currentStep === steps.length ? () => {} : handleNext}
+            className="flex-1 h-14 text-lg font-bold uppercase tracking-widest bg-linear-to-l from-[#440830] to-[#953E79] hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(139,29,97,0.3)] cursor-pointer"
+          >
+            {currentStep === steps.length ? (
+              <>
+                Submit <Check className="ml-2 h-5 w-5" />
+              </>
+            ) : (
+              <>
+                Continue <ChevronRight className="ml-2 h-5 w-5" />
+              </>
+            )}
           </Button>
         </div>
       </div>
@@ -187,7 +411,7 @@ const SectionContainer = ({
   subtitle: string;
   children: React.ReactNode;
 }) => (
-  <div className="space-y-6 animate-slide-up ">
+  <div className="space-y-6 animate-slide-up">
     <div className="flex flex-col items-center gap-2">
       <div className="w-12 h-12 rounded-full bg-linear-to-t from-[#440830] to-[#953E79] border border-[#AD46FF] flex items-center justify-center text-white shadow-lg shadow-primary/20">
         {icon}
@@ -228,33 +452,121 @@ const KYCInputField = ({
   </div>
 );
 
-const KYCUploadArea = ({
-  label,
-  icon,
-  text,
-}: {
+interface KYCDropZoneProps {
   label: string;
   icon: React.ReactNode;
   text: string;
-}) => (
-  <div className="space-y-4">
-    <Label className="text-sm font-medium text-white/90">
-      {label} <span className="text-accent">*</span>
-    </Label>
-    <div className="relative group">
-      <div className="h-40 w-full border-2 border-dashed border-white/10 rounded-2xl bg-white/2 hover:bg-white/4 hover:border-primary/50 transition-all flex flex-col items-center justify-center gap-4 cursor-pointer">
-        <div className="text-white/40 group-hover:text-primary/70 transition-colors">
-          {icon}
+  fieldName: string;
+  uploadedFile: UploadedFile | null;
+  dragActive: string | null;
+  onDragEnter: (e: React.DragEvent) => void;
+  onDragLeave: (e: React.DragEvent) => void;
+  onDragOver: (e: React.DragEvent) => void;
+  onDrop: (e: React.DragEvent) => void;
+  onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onRemove: () => void;
+  formatFileSize: (bytes: number) => string;
+}
+
+const KYCDropZone = ({
+  label,
+  icon,
+  text,
+  fieldName,
+  uploadedFile,
+  dragActive,
+  onDragEnter,
+  onDragLeave,
+  onDragOver,
+  onDrop,
+  onFileChange,
+  onRemove,
+  formatFileSize,
+}: KYCDropZoneProps) => {
+  const isDragging = dragActive === fieldName;
+
+  return (
+    <div className="space-y-4">
+      <Label className="text-sm font-medium text-white/90">
+        {label} <span className="text-accent">*</span>
+      </Label>
+
+      {uploadedFile ? (
+        <div className="relative group bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
+          {uploadedFile.preview ? (
+            <div className="w-16 h-16 rounded-lg overflow-hidden bg-black/20">
+              <img
+                src={uploadedFile.preview}
+                alt={uploadedFile.name}
+                className="w-full h-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="w-16 h-16 rounded-lg bg-primary/20 flex items-center justify-center">
+              <FileText className="w-8 h-8 text-primary" />
+            </div>
+          )}
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-medium text-white truncate">
+              {uploadedFile.name}
+            </p>
+            <p className="text-xs text-muted-foreground">
+              {formatFileSize(uploadedFile.size)}
+            </p>
+          </div>
+          <button
+            onClick={onRemove}
+            className="w-8 h-8 rounded-full bg-red-500/20 hover:bg-red-500/40 flex items-center justify-center transition-colors cursor-pointer"
+          >
+            <X className="w-4 h-4 text-red-400" />
+          </button>
         </div>
-        <div className="text-center">
-          <p className="text-sm font-medium text-white/80">{text}</p>
-          <p className="text-xs text-muted-foreground mt-1 italic">
-            Click to browse or drag and drop
-          </p>
+      ) : (
+        <div
+          className={`relative group transition-all duration-300 ${
+            isDragging ? "scale-[1.02]" : ""
+          }`}
+          onDragEnter={onDragEnter}
+          onDragLeave={onDragLeave}
+          onDragOver={onDragOver}
+          onDrop={onDrop}
+        >
+          <input
+            type="file"
+            id={fieldName}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+            onChange={onFileChange}
+            accept="image/*,.pdf,.doc,.docx"
+          />
+          <div
+            className={`h-40 w-full border-2 border-dashed rounded-2xl bg-white/2 flex flex-col items-center justify-center gap-4 cursor-pointer transition-all ${
+              isDragging
+                ? "border-primary/80 bg-primary/10 shadow-[0_0_30px_rgba(139,29,97,0.3)]"
+                : "border-white/10 hover:bg-white/4 hover:border-primary/50"
+            }`}
+          >
+            <div
+              className={`transition-colors ${
+                isDragging
+                  ? "text-primary"
+                  : "text-white/40 group-hover:text-primary/70"
+              }`}
+            >
+              {icon}
+            </div>
+            <div className="text-center">
+              <p className="text-sm font-medium text-white/80">{text}</p>
+              <p className="text-xs text-muted-foreground mt-1 italic">
+                {isDragging
+                  ? "Release to upload"
+                  : "Click to browse or drag and drop"}
+              </p>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
     </div>
-  </div>
-);
+  );
+};
 
 export default KYCPage;
