@@ -22,14 +22,14 @@ import ProfilePic from "@/components/DashboardComponent/ProfilePic.tsx";
 import Kyc from "@/components/DashboardComponent/Kyc.tsx";
 import Support from "@/components/DashboardComponent/Support.tsx";
 import VerifyEmail from "@/Pages/Auth/VerifyEmail.tsx";
-// import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/react";
 import RatesPage from "@/Pages/RatesPage.tsx";
 
 const Router = () => {
   return (
     <HashRouter>
       {/* Web analytics */}
-      {/* <Analytics /> */}
+      <Analytics />
 
       <Routes>
         {/* Routes */}
