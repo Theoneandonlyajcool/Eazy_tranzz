@@ -24,6 +24,7 @@ import Support from "@/components/DashboardComponent/Support.tsx";
 import VerifyEmail from "@/Pages/Auth/VerifyEmail.tsx";
 import { Analytics } from "@vercel/analytics/react";
 import RatesPage from "@/Pages/RatesPage.tsx";
+import KYCPage from "@/Pages/KYCPage.tsx";
 
 const Router = () => {
   return (
@@ -47,6 +48,7 @@ const Router = () => {
         <Route path="/sign_up" element={<SignUp />} />
         <Route path="/verify_email" element={<VerifyEmail />} />
         <Route path="/forgetPassowrd" element={<ForgetPassword />} />
+        <Route path="/kyc" element={<KYCPage />} />
 
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="" element={<Overview />} />

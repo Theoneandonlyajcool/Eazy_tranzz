@@ -118,7 +118,7 @@ const ChatBox = () => {
         <div className="fixed bottom-4 right-4 z-50 w-[90vw] max-w-sm md:w-auto md:max-w-md lg:max-w-lg max-h-[70vh] mb-10 md:mb-16">
           <div className="bg-white rounded-lg shadow-2xl border border-[#953E79] overflow-hidden flex flex-col h-full">
             {/* Header */}
-            <div className="bg-linear-to-l from-[#440830] to-[#953E79] text-white p-4 flex items-center justify-between flex-shrink-0">
+            <div className="bg-linear-to-l from-[#440830] to-[#953E79] text-white p-4 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-2">
                 <img src={supporLogo} loading="lazy" alt="Support Logo" />
                 <div>
@@ -164,7 +164,7 @@ const ChatBox = () => {
 
             {/* Quick Replies - Show only if no user messages sent */}
             {messages.filter((msg) => msg.sender === "user").length === 0 && (
-              <div className="px-4 py-3 border-t border-gray-700 bg-gray-900 flex-shrink-0">
+              <div className="px-4 py-3 border-t border-gray-700 bg-gray-900 shrink-0">
                 <div className="flex flex-wrap gap-2 justify-center">
                   {quickReplies.map((reply, index) => (
                     <button
@@ -180,7 +180,7 @@ const ChatBox = () => {
             )}
 
             {/* Input */}
-            <div className="p-4 border-t border-gray-200 bg-[#1A1A2E] flex-shrink-0">
+            <div className="p-4 border-t border-gray-200 bg-[#1A1A2E] shrink-0">
               <div className="flex items-center gap-2 ">
                 <Textarea
                   value={message}
@@ -195,13 +195,13 @@ const ChatBox = () => {
                     }
                   }}
                   placeholder="Type your message..."
-                  className="flex-1 min-h-[40px] max-h-[120px] resize-none"
+                  className="flex-1 min-h-10 max-h-[120px] resize-none"
                   ref={textareaRef}
                 />
                 <Button
                   onClick={handleSend}
                   size="sm"
-                  className="bg-[#440830] hover:bg-[#440830]/90 flex-shrink-0 cursor-pointer flex items-center justify-center h-[50px]"
+                  className="bg-[#440830] hover:bg-[#440830]/90 shrink-0 cursor-pointer flex items-center justify-center h-[50px]"
                 >
                   <Send className="w-4 h-4" />
                 </Button>
