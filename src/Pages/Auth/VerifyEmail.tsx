@@ -109,6 +109,9 @@ const VerifyEmail = () => {
       });
       toast.success(res?.data?.data?.message);
       setIsLoading(false);
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000);
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Something went wrong");
       setIsLoading(false);

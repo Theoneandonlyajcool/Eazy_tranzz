@@ -2,13 +2,12 @@
 import HeroVideo from "@/assets/Videos/1992-153555258_medium.mp4";
 import BackgroundImage from "@/assets/HeroImageRotated.png";
 import { Button } from "@/components/ui/button";
-// import AutoScrollCarousel from "@/components/AutoScrollCarousel";
 import { FaArrowRightLong } from "react-icons/fa6";
 
 import img1 from "@/assets/Images/img1.png";
 import img2 from "@/assets/Images/img2.png";
 import img3 from "@/assets/Images/img3.png";
-import img4 from "@/assets/Images/img4.png";
+import img4 from "@/assets/Images/PayoneerLogo.jpeg";
 import img5 from "@/assets/Images/img5.png";
 
 const HeroSection = () => {
@@ -34,6 +33,8 @@ const HeroSection = () => {
       alt: "Image 5",
     },
   ];
+
+  const duplicatedImages = [...images, ...images, ...images, ...images];
 
   // const ScrollingImages = [img1, img2, img3, img4, img5];
 
@@ -78,21 +79,22 @@ const HeroSection = () => {
             Check today's rates
           </Button>
         </div>
-        <div className="border-l-2 border-r-2 border-gray-500 h-[15vh] my-6 z-40 w-full max-w-[90%] xl:max-w-[50%]">
-          <div className="w-full max-w-[95%] flex justify-between h-full items-center">
-            {images.map((ele, idx) => {
+        <div className="border-l-2 border-r-2 border-gray-500 h-[25vh] sm:h-[15vh] my-6 z-40 w-full max-w-[95%] md:max-w-[90%] xl:max-w-[50%] overflow-hidden">
+          <div
+            className="flex flex-nowrap animate-infinite-scroll h-full items-center"
+            style={{ width: "200%" }}
+          >
+            {duplicatedImages.map((ele, idx) => {
               return (
                 <img
                   key={idx}
-                  className="w-[15%]  rounded-2xl overflow-clip h-full object-cover object-center"
+                  className="w-20 rounded-2xl overflow-clip mx-4 h-20 object-fit object-center shrink-0 "
                   src={ele.src}
                   alt=""
                 />
               );
             })}
           </div>
-
-          {/* <AutoScrollCarousel images={images} heightClass="h-full" /> */}
         </div>
       </div>
     </section>

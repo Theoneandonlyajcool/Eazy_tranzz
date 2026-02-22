@@ -35,7 +35,7 @@ const AutoScrollCarousel: React.FC<AutoScrollCarouselProps> = ({
   if (!images || images.length === 0) return null;
 
   // Duplicate the images to create a seamless infinite loop.
-  const duplicated = [...images, ...images, ...images, ...images];
+  const duplicated = [...images, ...images];
 
   return (
     <div
@@ -45,12 +45,13 @@ const AutoScrollCarousel: React.FC<AutoScrollCarouselProps> = ({
       <style>{`
         @keyframes asc-roll {
           0% { transform: translateX(0); }
-          100% { transform: translateX(-25%); }
+          100% { transform: translateX(-50%); }
         }
         .asc-scroller { display: flex; align-items: center; gap: 1rem; }
-        .asc-scroller img { height: 100%; width: auto; object-fit: contain; pointer-events: none; user-select: none; }
+        .asc-scroller img { height: 100%; width: 15%; object-fit: cover; pointer-events: none; user-select: none; border-radius: 1rem; z-index: 10; }
         /* pause animation while hovering */
         .asc-wrapper:hover .asc-scroller { animation-play-state: paused; }
+        .asc-wrapper { background: white; }
       `}</style>
 
       <div className="asc-wrapper w-full h-full">
