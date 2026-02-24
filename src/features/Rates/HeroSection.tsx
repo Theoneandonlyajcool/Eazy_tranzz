@@ -15,7 +15,7 @@ const BlogHero = () => {
 
       {/* CONTENT */}
       <div className="relative z-30 flex gap-4 flex-col h-full items-center justify-center text-white text-center ">
-        <div className="bg-[#00C95033] inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00BC7D33] text-sm 2xl:text-lg font-medium animate-fade-in">
+        <div className="bg-[#00C95033] animate-pulse inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[#00BC7D33] text-sm 2xl:text-lg font-medium animate-fade-in">
           <div className="bg-green-400 w-2 h-2 rounded-full"></div>
           <span>Live Rates • Updated Every 5 Seconds</span>
         </div>

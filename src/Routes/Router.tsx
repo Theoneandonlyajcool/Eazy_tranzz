@@ -1,5 +1,5 @@
 // import React from "react";
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import IntroPage from "@/Pages/IntroPage.tsx";
 import LandingPage from "../Pages/LandingPage.tsx";
 import SignIn from "../Pages/Auth/SignIn.tsx";
@@ -24,10 +24,11 @@ import Support from "@/components/DashboardComponent/Support.tsx";
 import VerifyEmail from "@/Pages/Auth/VerifyEmail.tsx";
 import { Analytics } from "@vercel/analytics/react";
 import RatesPage from "@/Pages/RatesPage.tsx";
+import KYCPage from "@/Pages/KYCPage.tsx";
 
 const Router = () => {
   return (
-    <HashRouter>
+    <BrowserRouter>
       {/* Web analytics */}
       <Analytics />
 
@@ -47,6 +48,7 @@ const Router = () => {
         <Route path="/sign_up" element={<SignUp />} />
         <Route path="/verify_email" element={<VerifyEmail />} />
         <Route path="/forgetPassowrd" element={<ForgetPassword />} />
+        <Route path="/kyc_verification" element={<KYCPage />} />
 
         <Route path="/dashboard" element={<DashboardLayout />}>
           <Route path="" element={<Overview />} />
@@ -60,7 +62,7 @@ const Router = () => {
           <Route path="support" element={<Support />} />
         </Route>
       </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 };
 
