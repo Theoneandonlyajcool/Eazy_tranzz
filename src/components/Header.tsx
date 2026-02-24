@@ -6,6 +6,7 @@ import { FaRegUserCircle } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 import { motion } from "motion/react";
 import { Button } from "./ui/button";
+import ProfileDropdown from "@/components/kokonutui/profile-dropdown";
 
 import {
   DropdownMenu,
@@ -118,26 +119,7 @@ const Header = () => {
           <div>
             {initials ? (
               <>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    {/* <FaRegUserCircle className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" /> */}
-                    <div className="bg-[#621c4b] mr-6 p-2 w-12 h-12 font-semibold cursor-pointer text-white text-xl xl:text-2xl rounded-full flex justify-center items-center">
-                      <p>{formattedInitials}</p>
-                    </div>
-                  </DropdownMenuTrigger>
-
-                  <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
-                    <DropdownMenuLabel>Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator className="border border-[#300421b7]" />
-
-                    <DropdownMenuItem
-                      className="cursor-pointer hover:bg-[#2f1c2f]"
-                      onClick={() => navigate("/dashboard/profile")}
-                    >
-                      Profile
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <ProfileDropdown />
               </>
             ) : (
               <>
@@ -161,33 +143,7 @@ const Header = () => {
         {/* Nav b */}
         <div className="navB:hidden text-white w-full flex items-center justify-end pr-4 mr-6">
           {initials ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                {/* <FaRegUserCircle className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" /> */}
-                <div className="bg-[#621c4b] mr-6 p-2 w-8 h-8 md:w-12 md:h-12 font-semibold cursor-pointer text-white text-md md:text-lg rounded-full flex justify-center items-center">
-                  <p>{formattedInitials}</p>
-                </div>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
-                <DropdownMenuLabel>Account</DropdownMenuLabel>
-                <DropdownMenuSeparator className="border border-[#300421b7]" />
-
-                <DropdownMenuItem
-                  className="cursor-pointer hover:bg-[#2f1c2f]"
-                  onClick={() => navigate("/dashboard/profile")}
-                >
-                  Profile
-                </DropdownMenuItem>
-
-                {/* <DropdownMenuItem
-                    className="cursor-pointer hover:bg-[#2f1c2f]"
-                    onClick={() => navigate("/sign_in")}
-                  >
-                    Log In
-                  </DropdownMenuItem> */}
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <ProfileDropdown />
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
