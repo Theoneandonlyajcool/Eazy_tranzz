@@ -164,7 +164,7 @@ export default function ProfileDropdown({
                   asChild
                 >
                   <a
-                    href={item.nav}
+                    // href={item.nav}
                     className="flex items-center p-3 rounded-xl transition-all duration-200 cursor-pointer group hover:shadow-sm border border-transparent hover:border-zinc-700/50"
                     target={item.external ? "_blank" : undefined}
                     rel={item.external ? "noopener noreferrer" : undefined}
