@@ -3,6 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
 import { IoIosMenu } from "react-icons/io";
 import { FaRegUserCircle } from "react-icons/fa";
+import { useLocation } from "react-router-dom";
+import { motion } from "motion/react";
+import { Button } from "./ui/button";
+import ProfileDropdown from "@/components/kokonutui/profile-dropdown";
 
 import MobileModal from "@/components/MobileModal";
 import { Button } from "./ui/button";
@@ -26,24 +30,33 @@ const Header = () => {
 
   const [openMobileModal, setOpenMobileModal] = useState(false);
 
-  // 🔐 Get user from Zustand
-  const user = UserAuth((state) => state.user);
-  const isLoggedIn = !!user?.accessToken;
+  const initials = sessionStorage.getItem("fullName");
+  console.log(initials);
 
-  // 🔤 Generate initials from fullname
-  function getInitials(fullName?: string): string {
-    if (!fullName) return "";
+  function getInitials(fullName: string | null): string {
+    if (!fullName || typeof fullName !== "string") return "";
+    const cleaned = fullName.trim();
 
-    const parts = fullName.trim().split(/\s+/);
+    const parts = cleaned.split(/\s+/);
 
     if (parts.length >= 2) {
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
 
-    return fullName.slice(0, 2).toUpperCase();
+    if (cleaned.length >= 2) {
+      return cleaned.slice(0, 2).toUpperCase();
+    }
+
+    return cleaned.toUpperCase();
   }
 
-  const formattedInitials = getInitials(user?.fullName);
+  // const [formattedInitials, SetformattedInitials] = useState("");
+
+  useEffect(() => {
+    const results = getInitials(initials);
+    console.log("The result is " + results);
+    // SetformattedInitials(results);
+  }, []);
 
   return (
     <nav className="h-[10vh] md:h-[15vh] fixed top-0 left-0 right-0 z-50 w-full flex items-center justify-center">
@@ -92,32 +105,10 @@ const Header = () => {
 
           {/* Desktop Auth Section */}
           <div>
-            {isLoggedIn ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="bg-[#621c4b] mr-6 p-2 w-12 h-12 font-semibold cursor-pointer text-white text-xl xl:text-2xl rounded-full flex justify-center items-center">
-                    <p>{formattedInitials}</p>
-                  </div>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
-                  <DropdownMenuLabel
-                    onClick={() => navigate("/dashboard")}
-                    className="cursor-pointer hover:bg-[#2f1c2f]"
-                  >
-                    Account
-                  </DropdownMenuLabel>
-
-                  <DropdownMenuSeparator className="border border-[#300421b7]" />
-
-                  <DropdownMenuItem
-                    className="cursor-pointer hover:bg-[#2f1c2f]"
-                    onClick={() => navigate("/dashboard/profile")}
-                  >
-                    Profile
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+            {initials ? (
+              <>
+                <ProfileDropdown />
+              </>
             ) : (
               <>
                 <button
@@ -140,32 +131,8 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         <div className="navB:hidden text-white w-full flex items-center justify-end pr-4 mr-6">
-          {isLoggedIn ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <div className="bg-[#621c4b] mr-6 p-2 w-8 h-8 md:w-12 md:h-12 font-semibold cursor-pointer text-white text-md md:text-lg rounded-full flex justify-center items-center">
-                  <p>{formattedInitials}</p>
-                </div>
-              </DropdownMenuTrigger>
-
-              <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
-                <DropdownMenuLabel
-                  onClick={() => navigate("/dashboard")}
-                  className="cursor-pointer hover:bg-[#2f1c2f]"
-                >
-                  Account
-                </DropdownMenuLabel>
-
-                <DropdownMenuSeparator className="border border-[#300421b7]" />
-
-                <DropdownMenuItem
-                  className="cursor-pointer hover:bg-[#2f1c2f]"
-                  onClick={() => navigate("/dashboard/profile")}
-                >
-                  Profile
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+          {initials ? (
+            <ProfileDropdown />
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>

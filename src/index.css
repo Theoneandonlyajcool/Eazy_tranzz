@@ -49,9 +49,9 @@
     animation: infinite-scroll 10s linear infinite;
   }
 
-  .animate-infinite-scroll:hover {
+  /* .animate-infinite-scroll:hover {
     animation-play-state: paused;
-  }
+  } */
 
   /* Second option */
 
