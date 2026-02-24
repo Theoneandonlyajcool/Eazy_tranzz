@@ -25,43 +25,32 @@ const Header = () => {
 
   const [openMobileModal, setOpenMobileModal] = useState(false);
 
-  // const raw = sessionStorage.getItem("initials");
-  // const initials = raw ? JSON.parse(raw) : null;
-  // console.log(initials);
-
   const initials = sessionStorage.getItem("fullName");
   console.log(initials);
-  // const initials = sessionStorage.getItem("");
 
   function getInitials(fullName: string | null): string {
     if (!fullName || typeof fullName !== "string") return "";
-
-    // Remove extra spaces
     const cleaned = fullName.trim();
 
-    // Split by spaces
     const parts = cleaned.split(/\s+/);
 
-    // Case 1: More than one name (John Michael Doe)
     if (parts.length >= 2) {
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
 
-    // Case 2: Single word (JohnDoe or John)
     if (cleaned.length >= 2) {
       return cleaned.slice(0, 2).toUpperCase();
     }
 
-    // Case 3: Single character name (J)
     return cleaned.toUpperCase();
   }
 
-  const [formattedInitials, SetformattedInitials] = useState("");
+  // const [formattedInitials, SetformattedInitials] = useState("");
 
   useEffect(() => {
     const results = getInitials(initials);
     console.log("The result is " + results);
-    SetformattedInitials(results);
+    // SetformattedInitials(results);
   }, []);
 
   const navigate = useNavigate();
