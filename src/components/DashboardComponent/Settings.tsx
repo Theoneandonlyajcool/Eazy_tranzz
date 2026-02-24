@@ -7,7 +7,7 @@ const SettingsPage = () => {
   const { theme, setTheme, fontSize, setFontSize } = useTheme();
 
   return (
-    <div className="min-h-screen bg-linear-to-b from-[#1A1A2E] to-[#0A0A0F] text-foreground rounded-2xl p-6">
+    <div className="min-h-screen text-black bg-white dark:bg-linear-to-b from-[#1A1A2E] to-[#0A0A0F] dark:text-white rounded-2xl p-6">
       <div className="mx-auto space-y-8">
         <GeneralSettings />
 

@@ -1,12 +1,11 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import MobileModal from "@/components/MobileModal";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { motion } from "motion/react";
 import { IoIosMenu } from "react-icons/io";
 import { FaRegUserCircle } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
-import { motion } from "motion/react";
-import { Button } from "./ui/button";
 
+import MobileModal from "@/components/MobileModal";
+import { Button } from "./ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,66 +14,48 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { Button } from "./ui/button";
+
 import newlogo from "@/assets/Images/newLogo.png";
+import { UserAuth } from "@/app/store";
+// adjust path if needed
 
 const Header = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const currentLocation = location.pathname;
 
   const [openMobileModal, setOpenMobileModal] = useState(false);
 
-  // const raw = sessionStorage.getItem("initials");
-  // const initials = raw ? JSON.parse(raw) : null;
-  // console.log(initials);
+  // 🔐 Get user from Zustand
+  const user = UserAuth((state) => state.user);
+  const isLoggedIn = !!user?.accessToken;
 
-  const initials = sessionStorage.getItem("fullName");
-  console.log(initials);
-  // const initials = sessionStorage.getItem("");
+  // 🔤 Generate initials from fullname
+  function getInitials(fullName?: string): string {
+    if (!fullName) return "";
 
-  function getInitials(fullName: string | null): string {
-    if (!fullName || typeof fullName !== "string") return "";
+    const parts = fullName.trim().split(/\s+/);
 
-    // Remove extra spaces
-    const cleaned = fullName.trim();
-
-    // Split by spaces
-    const parts = cleaned.split(/\s+/);
-
-    // Case 1: More than one name (John Michael Doe)
     if (parts.length >= 2) {
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
 
-    // Case 2: Single word (JohnDoe or John)
-    if (cleaned.length >= 2) {
-      return cleaned.slice(0, 2).toUpperCase();
-    }
-
-    // Case 3: Single character name (J)
-    return cleaned.toUpperCase();
+    return fullName.slice(0, 2).toUpperCase();
   }
 
-  const [formattedInitials, SetformattedInitials] = useState("");
+  const formattedInitials = getInitials(user?.fullName);
 
-  useEffect(() => {
-    const results = getInitials(initials);
-    console.log("The result is " + results);
-    SetformattedInitials(results);
-  }, []);
-
-  const navigate = useNavigate();
   return (
     <nav className="h-[10vh] md:h-[15vh] fixed top-0 left-0 right-0 z-50 w-full flex items-center justify-center">
-      {/* container */}
       {openMobileModal && <MobileModal onClose={setOpenMobileModal} />}
+
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="border border-gray-600 w-full max-w-[90%] md:max-w-[80%] 2xl:max-w-7xl bg-black/70 backdrop-blur-md shadow-lg h-full max-h-[80%] rounded-full flex justify-beteween items-center z-[9999px]"
+        className="border border-gray-600 w-full max-w-[90%] md:max-w-[80%] 2xl:max-w-7xl bg-black/70 backdrop-blur-md shadow-lg h-full max-h-[80%] rounded-full flex justify-between items-center"
       >
-        {/* Image container */}
+        {/* Logo */}
         <div className="w-[40%]">
           <img
             src={newlogo}
@@ -85,60 +66,58 @@ const Header = () => {
           />
         </div>
 
-        {/* Content */}
-
+        {/* Desktop Navigation */}
         <div className="navB:flex w-full max-w-[65%] hidden justify-between items-center px-4">
           {/* Links */}
           <ul className="flex items-center">
             {[
-              { onPage: "Home", navTo: "/", activePage: "/" },
-              { onPage: "About", navTo: "/about", activePage: "/about" },
-              {
-                onPage: "Contact",
-                navTo: "/contact",
-                activePage: "/contact",
-              },
-              { onPage: "Blog", navTo: "/blog", activePage: "/blog" },
+              { onPage: "Home", navTo: "/" },
+              { onPage: "About", navTo: "/about" },
+              { onPage: "Contact", navTo: "/contact" },
+              { onPage: "Blog", navTo: "/blog" },
             ].map((ele, idx) => (
               <li
                 key={idx}
                 onClick={() => navigate(ele.navTo)}
                 className={`${
-                  ele.activePage === currentLocation
+                  ele.navTo === currentLocation
                     ? "text-[#ae157c] font-bold"
-                    : " text-white hover:text-[#ae157c]/50"
-                }   cursor-pointer text-xl transition-colors duration-300 mx-2 px-2 py-1 rounded-tl-md rounded-br-md`}
+                    : "text-white hover:text-[#ae157c]/50"
+                } cursor-pointer text-xl transition-colors duration-300 mx-2 px-2 py-1 rounded-tl-md rounded-br-md`}
               >
                 {ele.onPage}
               </li>
             ))}
           </ul>
 
-          {/* CTA buttons */}
+          {/* Desktop Auth Section */}
           <div>
-            {initials ? (
-              <>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    {/* <FaRegUserCircle className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" /> */}
-                    <div className="bg-[#621c4b] mr-6 p-2 w-12 h-12 font-semibold cursor-pointer text-white text-xl xl:text-2xl rounded-full flex justify-center items-center">
-                      <p>{formattedInitials}</p>
-                    </div>
-                  </DropdownMenuTrigger>
+            {isLoggedIn ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <div className="bg-[#621c4b] mr-6 p-2 w-12 h-12 font-semibold cursor-pointer text-white text-xl xl:text-2xl rounded-full flex justify-center items-center">
+                    <p>{formattedInitials}</p>
+                  </div>
+                </DropdownMenuTrigger>
 
-                  <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
-                    <DropdownMenuLabel>Account</DropdownMenuLabel>
-                    <DropdownMenuSeparator className="border border-[#300421b7]" />
+                <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
+                  <DropdownMenuLabel
+                    onClick={() => navigate("/dashboard")}
+                    className="cursor-pointer hover:bg-[#2f1c2f]"
+                  >
+                    Account
+                  </DropdownMenuLabel>
 
-                    <DropdownMenuItem
-                      className="cursor-pointer hover:bg-[#2f1c2f]"
-                      onClick={() => navigate("/dashboard/profile")}
-                    >
-                      Profile
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </>
+                  <DropdownMenuSeparator className="border border-[#300421b7]" />
+
+                  <DropdownMenuItem
+                    className="cursor-pointer hover:bg-[#2f1c2f]"
+                    onClick={() => navigate("/dashboard/profile")}
+                  >
+                    Profile
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <>
                 <button
@@ -147,6 +126,7 @@ const Header = () => {
                 >
                   Log in
                 </button>
+
                 <Button
                   className="border rounded-[100px] border-[#E9C4FF] backdrop-blur-xs cursor-pointer px-6 py-2 hover:scale-105 transition-transform duration-200"
                   onClick={() => navigate("/sign_up")}
@@ -158,19 +138,24 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Nav b */}
+        {/* Mobile Navigation */}
         <div className="navB:hidden text-white w-full flex items-center justify-end pr-4 mr-6">
-          {initials ? (
+          {isLoggedIn ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                {/* <FaRegUserCircle className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" /> */}
                 <div className="bg-[#621c4b] mr-6 p-2 w-8 h-8 md:w-12 md:h-12 font-semibold cursor-pointer text-white text-md md:text-lg rounded-full flex justify-center items-center">
                   <p>{formattedInitials}</p>
                 </div>
               </DropdownMenuTrigger>
 
               <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
-                <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuLabel
+                  onClick={() => navigate("/dashboard")}
+                  className="cursor-pointer hover:bg-[#2f1c2f]"
+                >
+                  Account
+                </DropdownMenuLabel>
+
                 <DropdownMenuSeparator className="border border-[#300421b7]" />
 
                 <DropdownMenuItem
@@ -179,23 +164,17 @@ const Header = () => {
                 >
                   Profile
                 </DropdownMenuItem>
-
-                {/* <DropdownMenuItem
-                    className="cursor-pointer hover:bg-[#2f1c2f]"
-                    onClick={() => navigate("/sign_in")}
-                  >
-                    Log In
-                  </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <FaRegUserCircle className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" />
+                <FaRegUserCircle className="text-xl cursor-pointer" />
               </DropdownMenuTrigger>
 
               <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
                 <DropdownMenuLabel>Account</DropdownMenuLabel>
+
                 <DropdownMenuSeparator className="border border-[#300421b7]" />
 
                 <DropdownMenuItem

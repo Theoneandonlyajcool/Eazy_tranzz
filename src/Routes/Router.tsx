@@ -24,6 +24,7 @@ import Support from "@/components/DashboardComponent/Support.tsx";
 import VerifyEmail from "@/Pages/Auth/VerifyEmail.tsx";
 import { Analytics } from "@vercel/analytics/react";
 import RatesPage from "@/Pages/RatesPage.tsx";
+import PrivateRoute from "./Private-route.tsx";
 
 const Router = () => {
   return (
@@ -48,16 +49,18 @@ const Router = () => {
         <Route path="/verify_email" element={<VerifyEmail />} />
         <Route path="/forgetPassowrd" element={<ForgetPassword />} />
 
-        <Route path="/dashboard" element={<DashboardLayout />}>
-          <Route path="" element={<Overview />} />
-          <Route path="transaction" element={<Transaction />} />
-          <Route path="payments" element={<Payments />} />
-          <Route path="activities" element={<Activities />} />
-          <Route path="rates" element={<Rates />} />
-          <Route path="profile" element={<ProfilePic />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="kyc" element={<Kyc />} />
-          <Route path="support" element={<Support />} />
+        <Route element={<PrivateRoute />}>
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route path="" element={<Overview />} />
+            <Route path="transaction" element={<Transaction />} />
+            <Route path="payments" element={<Payments />} />
+            <Route path="activities" element={<Activities />} />
+            <Route path="rates" element={<Rates />} />
+            <Route path="profile" element={<ProfilePic />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="kyc" element={<Kyc />} />
+            <Route path="support" element={<Support />} />
+          </Route>
         </Route>
       </Routes>
     </HashRouter>

@@ -11,8 +11,9 @@ import {
   LogOut,
   X,
 } from "lucide-react";
-import { useNavigate, NavLink } from "react-router-dom";
 import image from "../../assets/gemini-logo.svg";
+import { logoutUser } from "@/config/logout";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const navItems = [
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
@@ -33,6 +34,11 @@ interface DashboardSidebarProps {
 
 const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
   const navigate = useNavigate();
+
+  const handleNavigation = () => {
+    navigate("/");
+  };
+
   return (
     <>
       {/* Mobile Overlay */}
@@ -47,39 +53,44 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
       <aside
         className={`
           fixed inset-y-0 left-0 z-50 overflow-auto sm:overflow-auto
-          w-64 bg-[#0f0f0f] border-r border-[#2a2a2a]
+          w-64 bg-white dark:bg-[#0f0f0f] border-r border-gray-200 dark:border-[#2a2a2a]
           transform transition-transform duration-300 ease-in-out
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
           md:translate-x-0
         `}
       >
         {/* Header */}
-        <div className="p-4 border-b border-[#2a2a2a] flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="p-4 border-b border-gray-200 dark:border-[#2a2a2a] flex items-center justify-between">
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={handleNavigation}
+          >
             <div className="w-10 h-10 rounded-full bg-linear-to-br from-[#7B0E58] to-[#440830] flex items-center justify-center">
               <img src={image} alt="" />
             </div>
-            <span className="text-white font-bold text-lg">EazyTranz</span>
+            <span className="text-[#222] dark:text-white font-bold text-lg">
+              EazyTranz
+            </span>
           </div>
           <button
             onClick={onClose}
-            className="md:hidden p-1 rounded hover:bg-[#1f1f1f] text-[#9ca3af]"
+            className="md:hidden p-1 rounded hover:bg-gray-100 dark:hover:bg-[#1f1f1f] text-gray-500 dark:text-[#9ca3af]"
           >
             <X className="w-5 h-5" />
           </button>
         </div>
 
         {/* User Profile Section */}
-        <div className="p-4 border-b border-[#2a2a2a]">
+        <div className="p-4 border-b border-gray-200 dark:border-[#2a2a2a]">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-full bg-linear-to-r from-[#953E79] to-[#440830] flex items-center justify-center text-white font-semibold">
               A
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-white font-medium text-sm truncate">
+              <p className="text-[#222] dark:text-white font-medium text-sm truncate">
                 ayoradel571
               </p>
-              <p className="text-[#6b7280] text-xs truncate">
+              <p className="text-gray-500 dark:text-[#6b7280] text-xs truncate">
                 Ayoradel571@gmail.com
               </p>
             </div>
@@ -109,7 +120,7 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
             ${
               isActive
                 ? "rounded-[14px] bg-[linear-gradient(135deg,rgba(149,62,121,0.6),rgba(68,8,48,0.6))] shadow-[0_4px_6px_-4px_rgba(173,70,255,0.3)] text-white"
-                : "text-[#9ca3af]"
+                : "text-gray-500 dark:text-[#9ca3af] hover:text-[#222] dark:hover:text-white hover:bg-gray-100 dark:hover:bg-[#1f1f1f] rounded-lg"
             }
             `
                   }
@@ -123,10 +134,10 @@ const DashboardSidebar = ({ isOpen, onClose }: DashboardSidebarProps) => {
         </nav>
 
         {/* Footer */}
-        <div className="p-2 border-t border-[#2a2a2a]">
+        <div className="p-2 border-t border-gray-200 dark:border-[#2a2a2a]">
           <button
-            onClick={() => navigate("/")}
-            className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-colors w-full"
+            onClick={logoutUser}
+            className="flex cursor-pointer items-center gap-3 px-3 py-2.5 rounded-lg text-red-500 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 hover:text-red-600 dark:hover:text-red-300 transition-colors w-full"
           >
             <LogOut className="w-5 h-5" />
             <span>Sign Out</span>
