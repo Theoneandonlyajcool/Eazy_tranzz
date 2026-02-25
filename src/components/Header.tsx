@@ -17,8 +17,9 @@ import {
 
 import newlogo from "@/assets/Images/newLogo.png";
 import { UserAuth } from "@/app/store";
-import { logoutUser } from "@/config/logout";
+// import { logoutUser } from "@/config/logout";
 import { CircleUserRound } from "lucide-react";
+import ProfileDropdown from "@/components/kokonutui/profile-dropdown";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -34,24 +35,24 @@ const Header = () => {
   const hasToken = !!user?.accessToken;
 
   // ✅ Generate initials
-  function getInitials(fullName?: string): string {
-    if (!fullName) return "";
+  // function getInitials(fullName?: string): string {
+  //   if (!fullName) return "";
 
-    const cleaned = fullName.trim();
-    const parts = cleaned.split(/\s+/);
+  //   const cleaned = fullName.trim();
+  //   const parts = cleaned.split(/\s+/);
 
-    if (parts.length >= 2) {
-      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    }
+  //   if (parts.length >= 2) {
+  //     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  //   }
 
-    if (cleaned.length >= 2) {
-      return cleaned.slice(0, 2).toUpperCase();
-    }
+  //   if (cleaned.length >= 2) {
+  //     return cleaned.slice(0, 2).toUpperCase();
+  //   }
 
-    return cleaned.toUpperCase();
-  }
+  //   return cleaned.toUpperCase();
+  // }
 
-  const formattedInitials = hasToken ? getInitials(user?.fullName) : "";
+  // const formattedInitials = hasToken ? getInitials(user?.fullName) : "";
 
   return (
     <nav className="h-[10vh] md:h-[15vh] fixed top-0 left-0 right-0 z-50 w-full flex items-center justify-center">
@@ -101,43 +102,7 @@ const Header = () => {
           {/* Desktop Auth Section */}
           <div>
             {hasToken ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="bg-[#621c4b] mr-6 p-2 w-12 h-12 font-semibold cursor-pointer text-white text-xl rounded-full flex justify-center items-center">
-                    {formattedInitials}
-                  </div>
-                </DropdownMenuTrigger>
-
-                <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
-                  <DropdownMenuLabel>Account</DropdownMenuLabel>
-
-                  <DropdownMenuSeparator className="border border-[#300421b7]" />
-
-                  <DropdownMenuItem
-                    className="cursor-pointer hover:bg-[#2f1c2f]"
-                    onClick={() => navigate("/dashboard")}
-                  >
-                    Dashboard
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem
-                    className="cursor-pointer hover:bg-[#2f1c2f]"
-                    onClick={() => navigate("/dashboard/profile")}
-                  >
-                    Profile
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem
-                    className="cursor-pointer hover:bg-red-600/20 text-red-500"
-                    onClick={() => {
-                      logoutUser();
-                      navigate("/");
-                    }}
-                  >
-                    Logout
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <ProfileDropdown />
             ) : (
               <>
                 <button
@@ -148,7 +113,7 @@ const Header = () => {
                 </button>
 
                 <Button
-                  className="border rounded-[100px] border-[#E9C4FF] backdrop-blur-xs cursor-pointer px-6 py-2 hover:scale-105 transition-transform duration-200"
+                  className="border rounded-[100px] bg-black/20 hover:bg-black/20 text-white border-[#E9C4FF] backdrop-blur-xs cursor-pointer px-6 py-2 hover:scale-105 transition-transform duration-200"
                   onClick={() => navigate("/sign_up")}
                 >
                   Get Started
@@ -160,58 +125,34 @@ const Header = () => {
 
         {/* Mobile Navigation */}
         <div className="navB:hidden text-white w-full flex items-center justify-end pr-4 mr-6">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <div className="bg-[#621c4b] p-2 w-9 h-9 text-sm rounded-full flex items-center justify-center cursor-pointer">
-                {hasToken ? (
-                  formattedInitials
-                ) : (
-                  <span className="text-lg">
-                    <CircleUserRound />
-                  </span>
-                )}
-              </div>
-            </DropdownMenuTrigger>
+          {hasToken ? (
+            <ProfileDropdown />
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <CircleUserRound className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" />
+              </DropdownMenuTrigger>
 
-            <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
-              <DropdownMenuLabel>Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
+              <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
+                <DropdownMenuLabel>Account</DropdownMenuLabel>
+                <DropdownMenuSeparator className="border border-[#300421b7]" />
 
-              {hasToken ? (
-                <>
-                  <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-                    Dashboard
-                  </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer hover:bg-[#2f1c2f]"
+                  onClick={() => navigate("/sign_up")}
+                >
+                  Sign Up
+                </DropdownMenuItem>
 
-                  <DropdownMenuItem
-                    onClick={() => navigate("/dashboard/profile")}
-                  >
-                    Profile
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem
-                    className="text-red-500"
-                    onClick={() => {
-                      logoutUser();
-                      navigate("/");
-                    }}
-                  >
-                    Logout
-                  </DropdownMenuItem>
-                </>
-              ) : (
-                <>
-                  <DropdownMenuItem onClick={() => navigate("/sign_up")}>
-                    Sign Up
-                  </DropdownMenuItem>
-
-                  <DropdownMenuItem onClick={() => navigate("/sign_in")}>
-                    Log In
-                  </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                <DropdownMenuItem
+                  className="cursor-pointer hover:bg-[#2f1c2f]"
+                  onClick={() => navigate("/sign_in")}
+                >
+                  Log In
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
 
           <IoIosMenu
             onClick={() => setOpenMobileModal(true)}
