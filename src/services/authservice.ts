@@ -9,6 +9,12 @@ export const registerAndSaveUser = async (data: UserReg) => {
 
 export const loginAndSaveUser = async (data: UserSignIn) => {
   const customer = await logUser(data);
-  UserAuth.getState().setUser(customer);
+  UserAuth.getState().setUser({
+    fullName: customer?.data.fullName,
+    email: customer?.data.email,
+    accessToken: customer?.accessToken,
+    refreshToken: customer?.refreshToken,
+    message: customer?.message,
+  });
   return customer;
 };
