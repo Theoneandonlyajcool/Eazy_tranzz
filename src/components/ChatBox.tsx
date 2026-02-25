@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { useAutoResizeTextarea } from "@/hooks/use-auto-resize-textarea";
 import supporLogo from "@/assets/Images/Container.png";
+import { UserAuth } from "@/app/store";
+import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 interface Message {
   id: number;
@@ -13,12 +16,14 @@ interface Message {
 }
 
 const ChatBox = () => {
+  const user = UserAuth((state) => state.user);
+
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
-      text: "Hello ayoradel! 👋 Welcome to EazyTranz support. I'm Sarah, your customer support agent. How can I help you today?",
+      text: `Hello ${user?.fullName || "User"}! Welcome to EazyTranz support. I'm Sarah, your customer support agent. How can I help you today?`,
       sender: "support",
       showQuickReplies: true,
     },
@@ -100,12 +105,39 @@ const ChatBox = () => {
     }, 1000);
   };
 
+  const navigate = useNavigate();
+
+  const checkIfUserIsLoggedIn = () => {
+    if (!user || !user.accessToken) {
+      toast.error("Please log in to access the chat support.");
+      setTimeout(() => {
+        navigate("/sign_in");
+      }, 3000);
+    } else {
+      setIsOpen(true);
+    }
+  };
+
+  // const hasToken = !!user?.accessToken;
+
   return (
     <>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
       {/* Chat Icon */}
       {!isOpen && (
         <button
-          onClick={() => setIsOpen(true)}
+          onClick={() => checkIfUserIsLoggedIn()}
           className="fixed bottom-4 right-4 z-50 bg-[#953E79] hover:bg-[#440830] animate-pulse cursor-pointer text-white p-3 rounded-full shadow-lg transition-all duration-300 md:bottom-6 md:right-6"
           aria-label="Open chat"
         >
