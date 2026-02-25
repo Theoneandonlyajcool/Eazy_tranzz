@@ -1,19 +1,39 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { StatCard } from "@/features/Rates/StatCard";
 import { FilterBar } from "@/features/Rates/FilterBar";
 import { RateCard } from "@/features/Rates/RateCard";
 import { CTASection } from "@/features/Rates/CTASection";
 import { stats, platforms } from "@/features/Rates/mockrates";
 import HeroSection from "@/features/Rates/HeroSection";
+import { getRates } from "@/services/ratesService";
 
 function RatesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filter, setFilter] = useState("All");
   const [view, setView] = useState<"grid" | "list">("grid");
 
+  const [Platform, setPlatform] = useState([]);
+
+  const GetAllRates = async () => {
+    try {
+      const res = await getRates();
+      setPlatform(res?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const mapped = Platform.map((ele, idx) => {
+    console.log(ele.platformkey, idx);
+  });
+
+  useEffect(() => {
+    GetAllRates();
+  }, []);
+
   const filteredPlatforms = useMemo(() => {
-    return platforms.filter((p) => {
-      const matchesSearch = p.name
+    return Platform?.filter((p) => {
+      const matchesSearch = p.platformKey
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
       const matchesFilter =

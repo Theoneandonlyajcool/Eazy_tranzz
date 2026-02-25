@@ -32,3 +32,8 @@ export interface StatItem {
   icon: string;
   color: string;
 }
+
+export interface CreateRatePayload {
+  currency: string;
+  value: number;
+}
