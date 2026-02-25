@@ -2,10 +2,14 @@ import { create } from "zustand";
 import { persist, devtools } from "zustand/middleware";
 
 type userInfo = {
-  userId: string;
-  fullname: string;
+  userId?: string;
+  fullName: string;
   email: string;
-  token: string;
+  accessToken: string;
+  refreshToken?: string;
+  success?: boolean;
+  status?: string;
+  message?: string;
 };
 
 type AuthUser = {
@@ -26,7 +30,7 @@ export const UserAuth = create<AuthUser>()(
       }),
       {
         name: "auth-storage",
-      }
-    )
-  )
+      },
+    ),
+  ),
 );

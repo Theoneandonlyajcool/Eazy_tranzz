@@ -132,11 +132,11 @@ const HowItWorks = () => {
   ];
 
   return (
-    <section className="relative overflow-hidden bg-background py-16 md:py-24">
+    <section className="relative overflow-hidden bg-white py-16 md:py-24">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
-          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+          <h2 className="mb-4 text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl text-black">
             How EazyTranzz Works
           </h2>
           <p className="text-base text-muted-foreground md:text-lg">

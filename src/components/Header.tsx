@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import MobileModal from "@/components/MobileModal";
-import { IoIosMenu } from "react-icons/io";
-import { FaRegUserCircle } from "react-icons/fa";
-import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import { motion } from "motion/react";
+import { IoIosMenu } from "react-icons/io";
 import { Button } from "./ui/button";
-import ProfileDropdown from "@/components/kokonutui/profile-dropdown";
+
+import MobileModal from "@/components/MobileModal";
 
 import {
   DropdownMenu,
@@ -16,55 +14,57 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { Button } from "./ui/button";
+
 import newlogo from "@/assets/Images/newLogo.png";
+import { UserAuth } from "@/app/store";
+// import { logoutUser } from "@/config/logout";
+import { CircleUserRound } from "lucide-react";
+import ProfileDropdown from "@/components/kokonutui/profile-dropdown";
 
 const Header = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const currentLocation = location.pathname;
 
   const [openMobileModal, setOpenMobileModal] = useState(false);
 
-  const initials = sessionStorage.getItem("fullName");
-  console.log(initials);
+  // ✅ Get user from Zustand
+  const user = UserAuth((state) => state.user);
 
-  function getInitials(fullName: string | null): string {
-    if (!fullName || typeof fullName !== "string") return "";
-    const cleaned = fullName.trim();
+  // ✅ Check token
+  const hasToken = !!user?.accessToken;
 
-    const parts = cleaned.split(/\s+/);
+  // ✅ Generate initials
+  // function getInitials(fullName?: string): string {
+  //   if (!fullName) return "";
 
-    if (parts.length >= 2) {
-      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
-    }
+  //   const cleaned = fullName.trim();
+  //   const parts = cleaned.split(/\s+/);
 
-    if (cleaned.length >= 2) {
-      return cleaned.slice(0, 2).toUpperCase();
-    }
+  //   if (parts.length >= 2) {
+  //     return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+  //   }
 
-    return cleaned.toUpperCase();
-  }
+  //   if (cleaned.length >= 2) {
+  //     return cleaned.slice(0, 2).toUpperCase();
+  //   }
 
-  // const [formattedInitials, SetformattedInitials] = useState("");
+  //   return cleaned.toUpperCase();
+  // }
 
-  useEffect(() => {
-    const results = getInitials(initials);
-    console.log("The result is " + results);
-    // SetformattedInitials(results);
-  }, []);
+  // const formattedInitials = hasToken ? getInitials(user?.fullName) : "";
 
-  const navigate = useNavigate();
   return (
     <nav className="h-[10vh] md:h-[15vh] fixed top-0 left-0 right-0 z-50 w-full flex items-center justify-center">
-      {/* container */}
       {openMobileModal && <MobileModal onClose={setOpenMobileModal} />}
+
       <motion.div
         initial={{ opacity: 0, y: 100 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="border border-gray-600 w-full max-w-[90%] md:max-w-[80%] 2xl:max-w-7xl bg-black/70 backdrop-blur-md shadow-lg h-full max-h-[80%] rounded-full flex justify-beteween items-center z-[9999px]"
+        className="border border-gray-600 w-full max-w-[90%] md:max-w-[80%] 2xl:max-w-7xl bg-black/70 backdrop-blur-md shadow-lg h-full max-h-[80%] rounded-full flex justify-between items-center"
       >
-        {/* Image container */}
+        {/* Logo */}
         <div className="w-[40%]">
           <img
             src={newlogo}
@@ -75,41 +75,34 @@ const Header = () => {
           />
         </div>
 
-        {/* Content */}
-
+        {/* Desktop Navigation */}
         <div className="navB:flex w-full max-w-[65%] hidden justify-between items-center px-4">
           {/* Links */}
           <ul className="flex items-center">
             {[
-              { onPage: "Home", navTo: "/", activePage: "/" },
-              { onPage: "About", navTo: "/about", activePage: "/about" },
-              {
-                onPage: "Contact",
-                navTo: "/contact",
-                activePage: "/contact",
-              },
-              { onPage: "Blog", navTo: "/blog", activePage: "/blog" },
+              { onPage: "Home", navTo: "/" },
+              { onPage: "About", navTo: "/about" },
+              { onPage: "Contact", navTo: "/contact" },
+              { onPage: "Blog", navTo: "/blog" },
             ].map((ele, idx) => (
               <li
                 key={idx}
                 onClick={() => navigate(ele.navTo)}
                 className={`${
-                  ele.activePage === currentLocation
+                  ele.navTo === currentLocation
                     ? "text-[#ae157c] font-bold"
-                    : " text-white hover:text-[#ae157c]/50"
-                }   cursor-pointer text-xl transition-colors duration-300 mx-2 px-2 py-1 rounded-tl-md rounded-br-md`}
+                    : "text-white hover:text-[#ae157c]/50"
+                } cursor-pointer text-xl transition-colors duration-300 mx-2 px-2 py-1 rounded-tl-md rounded-br-md`}
               >
                 {ele.onPage}
               </li>
             ))}
           </ul>
 
-          {/* CTA buttons */}
+          {/* Desktop Auth Section */}
           <div>
-            {initials ? (
-              <>
-                <ProfileDropdown />
-              </>
+            {hasToken ? (
+              <ProfileDropdown />
             ) : (
               <>
                 <button
@@ -118,8 +111,9 @@ const Header = () => {
                 >
                   Log in
                 </button>
+
                 <Button
-                  className="border rounded-[100px] border-[#E9C4FF] backdrop-blur-xs cursor-pointer px-6 py-2 hover:scale-105 transition-transform duration-200"
+                  className="border rounded-[100px] bg-black/20 hover:bg-black/20 text-white border-[#E9C4FF] backdrop-blur-xs cursor-pointer px-6 py-2 hover:scale-105 transition-transform duration-200"
                   onClick={() => navigate("/sign_up")}
                 >
                   Get Started
@@ -129,14 +123,14 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Nav b */}
+        {/* Mobile Navigation */}
         <div className="navB:hidden text-white w-full flex items-center justify-end pr-4 mr-6">
-          {initials ? (
+          {hasToken ? (
             <ProfileDropdown />
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <FaRegUserCircle className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" />
+                <CircleUserRound className="text-xl mr-2 ss:mr-4 sm:mr-6 md:text-2xl cursor-pointer" />
               </DropdownMenuTrigger>
 
               <DropdownMenuContent className="w-50 mt-2 mr-8 sm:mr-4 bg-black text-white border-none">
@@ -162,7 +156,7 @@ const Header = () => {
 
           <IoIosMenu
             onClick={() => setOpenMobileModal(true)}
-            className="text-3xl md:text-5xl cursor-pointer"
+            className="text-3xl md:text-5xl cursor-pointer ml-3"
           />
         </div>
       </motion.div>

@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 // import Gemini from "./gemini";
 import { useNavigate } from "react-router-dom";
+import { UserAuth } from "@/app/store";
+import { logoutUser } from "@/config/logout";
 
 interface Profile {
   name: string;
@@ -88,8 +90,10 @@ export default function ProfileDropdown({
 
   const navigate = useNavigate();
 
+  const user = UserAuth((state) => state.user);
+
   return (
-    <div className={cn("relative", className)} {...props}>
+    <div className={cn("relative mr-4 md:mr-0", className)} {...props}>
       <DropdownMenu onOpenChange={setIsOpen}>
         <div className="group relative">
           <DropdownMenuTrigger asChild>
@@ -99,10 +103,12 @@ export default function ProfileDropdown({
             >
               <div className="text-left flex-1 hidden md:block">
                 <div className="text-sm text-white font-bold tracking-tight leading-tight">
-                  {data.name}
+                  {/* {data.name} */}
+                  {user && user.fullName}
                 </div>
                 <div className="text-xs text-gray-500 dark:text-zinc-400 tracking-tight leading-tight">
-                  {data.email}
+                  {/* {data.email} */}
+                  {user && user.email}
                 </div>
               </div>
               <div className="relative">
@@ -198,6 +204,7 @@ export default function ProfileDropdown({
 
             <DropdownMenuItem asChild>
               <button
+                onClick={logoutUser}
                 type="button"
                 className="w-full flex items-center gap-3 p-3 duration-200 bg-red-500/10 rounded-xl focus:bg-none cursor-pointer border border-transparent hover:border-red-500/30 hover:shadow-sm transition-all group"
               >
