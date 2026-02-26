@@ -86,11 +86,15 @@ const mapToPopularPost = (
   image: item.imageUrl || item.image || item.coverImage || FALLBACK_IMAGE,
 });
 
+const normalizeCategory = (value?: string) =>
+  (value || "General").trim().toLowerCase();
+
 const BlogPage = () => {
   const [featuredArticles, setFeaturedArticles] = useState<Article[]>([]);
   const [latestArticles, setLatestArticles] = useState<
     ReturnType<typeof mapToLatestArticle>[]
   >([]);
+  const [activeCategory, setActiveCategory] = useState("All");
   const [popularPosts, setPopularPosts] = useState<PopularPostItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -137,10 +141,33 @@ const BlogPage = () => {
     fetchBlogs();
   }, []);
 
+  const categoryTabs = useMemo(() => {
+    const source = [...featuredArticles, ...latestArticles];
+    const unique = Array.from(
+      new Set(
+        source
+          .map((article) => article.category?.trim())
+          .filter((category): category is string => Boolean(category)),
+      ),
+    );
+
+    return ["All", ...unique];
+  }, [featuredArticles, latestArticles]);
+
+  const filteredLatestArticles = useMemo(() => {
+    const normalizedActive = activeCategory.trim().toLowerCase();
+
+    if (normalizedActive === "all") return latestArticles;
+
+    return latestArticles.filter(
+      (article) => normalizeCategory(article.category) === normalizedActive,
+    );
+  }, [latestArticles, activeCategory]);
+
   const categories = useMemo<CategoryItem[]>(() => {
     const counter = new Map<string, number>();
 
-    latestArticles.forEach((article) => {
+    filteredLatestArticles.forEach((article) => {
       const key = article.category || "General";
       counter.set(key, (counter.get(key) || 0) + 1);
     });
@@ -158,9 +185,12 @@ const BlogPage = () => {
         articles={featuredArticles}
         isLoading={isLoading}
         errorMessage={errorMessage}
+        categories={categoryTabs}
+        activeCategory={activeCategory}
+        onCategoryChange={setActiveCategory}
       />
       <LatestArticlesSection
-        articlesList={latestArticles}
+        articlesList={filteredLatestArticles}
         popularPostsList={popularPosts}
         categoriesList={categories}
         isLoading={isLoading}
