@@ -65,13 +65,23 @@ const ARTICLES: Article[] = [
   },
 ];
 
-const ArticlesSection: React.FC = () => {
+interface ArticlesSectionProps {
+  articles?: Article[];
+  isLoading?: boolean;
+  errorMessage?: string | null;
+}
+
+const ArticlesSection: React.FC<ArticlesSectionProps> = ({
+  articles = ARTICLES,
+  isLoading = false,
+  errorMessage = null,
+}) => {
   const [activeCategory, setActiveCategory] = useState("All");
 
   const filteredArticles =
     activeCategory === "All"
-      ? ARTICLES
-      : ARTICLES.filter((article) => article.category === activeCategory);
+      ? articles
+      : articles.filter((article) => article.category === activeCategory);
 
   return (
     <section className="py-16 px-4 md:px-8 2xl:max-w-7xl mx-auto">
@@ -101,7 +111,15 @@ const ArticlesSection: React.FC = () => {
 
       {/* Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-        {filteredArticles.length > 0 ? (
+        {isLoading ? (
+          <div className="col-span-full py-20 text-center text-muted-foreground animate-fade-in">
+            Loading featured articles...
+          </div>
+        ) : errorMessage ? (
+          <div className="col-span-full py-20 text-center text-red-300 animate-fade-in">
+            {errorMessage}
+          </div>
+        ) : filteredArticles.length > 0 ? (
           filteredArticles.map((article, index) => (
             <ArticleCard key={article.id} article={article} index={index} />
           ))

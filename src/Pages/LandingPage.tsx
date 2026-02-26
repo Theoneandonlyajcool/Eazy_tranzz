@@ -6,12 +6,22 @@ import Testimonials from "@/components/Testimonials";
 import { FAQSection } from "@/components/FAQ";
 import Hero from "@/components/FreelancerHero";
 import CAS from "@/components/CAS";
+// import AITextLoading from "@/components/kokonutui/ai-text-loading";
 
 // const images = [".."];
 
 const LandingPage = () => {
   return (
     <div className="min-h-screen">
+      {/* <AITextLoading
+        className=""
+        texts={[
+          "Analyzing..",
+          "Preparing Dashboard...",
+          "Getting latest data..",
+          "Almost...",
+        ]}
+      /> */}
       <HeroSection />
       <HowItWorks />
       <PaymentRates />

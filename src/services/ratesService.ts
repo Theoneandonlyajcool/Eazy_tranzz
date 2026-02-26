@@ -3,10 +3,5 @@ import api from "@/services/apiClient";
 
 export async function getRates(params = {}) {
   const res = await api.get("rates/latest", { params });
-  return res.data; // return only the data layer
+  return res.data;
 }
-
-// export async function createRate(payload: CreateRatePayload) {
-//   const res = await api.post("/rates", payload);
-//   return res.data;
-// }
