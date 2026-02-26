@@ -68,16 +68,24 @@ interface ArticlesSectionProps {
   articles?: Article[];
   isLoading?: boolean;
   errorMessage?: string | null;
+  categories?: string[];
+  activeCategory?: string;
+  onCategoryChange?: (category: string) => void;
 }
 
 const ArticlesSection: React.FC<ArticlesSectionProps> = ({
   articles = ARTICLES,
   isLoading = false,
   errorMessage = null,
+  categories: categoriesProp,
+  activeCategory: activeCategoryProp,
+  onCategoryChange,
 }) => {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [localActiveCategory, setLocalActiveCategory] = useState("All");
+  const activeCategory = activeCategoryProp ?? localActiveCategory;
+  const setActiveCategory = onCategoryChange ?? setLocalActiveCategory;
 
-  const categories = useMemo(() => {
+  const generatedCategories = useMemo(() => {
     const apiCategories = Array.from(
       new Set(
         articles
@@ -91,6 +99,11 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({
       ...(apiCategories.length > 0 ? apiCategories : DEFAULT_CATEGORIES),
     ];
   }, [articles]);
+
+  const categories =
+    categoriesProp && categoriesProp.length > 0
+      ? categoriesProp
+      : generatedCategories;
 
   const normalizedActiveCategory = activeCategory.trim().toLowerCase();
 
