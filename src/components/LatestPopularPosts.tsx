@@ -2,7 +2,20 @@ import React from "react";
 import { Calendar, TrendingUp } from "lucide-react";
 import { popularPosts } from "@/features/BlogPage/Mockdata";
 
-export const PopularPosts: React.FC = () => {
+export interface PopularPostItem {
+  id: string;
+  title: string;
+  date: string;
+  image: string;
+}
+
+interface PopularPostsProps {
+  posts?: PopularPostItem[];
+}
+
+export const PopularPosts: React.FC<PopularPostsProps> = ({
+  posts = popularPosts,
+}) => {
   return (
     <div className="bg-[#111116] border border-gray-500 rounded-xl p-6 space-y-6 text-white">
       <div className="flex items-center gap-2 mb-2">
@@ -11,7 +24,7 @@ export const PopularPosts: React.FC = () => {
       </div>
 
       <div className="space-y-6">
-        {popularPosts.map((post) => (
+        {posts.map((post) => (
           <div key={post.id} className="group flex gap-4 cursor-pointer">
             <div className="relative w-20 h-20 shrink-0 overflow-hidden rounded-lg">
               <img

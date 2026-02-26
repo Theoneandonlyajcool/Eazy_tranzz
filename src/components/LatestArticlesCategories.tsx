@@ -1,7 +1,16 @@
 import { Tag, ChevronRight } from "lucide-react";
 import { categories } from "@/features/BlogPage/Mockdata";
 
-export const Categories = () => {
+export interface CategoryItem {
+  name: string;
+  count: number;
+}
+
+interface CategoriesProps {
+  items?: CategoryItem[];
+}
+
+export const Categories = ({ items = categories }: CategoriesProps) => {
   return (
     <div className="bg-[#111116] border border-gray-700 rounded-xl p-6 space-y-6 text-white">
       <div className="flex items-center gap-2 mb-2">
@@ -10,7 +19,7 @@ export const Categories = () => {
       </div>
 
       <div className="space-y-4">
-        {categories.map((category) => (
+        {items.map((category) => (
           <div
             key={category.name}
             className="group flex items-center justify-between py-2 cursor-pointer border-b border-border/30 last:border-0 hover:border-primary/30 transition-all duration-300"
