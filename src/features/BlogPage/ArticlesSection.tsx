@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import FilterBar from "@/components/FilterBar";
 import ArticleCard from "@/components/ArticleCard";
 import type { Article } from "@/components/ArticleCard";
 
-const CATEGORIES = [
-  "All",
+const DEFAULT_CATEGORIES = [
   "Currency Exchange",
   "Fintech",
   "Business Tips",
@@ -78,17 +77,37 @@ const ArticlesSection: React.FC<ArticlesSectionProps> = ({
 }) => {
   const [activeCategory, setActiveCategory] = useState("All");
 
+  const categories = useMemo(() => {
+    const apiCategories = Array.from(
+      new Set(
+        articles
+          .map((article) => article.category?.trim())
+          .filter((category): category is string => Boolean(category)),
+      ),
+    );
+
+    return [
+      "All",
+      ...(apiCategories.length > 0 ? apiCategories : DEFAULT_CATEGORIES),
+    ];
+  }, [articles]);
+
+  const normalizedActiveCategory = activeCategory.trim().toLowerCase();
+
   const filteredArticles =
-    activeCategory === "All"
+    normalizedActiveCategory === "all"
       ? articles
-      : articles.filter((article) => article.category === activeCategory);
+      : articles.filter(
+          (article) =>
+            article.category?.trim().toLowerCase() === normalizedActiveCategory,
+        );
 
   return (
     <section className="py-16 px-4 md:px-8 2xl:max-w-7xl mx-auto">
       {/* Header section with categories */}
       <div className="space-y-4 mb-12">
         <FilterBar
-          categories={CATEGORIES}
+          categories={categories}
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
         />
