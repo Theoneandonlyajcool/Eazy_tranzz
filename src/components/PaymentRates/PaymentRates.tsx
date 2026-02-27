@@ -2,6 +2,7 @@
 // import RatesTable from "./RatesTable";
 // import CosmicOrb from "./CosmicOrb";
 // import { Badge } from "@/components/ui/badge";
+import { useEffect, useMemo, useState } from "react";
 import PaymentLogos from "./PaymentLogos";
 import bgVideo from "@/assets/Videos/Pinterest.mp4";
 import { Button } from "@/components/ui/button";
@@ -12,47 +13,104 @@ import paypalLogo from "@/assets/Images/img1.png";
 // import ZelleLogo from "@/assets/Images/img2.png";
 import { useNavigate } from "react-router-dom";
 import { ArrowRight } from "lucide-react";
+import { getRates } from "@/services/ratesService";
 
-const Rates = [
-  {
-    platForm: "Payoneer",
-    rateBonus: "N1,572",
-    deliverySpeed: "Instant",
-    limits: "unlimited",
-    bestRate: true,
-  },
-  {
-    platForm: "Wise",
-    rateBonus: "N1,560",
-    deliverySpeed: "Same Day",
-    limits: "$10,000 Limit",
-    bestRate: false,
-  },
-  {
-    platForm: "CashApp",
-    rateBonus: "N1,545",
-    deliverySpeed: "Instant",
-    limits: "Up to $2,500",
-    bestRate: false,
-  },
-  {
-    platForm: "PayPal",
-    rateBonus: "N1,540",
-    deliverySpeed: "Same Day",
-    limits: "Up to $5,000",
-    bestRate: false,
-  },
-  {
-    platForm: "Black Market Rate",
-    rateBonus: "N1,512",
-    deliverySpeed: "—",
-    limits: "—",
-    bestRate: false,
-  },
-];
+interface RatesApiItem {
+  _id: string;
+  platformKey: string;
+  platformName: string;
+  buyRate: number;
+  sellRate: number;
+  speed?: string;
+}
+
+interface RatesApiResponse {
+  success?: boolean;
+  message?: string;
+  data?: RatesApiItem[];
+}
+
+interface PaymentRateRow {
+  id: string;
+  platformKey: string;
+  platForm: string;
+  buyRate: number;
+  sellRate: number;
+  deliverySpeed: string;
+  limits: string;
+  bestRate: boolean;
+}
+
+const LOGO_MAP: Record<string, string> = {
+  wise: WiseLogo,
+  payoneer: payoneerLogo,
+  cashapp: cashAppLogo,
+  paypal: paypalLogo,
+};
+
+const SPEED_LABEL: Record<string, string> = {
+  normal: "Same Day",
+  fast: "Instant",
+  instant: "Instant",
+};
+
+const mapRateToRow = (item: RatesApiItem): PaymentRateRow => ({
+  id: item._id,
+  platformKey: item.platformKey,
+  platForm: item.platformName || item.platformKey,
+  buyRate: Number(item.buyRate ?? 0),
+  sellRate: Number(item.sellRate ?? 0),
+  deliverySpeed: SPEED_LABEL[item.speed?.toLowerCase() || ""] || "Same Day",
+  limits: "$10 - Unlimited",
+  bestRate: false,
+});
 
 const PaymentRates = () => {
   const navigate = useNavigate();
+  const [rates, setRates] = useState<PaymentRateRow[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchRates = async () => {
+      setIsLoading(true);
+      setErrorMessage(null);
+
+      try {
+        const res = (await getRates()) as RatesApiResponse;
+
+        if (!res?.success || !Array.isArray(res?.data)) {
+          throw new Error(res?.message || "Unable to load rates.");
+        }
+
+        const mapped = res.data.map(mapRateToRow);
+        const highestSellRate = Math.max(
+          ...mapped.map((item) => item.sellRate),
+          0,
+        );
+
+        setRates(
+          mapped.map((item) => ({
+            ...item,
+            bestRate: item.sellRate === highestSellRate,
+          })),
+        );
+      } catch (error) {
+        setRates([]);
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : "Something went wrong while fetching rates.",
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchRates();
+  }, []);
+
+  const tableRows = useMemo(() => rates, [rates]);
 
   return (
     <section className="relative min-h-screen w-full bg-background overflow-hidden">
@@ -110,41 +168,62 @@ const PaymentRates = () => {
               </tr>
             </thead>
             <tbody>
-              {Rates.map((rate, idx) => (
-                <tr
-                  key={idx}
-                  className={`border-b border-gray-700  ${
-                    rate.bestRate
-                      ? " bg-linear-to-r from-[#440830]/50 to-[#440830]/20"
-                      : "hover:bg-[#440830]/10"
-                  }`}
-                >
-                  <td className="p-4 whitespace-nowrap">
-                    {rate.platForm !== "Black Market Rate" ? (
-                      <img
-                        src={
-                          rate.platForm === "Wise"
-                            ? WiseLogo
-                            : rate.platForm === "Payoneer"
-                              ? payoneerLogo
-                              : rate.platForm === "CashApp"
-                                ? cashAppLogo
-                                : rate.platForm === "PayPal"
-                                  ? paypalLogo
-                                  : ""
-                        }
-                        alt={rate.platForm}
-                        className="w-10 h-10 mr-2 inline-block rounded-2xl "
-                      />
-                    ) : null}
-
-                    {rate.platForm}
+              {isLoading && (
+                <tr>
+                  <td colSpan={4} className="p-6 text-center text-gray-400">
+                    Loading live rates...
                   </td>
-                  <td className="p-4 font-medium">{rate.rateBonus}</td>
-                  <td className="p-4">{rate.deliverySpeed}</td>
-                  <td className="p-4 whitespace-nowrap mr-10">{rate.limits}</td>
                 </tr>
-              ))}
+              )}
+
+              {!isLoading && errorMessage && (
+                <tr>
+                  <td colSpan={4} className="p-6 text-center text-red-300">
+                    {errorMessage}
+                  </td>
+                </tr>
+              )}
+
+              {!isLoading && !errorMessage && tableRows.length === 0 && (
+                <tr>
+                  <td colSpan={4} className="p-6 text-center text-gray-400">
+                    No rates available.
+                  </td>
+                </tr>
+              )}
+
+              {!isLoading &&
+                !errorMessage &&
+                tableRows.map((rate) => (
+                  <tr
+                    key={rate.id}
+                    className={`border-b border-gray-700  ${
+                      rate.bestRate
+                        ? " bg-linear-to-r from-[#440830]/50 to-[#440830]/20"
+                        : "hover:bg-[#440830]/10"
+                    }`}
+                  >
+                    <td className="p-4 whitespace-nowrap">
+                      {LOGO_MAP[rate.platformKey?.toLowerCase()] ? (
+                        <img
+                          src={LOGO_MAP[rate.platformKey?.toLowerCase()]}
+                          alt={rate.platForm}
+                          className="w-10 h-10 mr-2 inline-block rounded-2xl "
+                        />
+                      ) : null}
+
+                      {rate.platForm}
+                    </td>
+                    <td className="p-4 font-medium">
+                      Buy: ₦{rate.buyRate.toLocaleString()} <br />
+                      Sell: ₦{rate.sellRate.toLocaleString()}
+                    </td>
+                    <td className="p-4">{rate.deliverySpeed}</td>
+                    <td className="p-4 whitespace-nowrap mr-10">
+                      {rate.limits}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
           <div
