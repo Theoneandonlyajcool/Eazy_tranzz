@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { TrendingUp } from "lucide-react";
 import FilterBar from "@/components/FilterBar";
 import ArticleCard from "@/components/ArticleCard";
 import type { Article } from "@/components/ArticleCard";
 
-const CATEGORIES = [
-  "All",
+const DEFAULT_CATEGORIES = [
   "Currency Exchange",
   "Fintech",
   "Business Tips",
@@ -65,20 +64,63 @@ const ARTICLES: Article[] = [
   },
 ];
 
-const ArticlesSection: React.FC = () => {
-  const [activeCategory, setActiveCategory] = useState("All");
+interface ArticlesSectionProps {
+  articles?: Article[];
+  isLoading?: boolean;
+  errorMessage?: string | null;
+  categories?: string[];
+  activeCategory?: string;
+  onCategoryChange?: (category: string) => void;
+}
+
+const ArticlesSection: React.FC<ArticlesSectionProps> = ({
+  articles = ARTICLES,
+  isLoading = false,
+  errorMessage = null,
+  categories: categoriesProp,
+  activeCategory: activeCategoryProp,
+  onCategoryChange,
+}) => {
+  const [localActiveCategory, setLocalActiveCategory] = useState("All");
+  const activeCategory = activeCategoryProp ?? localActiveCategory;
+  const setActiveCategory = onCategoryChange ?? setLocalActiveCategory;
+
+  const generatedCategories = useMemo(() => {
+    const apiCategories = Array.from(
+      new Set(
+        articles
+          .map((article) => article.category?.trim())
+          .filter((category): category is string => Boolean(category)),
+      ),
+    );
+
+    return [
+      "All",
+      ...(apiCategories.length > 0 ? apiCategories : DEFAULT_CATEGORIES),
+    ];
+  }, [articles]);
+
+  const categories =
+    categoriesProp && categoriesProp.length > 0
+      ? categoriesProp
+      : generatedCategories;
+
+  const normalizedActiveCategory = activeCategory.trim().toLowerCase();
 
   const filteredArticles =
-    activeCategory === "All"
-      ? ARTICLES
-      : ARTICLES.filter((article) => article.category === activeCategory);
+    normalizedActiveCategory === "all"
+      ? articles
+      : articles.filter(
+          (article) =>
+            article.category?.trim().toLowerCase() === normalizedActiveCategory,
+        );
 
   return (
     <section className="py-16 px-4 md:px-8 2xl:max-w-7xl mx-auto">
       {/* Header section with categories */}
       <div className="space-y-4 mb-12">
         <FilterBar
-          categories={CATEGORIES}
+          categories={categories}
           activeCategory={activeCategory}
           onCategoryChange={setActiveCategory}
         />
@@ -101,7 +143,15 @@ const ArticlesSection: React.FC = () => {
 
       {/* Articles Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
-        {filteredArticles.length > 0 ? (
+        {isLoading ? (
+          <div className="col-span-full py-20 text-center text-muted-foreground animate-fade-in">
+            Loading featured articles...
+          </div>
+        ) : errorMessage ? (
+          <div className="col-span-full py-20 text-center text-red-300 animate-fade-in">
+            {errorMessage}
+          </div>
+        ) : filteredArticles.length > 0 ? (
           filteredArticles.map((article, index) => (
             <ArticleCard key={article.id} article={article} index={index} />
           ))

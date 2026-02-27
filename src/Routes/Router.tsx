@@ -1,5 +1,5 @@
 // import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 // import IntroPage from "@/Pages/IntroPage.tsx";
 import LandingPage from "../Pages/LandingPage.tsx";
 import SignIn from "../Pages/Auth/SignIn.tsx";
@@ -29,7 +29,7 @@ import KYCPage from "@/Pages/KYCPage.tsx";
 
 const Router = () => {
   return (
-    <BrowserRouter>
+    <HashRouter>
       {/* Web analytics */}
       <Analytics />
 
@@ -65,7 +65,7 @@ const Router = () => {
           </Route>
         </Route>
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
