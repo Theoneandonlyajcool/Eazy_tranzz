@@ -16,7 +16,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import logo from "@/assets/Images/logo.png";
-
+import axios from "axios";
+import toast from "react-hot-toast";
+import { PropagateLoader } from "react-spinners";
 type Step = {
   id: number;
   title: string;
@@ -46,6 +48,7 @@ const steps: Step[] = [
 ];
 
 interface UploadedFile {
+  file?: File;
   name: string;
   size: number;
   type: string;
@@ -60,6 +63,7 @@ const KYCPage = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [touched, setTouched] = useState<{ [key: string]: boolean }>({});
   const [errors, setErrors] = useState<FormErrors>({});
+  const [kycId, setKycId] = useState<string>("");
   const [uploadedFiles, setUploadedFiles] = useState<{
     idDocument: UploadedFile | null;
     proofOfAddress: UploadedFile | null;
@@ -88,9 +92,9 @@ const KYCPage = () => {
     issueDate: "",
     expiryDate: "",
     occupation: "",
-    purpose: "",
+    purposeOfAccount: "",
   });
-
+  const [loading, setLoading] = useState(false);
   // Validation functions
   const validatePersonalInfo = () => {
     const newErrors: FormErrors = {};
@@ -123,8 +127,8 @@ const KYCPage = () => {
       newErrors.expiryDate = "Expiry date is required";
     if (!identityInfo.occupation.trim())
       newErrors.occupation = "Occupation is required";
-    if (!identityInfo.purpose.trim())
-      newErrors.purpose = "Purpose of account is required";
+    if (!identityInfo.purposeOfAccount.trim())
+      newErrors.purposeOfAccount = "Purpose of account is required";
     return newErrors;
   };
 
@@ -250,6 +254,7 @@ const KYCPage = () => {
       if (files && files[0]) {
         const file = files[0];
         const fileObj: UploadedFile = {
+          file,
           name: file.name,
           size: file.size,
           type: file.type,
@@ -282,6 +287,7 @@ const KYCPage = () => {
     if (files && files[0]) {
       const file = files[0];
       const fileObj: UploadedFile = {
+        file,
         name: file.name,
         size: file.size,
         type: file.type,
@@ -304,6 +310,55 @@ const KYCPage = () => {
     }
   };
 
+  const BaseUrl = "https://easy-tranz.onrender.com";
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      if (currentStep === 1) {
+        const res = await axios.post(
+          `${BaseUrl}/api/v1/kyc/personal`,
+          personalInfo,
+        );
+        console.log(res, "first response");
+        setKycId(res.data.kyc._id);
+        toast.success(res?.data?.message || "Personal Info Submitted");
+        setCurrentStep(2);
+      } else if (currentStep === 2) {
+        const res = await axios.post(
+          `${BaseUrl}/api/v1/kyc/identity`,
+          identityInfo,
+        );
+        console.log(res, "secound response");
+        toast.success(res?.data?.message || "Identity Submitted");
+        setCurrentStep(3);
+      } else if (currentStep === 3) {
+        const formData = new FormData();
+        formData.append("kycId", kycId);
+        if (uploadedFiles.idDocument?.file)
+          formData.append("idDocument", uploadedFiles.idDocument.file);
+        if (uploadedFiles.proofOfAddress?.file)
+          formData.append("proofOfAddress", uploadedFiles.proofOfAddress.file);
+        if (uploadedFiles.selfiePhoto?.file)
+          formData.append("selfiePhoto", uploadedFiles.selfiePhoto.file);
+
+        const res = await axios.post(
+          `${BaseUrl}/api/v1/kyc/documents`,
+          formData,
+          {
+            headers: { "Content-Type": "multipart/form-data" },
+          },
+        );
+
+        toast.success(res?.data?.message || "Documents Uploaded Successfully");
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || "Something went wrong");
+    } finally {
+      setLoading(false);
+    }
+  };
   const removeFile = (fieldName: keyof typeof uploadedFiles) => {
     setUploadedFiles((prev) => ({
       ...prev,
@@ -489,12 +544,12 @@ const KYCPage = () => {
       <KYCInputField
         label="Purpose of Account"
         placeholder="Select Purpose"
-        value={identityInfo.purpose}
+        value={identityInfo.purposeOfAccount}
         onChange={(e) =>
-          handleInputChange("purpose", e.target.value, "identity")
+          handleInputChange("purposeOfAccount", e.target.value, "identity")
         }
-        onBlur={() => handleBlur("purpose")}
-        error={touched.purpose ? errors.purpose : ""}
+        onBlur={() => handleBlur("purposeOfAccount")}
+        error={touched.purposeOfAccount ? errors.purposeOfAccount : ""}
         className="md:col-span-2"
       />
     </div>
@@ -654,11 +709,17 @@ const KYCPage = () => {
               <ChevronLeft className="mr-2 h-5 w-5" /> Previous
             </Button>
           )}
+
           <Button
-            onClick={currentStep === steps.length ? () => {} : handleNext}
-            className="flex-1 h-14 text-lg font-bold uppercase tracking-widest bg-linear-to-l from-[#440830] to-[#953E79] hover:opacity-90 transition-opacity shadow-[0_0_20px_rgba(139,29,97,0.3)] cursor-pointer"
+            onClick={handleSubmit}
+            className={`flex-1 h-14 text-lg font-bold uppercase tracking-widest bg-linear-to-l from-[#440830] to-[#953E79]  hover:opacity-90 transition-opacity  shadow-[0_0_20px_rgba(139,29,97,0.3)]
+       `}
           >
-            {currentStep === steps.length ? (
+            {loading ? (
+              <div className="flex items-center justify-center gap-3">
+                <PropagateLoader size={8} color="#ffffff" />
+              </div>
+            ) : currentStep === steps.length ? (
               <>
                 Submit <Check className="ml-2 h-5 w-5" />
               </>
