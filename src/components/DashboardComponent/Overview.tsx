@@ -9,7 +9,7 @@ const stats = [
     iconBg: "bg-green-500",
     change: "+12.5%",
     changeIcon: <TrendingUp size={16} style={{ color: "#05DF72" }} />,
-    changeColor: "text-green-400",
+    changeColor: "text-green-500 dark:text-green-400",
   },
   {
     title: "Total Transactions",
@@ -35,7 +35,7 @@ const stats = [
     iconBg: "bg-[linear-gradient(#953E79,#440830)]",
     change: "+8",
     changeIcon: <TrendingUp size={16} style={{ color: "#05DF72" }} />,
-    changeColor: "text-green-400",
+    changeColor: "text-green-500 dark:text-green-400",
   },
   {
     title: "Pending Transfers",
@@ -45,7 +45,7 @@ const stats = [
     iconBg: "bg-orange-500",
     change: "-2",
     changeIcon: null,
-    changeColor: "text-green-400",
+    changeColor: "text-green-500 dark:text-green-400",
   },
   {
     title: "KYC Status",
@@ -66,11 +66,15 @@ const Overview = () => {
         {/* Welcome Section */}
         <div className="bg-[linear-gradient(90deg,#AD46FF1A,#2B7FFF1A,#00B8DB1A)] rounded-2xl p-6 mb-8 shadow-md">
           <div className="flex items-center gap-2">
-            <span className="text-gray-300 text-lg">Welcome back, </span>
+            <span className="text-gray-600 dark:text-gray-300 text-lg">
+              Welcome back,{" "}
+            </span>
             <h2 className="text-3xl font-bold text-purple-600">Ayoradel571</h2>
             <span className="text-3xl">👋</span>
           </div>
-          <p className="text-gray-500 mt-2">Sunday, January 25, 2026</p>
+          <p className="text-gray-500 dark:text-gray-500 mt-2">
+            Sunday, January 25, 2026
+          </p>
         </div>
 
         {/* Stats Cards */}
@@ -78,7 +82,7 @@ const Overview = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="bg-slate-900 rounded-xl p-6 shadow-lg border border-slate-700 hover:border-slate-600 transition-colors"
+              className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600 transition-colors"
             >
               <div className="flex justify-between items-start mb-4">
                 <div className={`${stat.iconBg} rounded-lg p-3`}>
@@ -95,9 +99,15 @@ const Overview = () => {
                 )}
               </div>
 
-              <p className="text-gray-400 text-sm mb-2">{stat.title}</p>
-              <p className="text-white text-2xl font-bold mb-1">{stat.value}</p>
-              <p className="text-gray-500 text-xs">{stat.subValue}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm mb-2">
+                {stat.title}
+              </p>
+              <p className="text-[#222] dark:text-white text-2xl font-bold mb-1">
+                {stat.value}
+              </p>
+              <p className="text-gray-400 dark:text-gray-500 text-xs">
+                {stat.subValue}
+              </p>
             </div>
           ))}
         </div>
@@ -105,18 +115,20 @@ const Overview = () => {
         {/* Quick Actions */}
         <div className="bg-[linear-gradient(90deg,#AD46FF33,#2B7FFF33,#00B8DB33)] flex flex-col rounded-xl p-10 mb-8 shadow-md">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-[linear-gradient(#953E79,#440830))] rounded-lg p-4">
+            <div className="bg-[linear-gradient(#953E79,#440830)] rounded-lg p-4">
               <Zap size={22} className="text-white" />
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-white">
+              <h3 className="text-lg font-semibold text-[#222] dark:text-white">
                 Quick Actions
               </h3>
-              <p className="text-[#99A1AF] text-sm">Start trading in seconds</p>
+              <p className="text-gray-500 dark:text-[#99A1AF] text-sm">
+                Start trading in seconds
+              </p>
             </div>
           </div>
           <div className="flex flex-wrap gap-4">
-            <button className="bg-[linear-gradient(#953E79,#440830))] cursor-pointer text-white px-14 py-4 rounded-lg font-medium transition-colors flex items-center gap-2">
+            <button className="bg-[linear-gradient(#953E79,#440830)] cursor-pointer text-white px-14 py-4 rounded-lg font-medium transition-colors flex items-center gap-2">
               <span>
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -150,7 +162,7 @@ const Overview = () => {
               </span>{" "}
               New Exchange
             </button>
-            <button className="text-white cursor-pointer bg-gradient-to-l from-[rgba(255,255,255,0.1)] to-[rgba(255,255,255,0.11)] px-18 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+            <button className="text-[#222] dark:text-white cursor-pointer bg-linear-to-l from-gray-100 to-gray-200 dark:from-[rgba(255,255,255,0.1)] dark:to-[rgba(255,255,255,0.11)] px-18 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="18"
@@ -160,14 +172,14 @@ const Overview = () => {
               >
                 <path
                   d="M2.24829 2.24805V14.2388C2.24829 14.6363 2.4062 15.0175 2.68729 15.2986C2.96838 15.5797 3.34962 15.7376 3.74713 15.7376H15.7379"
-                  stroke="white"
+                  stroke="currentColor"
                   stroke-width="1.49884"
                   stroke-linecap="round"
                   stroke-linejoin="round"
                 />
                 <path
                   d="M14.2389 6.74414L10.4918 10.4912L7.49411 7.49356L5.24585 9.74183"
-                  stroke="white"
+                  stroke="currentColor"
                   stroke-width="1.49884"
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -175,7 +187,7 @@ const Overview = () => {
               </svg>{" "}
               View Rates
             </button>
-            <button className="text-white bg-gradient-to-l from-[rgba(255,255,255,0.1)] to-[rgba(255,255,255,0.11)] cursor-pointer px-18 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
+            <button className="text-[#222] dark:text-white bg-linear-to-l from-gray-100 to-gray-200 dark:from-[rgba(255,255,255,0.1)] dark:to-[rgba(255,255,255,0.11)] cursor-pointer px-18 py-2 rounded-lg font-medium transition-colors flex items-center gap-2">
               <Clock size={18} /> History
             </button>
           </div>
@@ -184,14 +196,14 @@ const Overview = () => {
         {/* Main Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Recent Activities */}
-          <div className="lg:col-span-2 bg-[linear-gradient(#1A1A2E,#0A0A0F))]  rounded-xl p-6 shadow-lg border border-slate-700">
+          <div className="lg:col-span-2 bg-white dark:bg-[linear-gradient(#1A1A2E,#0A0A0F)] rounded-xl p-6 shadow-lg border border-gray-200 dark:border-slate-700">
             <div className="flex justify-between items-center mb-6">
-              <h3 className="text-white text-lg font-semibold">
+              <h3 className="text-[#222] dark:text-white text-lg font-semibold">
                 Recent Activities
               </h3>
               <a
                 href="#"
-                className="text-purple-400 hover:text-purple-300 text-sm font-medium transition-colors"
+                className="text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 text-sm font-medium transition-colors"
               >
                 View All →
               </a>
@@ -199,7 +211,7 @@ const Overview = () => {
 
             <div className="space-y-4">
               {/* Activity Item 1 */}
-              <div className="bg-slate-800 rounded-lg p-4 border border-slate-700 hover:border-slate-600 transition-colors">
+              <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 border border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="bg-[rgba(0,201,80,0.20)] rounded-lg p-3">
                     <svg
@@ -233,16 +245,18 @@ const Overview = () => {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <p className="text-white font-medium">
+                    <p className="text-[#222] dark:text-white font-medium">
                       USD to NGN Exchange
                     </p>
-                    <p className="text-white font-semibold">$500 → ₦825,000</p>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-[#222] dark:text-white font-semibold">
+                      $500 → ₦825,000
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">
                       PayPal · 2 hours ago
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="inline-block bg-green-900 text-green-300 px-3 py-1 rounded text-xs font-semibold mt-1">
+                    <span className="inline-block bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-3 py-1 rounded text-xs font-semibold mt-1">
                       completed
                     </span>
                   </div>
@@ -250,7 +264,7 @@ const Overview = () => {
               </div>
 
               {/* Activity Item 2 */}
-              <div className="bg-slate-800 rounded-lg p-4 border border-slate-700 hover:border-slate-600 transition-colors">
+              <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 border border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="bg-[rgba(0,201,80,0.20)] rounded-lg p-3">
                     <svg
@@ -284,16 +298,18 @@ const Overview = () => {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <p className="text-white font-medium">
+                    <p className="text-[#222] dark:text-white font-medium">
                       USD to NGN Exchange
                     </p>
-                    <p className="text-white font-semibold">
+                    <p className="text-[#222] dark:text-white font-semibold">
                       $1,000 → ₦1,655,000
                     </p>
-                    <p className="text-gray-400 text-sm">Zelle · 5 hours ago</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">
+                      Zelle · 5 hours ago
+                    </p>
                   </div>
                   <div className="text-right">
-                    <span className="inline-block bg-green-900 text-green-300 px-3 py-1 rounded text-xs font-semibold mt-1">
+                    <span className="inline-block bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-3 py-1 rounded text-xs font-semibold mt-1">
                       completed
                     </span>
                   </div>
@@ -301,20 +317,24 @@ const Overview = () => {
               </div>
 
               {/* Activity Item 3 */}
-              <div className="bg-slate-800 rounded-lg p-4 border border-slate-700 hover:border-slate-600 transition-colors">
+              <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 border border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="bg-[rgba(255,105,0,0.20)] rounded-lg p-3">
                     <Clock className="w-6 h-6 text-[#FF8904]" />
                   </div>
                   <div className="flex-1">
-                    <p className="text-white font-medium">
+                    <p className="text-[#222] dark:text-white font-medium">
                       USD to NGN Exchange
                     </p>
-                    <p className="text-white font-semibold">$250 → ₦411,250</p>
-                    <p className="text-gray-400 text-sm">CashApp · Yesterday</p>
+                    <p className="text-[#222] dark:text-white font-semibold">
+                      $250 → ₦411,250
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">
+                      CashApp · Yesterday
+                    </p>
                   </div>
                   <div className="text-right">
-                    <span className="inline-block bg-orange-900 text-orange-300 px-3 py-1 rounded text-xs font-semibold mt-1">
+                    <span className="inline-block bg-orange-100 dark:bg-orange-900 text-orange-700 dark:text-orange-300 px-3 py-1 rounded text-xs font-semibold mt-1">
                       pending
                     </span>
                   </div>
@@ -322,7 +342,7 @@ const Overview = () => {
               </div>
 
               {/* Activity Item 4 */}
-              <div className="bg-slate-800 rounded-lg p-4 border border-slate-700 hover:border-slate-600 transition-colors">
+              <div className="bg-gray-50 dark:bg-slate-800 rounded-lg p-4 border border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600 transition-colors">
                 <div className="flex items-center gap-4">
                   <div className="bg-[rgba(0,201,80,0.20)] rounded-lg p-3">
                     <svg
@@ -356,14 +376,18 @@ const Overview = () => {
                     </svg>
                   </div>
                   <div className="flex-1">
-                    <p className="text-white font-medium">Bank Withdrawal</p>
-                    <p className="text-white font-semibold">₦500,000</p>
-                    <p className="text-gray-400 text-sm">
+                    <p className="text-[#222] dark:text-white font-medium">
+                      Bank Withdrawal
+                    </p>
+                    <p className="text-[#222] dark:text-white font-semibold">
+                      ₦500,000
+                    </p>
+                    <p className="text-gray-500 dark:text-gray-400 text-sm">
                       GT Bank · 2 days ago
                     </p>
                   </div>
                   <div className="text-right">
-                    <span className="inline-block bg-green-900 text-green-300 px-3 py-1 rounded text-xs font-semibold mt-1">
+                    <span className="inline-block bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 px-3 py-1 rounded text-xs font-semibold mt-1">
                       completed
                     </span>
                   </div>
@@ -375,9 +399,9 @@ const Overview = () => {
           {/* Right Sidebar */}
           <div className="space-y-6">
             {/* Market Summary */}
-            <div className="bg-[linear-gradient(#1A1A2E,#0A0A0F)] rounded-xl p-8 shadow-lg border border-slate-700">
+            <div className="bg-white dark:bg-[linear-gradient(#1A1A2E,#0A0A0F)] rounded-xl p-8 shadow-lg border border-gray-200 dark:border-slate-700">
               <div className="flex justify-between items-center mb-6">
-                <h3 className="text-white text-lg font-semibold">
+                <h3 className="text-[#222] dark:text-white text-lg font-semibold">
                   Market Summary
                 </h3>
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -385,29 +409,35 @@ const Overview = () => {
 
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-400 text-sm mb-1">Best Buy Rate</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">
+                    Best Buy Rate
+                  </p>
                   <p className="text-[#05DF72] text-[18px] font-bold">₦1,655</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-400 text-sm mb-1">Best Sell Rate</p>
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">
+                    Best Sell Rate
+                  </p>
                   <p className="text-[#51A2FF] text-[18px] font-bold">₦1,685</p>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-gray-400 text-sm mb-1">Market Trend</p>
-                  <p className="text-green-400 text-sm font-semibold flex items-center gap-[5px]">
+                  <p className="text-gray-500 dark:text-gray-400 text-sm mb-1">
+                    Market Trend
+                  </p>
+                  <p className="text-green-500 dark:text-green-400 text-sm font-semibold flex items-center gap-[5px]">
                     <TrendingUp size={16} />
                     +2.3%
                   </p>
                 </div>
               </div>
 
-              <button className="w-full bg-[linear-gradient(#AD46FF33,#2B7FFF33)] cursor-pointer text-white py-2 rounded-lg font-medium mt-4 transition-colors flex items-center justify-center gap-2">
+              <button className="w-full bg-linear-to-r from-purple-100 to-blue-100 dark:from-[#AD46FF33] dark:to-[#2B7FFF33] cursor-pointer text-[#222] dark:text-white py-2 rounded-lg font-medium mt-4 transition-colors flex items-center justify-center gap-2">
                 <TrendingUp size={18} /> View Full Board
               </button>
             </div>
 
             {/* Premium Member */}
-            <div className="bg-[linear-gradient(#F0B10033,#FF690033,#FB2C3633)] rounded-xl p-8 shadow-lg">
+            <div className="bg-linear-to-r from-yellow-50 via-orange-50 to-red-50 dark:bg-[linear-gradient(#F0B10033,#FF690033,#FB2C3633)] rounded-xl p-8 shadow-lg">
               <div className="flex justify-center mb-4">
                 <div className="bg-orange-500 rounded-2xl p-4">
                   <svg
@@ -434,13 +464,13 @@ const Overview = () => {
                   </svg>
                 </div>
               </div>
-              <h3 className="text-center text-white text-lg font-semibold mb-2">
+              <h3 className="text-center text-[#222] dark:text-white text-lg font-semibold mb-2">
                 Premium Member
               </h3>
-              <p className="text-center text-[#99A1AF] text-sm mb-4">
+              <p className="text-center text-gray-500 dark:text-[#99A1AF] text-sm mb-4">
                 You're in the top 5% of traders
               </p>
-              <div className="flex items-center justify-center gap-2 text-[#99A1AF] text-xs">
+              <div className="flex items-center justify-center gap-2 text-gray-400 dark:text-[#99A1AF] text-xs">
                 <svg
                   className="w-4 h-4"
                   fill="currentColor"

@@ -61,7 +61,7 @@ const DashboardLayout = () => {
   );
 
   return (
-    <div className="min-h-screen flex w-full bg-[#0A0A0F]">
+    <div className="min-h-screen flex w-full bg-white dark:bg-[#0A0A0F]">
       <DashboardSidebar
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
@@ -69,7 +69,7 @@ const DashboardLayout = () => {
 
       <div className="flex-1 flex flex-col min-h-screen md:ml-64">
         {/* Header */}
-        <header className="fixed top-0 right-0 left-0 md:left-64 h-16 border-b border-[#2a2a2a] flex items-center justify-between px-4 md:px-6 bg-[#0a0a0a] z-50">
+        <header className="fixed top-0 right-0 left-0 md:left-64 h-16 border-b border-gray-200 dark:border-[#2a2a2a] flex items-center justify-between px-4 md:px-6 bg-white dark:bg-[#0a0a0a] z-50">
           <div className="flex items-center gap-4">
             <button className="md:hidden p-2 rounded-lg cursor-pointer">
               <label className="flex flex-col gap-2 w-5 h-5 cursor-pointer">
@@ -79,24 +79,24 @@ const DashboardLayout = () => {
                   checked={sidebarOpen}
                   onChange={() => setSidebarOpen(!sidebarOpen)}
                 />
-                <div className="rounded-2xl h-[3px] w-1/2 bg-white duration-500 peer-checked:rotate-225 origin-right peer-checked:-translate-x-3 peer-checked:-translate-y-px"></div>
-                <div className="rounded-2xl h-[3px] w-full bg-white duration-500 peer-checked:-rotate-45"></div>
-                <div className="rounded-2xl h-[3px] w-1/2 bg-white duration-500 place-self-end peer-checked:rotate-225 origin-left peer-checked:translate-x-3 peer-checked:translate-y-px"></div>
+                <div className="rounded-2xl h-[3px] w-1/2 bg-gray-800 dark:bg-white duration-500 peer-checked:rotate-225 origin-right peer-checked:-translate-x-3 peer-checked:-translate-y-px"></div>
+                <div className="rounded-2xl h-[3px] w-full bg-gray-800 dark:bg-white duration-500 peer-checked:-rotate-45"></div>
+                <div className="rounded-2xl h-[3px] w-1/2 bg-gray-800 dark:bg-white duration-500 place-self-end peer-checked:rotate-225 origin-left peer-checked:translate-x-3 peer-checked:translate-y-px"></div>
               </label>
             </button>
 
             <div>
-              <h1 className="text-white font-bold text-lg md:text-xl">
+              <h1 className="text-[#222] dark:text-white font-bold text-lg md:text-xl">
                 {currentTitle?.title}
               </h1>
-              <p className="text-[#6b7280] text-xs md:text-sm">
+              <p className="text-gray-500 dark:text-[#6b7280] text-xs md:text-sm">
                 {currentTitle?.subTitle}
               </p>
             </div>
           </div>
 
-          <button className="relative p-2 rounded-full hover:bg-[#1f1f1f] transition-colors">
-            <Bell className="w-5 h-5 text-[#9ca3af]" />
+          <button className="relative p-2 rounded-full hover:bg-gray-100 dark:hover:bg-[#1f1f1f] transition-colors">
+            <Bell className="w-5 h-5 text-gray-500 dark:text-[#9ca3af]" />
             <span className="absolute top-1 right-1 w-4 h-4 bg-red-500 text-white text-[10px] rounded-full flex items-center justify-center">
               3
             </span>

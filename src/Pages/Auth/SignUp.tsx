@@ -44,6 +44,7 @@ const SignUp = () => {
       const email = response?.data?.email;
       storage.set(import.meta.env.VITE_EMAIL, email);
       navigate("/verify_email");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       const message = err.response?.data?.message || "Something went wrong";
       toast.error(message);

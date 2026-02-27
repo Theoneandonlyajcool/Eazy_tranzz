@@ -84,8 +84,7 @@ const VerifyEmail = () => {
           email: email,
         });
         toast.success(response?.data?.message);
-        const user = response?.data;
-        UserAuth.getState().setUser(user);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         toast.error(err.response?.data?.message);
       }
@@ -107,11 +106,22 @@ const VerifyEmail = () => {
         otp: verificationCode,
         email,
       });
+      const data = res?.data;
+      UserAuth.getState().setUser({
+        fullName: data?.data.fullName,
+        email: data?.data.email,
+        accessToken: data?.data.accessToken,
+        refreshToken: data?.data.refreshToken,
+        success: data?.success,
+        status: data?.status,
+        message: data?.message,
+      });
       toast.success(res?.data?.data?.message);
       setIsLoading(false);
       setTimeout(() => {
         navigate("/dashboard");
-      }, 2000);
+      }, 1000);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       toast.error(err.response?.data?.message || "Something went wrong");
       setIsLoading(false);
@@ -125,7 +135,7 @@ const VerifyEmail = () => {
           type="button"
           className="rounded-full border-2 border-black cursor-pointer bg-white p-2 md:p-3 text-black shadow-lg transition-colors hover:bg-gray-50 hover:text-gray-900"
           aria-label="Close"
-          onClick={() => navigate("/home")}
+          onClick={() => navigate("/")}
         >
           <X className="h-5 w-5 md:h-6 md:w-6" />
         </button>
@@ -178,7 +188,7 @@ const VerifyEmail = () => {
                   onChange={(e) => handleChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
                   onPaste={handlePaste}
-                  className="aspect-square w-full rounded-xl border-2 border-gray-900 text-center text-lg font-semibold focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 md:text-2xl"
+                  className="aspect-square w-full rounded-xl border-2 text-black border-gray-900 text-center text-lg font-semibold focus:border-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-600 md:text-2xl"
                   autoFocus={index === 0}
                 />
               ))}
