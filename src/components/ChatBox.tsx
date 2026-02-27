@@ -15,11 +15,205 @@ interface Message {
   showQuickReplies?: boolean;
 }
 
+const CHAT_KNOWLEDGE_STORAGE_KEY = "eazytranz-chat-knowledge";
+
+const SITE_KNOWLEDGE = [
+  "EazyTranz is a payments and exchange platform where users can manage transactions, monitor rates, and handle account support.",
+  "Main public pages include Home (/), About (/about), Contact (/contact), Blog (/blog), and All Rates (/allRates).",
+  "Authentication pages include Sign In (/sign_in), Sign Up (/sign_up), Verify Email (/verify_email), and Forgot Password (/forgetPassowrd).",
+  "KYC verification can be accessed from /kyc_verification or from Dashboard > KYC.",
+  "The dashboard route is /dashboard, with sections for transaction, payments, activities, rates, profile, settings, kyc, and support.",
+  "The rates page loads live rates data and allows search/filter across platforms.",
+  "The blog page loads featured, latest, and popular articles and supports category filtering.",
+  "This assistant can answer from built-in site knowledge and user-taught facts saved with: Remember: <site info>.",
+  "If a user asks where to find a feature, this assistant should direct them to the exact page path and section name.",
+];
+
+const NAVIGATION_GUIDES = [
+  {
+    keywords: ["home", "landing", "start page"],
+    response:
+      "Go to Home at / . Use the logo in the header to quickly return there.",
+  },
+  {
+    keywords: ["about", "company", "vision", "mission"],
+    response:
+      "Go to About at /about. It contains company vision, principles, timeline, and feature information.",
+  },
+  {
+    keywords: ["contact", "support contact", "office", "reach"],
+    response:
+      "Go to Contact at /contact for contact sections, office/location info, and support questions.",
+  },
+  {
+    keywords: ["blog", "article", "post", "news"],
+    response:
+      "Go to Blog at /blog to read featured/latest articles and browse categories.",
+  },
+  {
+    keywords: ["rate", "rates", "exchange", "price", "platform rates"],
+    response:
+      "Go to All Rates at /allRates. You can search platforms, filter by popularity, and view buy/sell rate updates.",
+  },
+  {
+    keywords: ["sign in", "login", "log in", "account access"],
+    response:
+      "Use Sign In at /sign_in. If login fails, check credentials or use Forgot Password at /forgetPassowrd.",
+  },
+  {
+    keywords: ["sign up", "register", "create account"],
+    response:
+      "Use Sign Up at /sign_up, then complete email verification at /verify_email.",
+  },
+  {
+    keywords: ["forgot password", "reset password", "password"],
+    response:
+      "Use Forgot Password at /forgetPassowrd to recover access if you cannot sign in.",
+  },
+  {
+    keywords: ["kyc", "verify identity", "verification", "documents"],
+    response:
+      "Open KYC verification at /kyc_verification or inside Dashboard > KYC (/dashboard/kyc).",
+  },
+  {
+    keywords: ["dashboard", "overview"],
+    response:
+      "Open Dashboard at /dashboard. From there you can access transaction, payments, activities, rates, profile, settings, kyc, and support.",
+  },
+  {
+    keywords: ["transaction", "new exchange", "trade"],
+    response:
+      "Go to Dashboard Transaction at /dashboard/transaction to start a new exchange transaction.",
+  },
+  {
+    keywords: ["payment", "payment options", "methods"],
+    response:
+      "Go to Dashboard Payments at /dashboard/payments to view and manage payment options.",
+  },
+  {
+    keywords: ["activities", "history", "recent"],
+    response:
+      "Go to Dashboard Activities at /dashboard/activities to view transaction history and recent activity.",
+  },
+  {
+    keywords: ["profile", "update profile", "account settings"],
+    response:
+      "Go to Dashboard Profile at /dashboard/profile to update your account/profile information.",
+  },
+  {
+    keywords: ["settings", "preferences", "config"],
+    response:
+      "Go to Dashboard Settings at /dashboard/settings to configure account preferences.",
+  },
+  {
+    keywords: ["support", "help center", "need help"],
+    response:
+      "Go to Dashboard Support at /dashboard/support for support-related help within your account area.",
+  },
+];
+
+const STOP_WORDS = new Set([
+  "a",
+  "an",
+  "and",
+  "are",
+  "as",
+  "at",
+  "be",
+  "by",
+  "for",
+  "from",
+  "how",
+  "i",
+  "in",
+  "is",
+  "it",
+  "of",
+  "on",
+  "or",
+  "that",
+  "the",
+  "to",
+  "was",
+  "what",
+  "when",
+  "where",
+  "who",
+  "why",
+  "with",
+]);
+
+const tokenize = (value: string) =>
+  value
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((word) => word && !STOP_WORDS.has(word));
+
+const getNavigationHelp = (input: string) => {
+  const lowerInput = input.toLowerCase();
+
+  if (/(^|\s)(hi|hello|hey)(\s|$)/i.test(lowerInput)) {
+    return "Hi 👋 I can guide you around EazyTranz. Ask things like: 'Where do I view rates?' or 'How do I update my profile?'";
+  }
+
+  if (/thank you|thanks/.test(lowerInput)) {
+    return "You're welcome. I can also direct you to pages like /allRates, /dashboard/profile, or /dashboard/support.";
+  }
+
+  const askForDirections = /(where|how do i|navigate|find|go to|open)/i.test(
+    lowerInput,
+  );
+  if (!askForDirections) return null;
+
+  const matched = NAVIGATION_GUIDES.find((guide) =>
+    guide.keywords.some((keyword) => lowerInput.includes(keyword)),
+  );
+
+  return matched
+    ? matched.response
+    : "I can help with navigation. Try asking: 'Where is rates?', 'How do I get to dashboard support?', or 'Where can I reset password?'";
+};
+
+const formatKnowledgeReply = (question: string, facts: string[]) => {
+  const normalized = question.toLowerCase();
+
+  if (
+    /what can you help me with|how can you help|what do you do/.test(normalized)
+  ) {
+    return "I can help you navigate the website, find the right page for any task, explain account and KYC flow, and answer questions using the information I already know about EazyTranz. You can also teach me new site details with: Remember: <your information>.";
+  }
+
+  if (
+    /how do i feed|how can i feed|teach you|add information/.test(normalized)
+  ) {
+    return "To teach me, send messages in this format: Remember: <fact>. Example: Remember: Support is available from 8am to 8pm WAT. I will store it and use it in future answers.";
+  }
+
+  const conciseFacts = facts.slice(0, 2);
+  if (conciseFacts.length === 1) return conciseFacts[0];
+  return `${conciseFacts[0]} Also, ${conciseFacts[1]}`;
+};
+
 const ChatBox = () => {
   const user = UserAuth((state) => state.user);
 
   const [isOpen, setIsOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [userKnowledge, setUserKnowledge] = useState<string[]>(() => {
+    const storedValue = localStorage.getItem(CHAT_KNOWLEDGE_STORAGE_KEY);
+    if (!storedValue) return [];
+
+    try {
+      const parsed = JSON.parse(storedValue);
+      return Array.isArray(parsed)
+        ? parsed.filter((item): item is string => typeof item === "string")
+        : [];
+    } catch {
+      return [];
+    }
+  });
+
   const [messages, setMessages] = useState<Message[]>([
     {
       id: 1,
@@ -30,10 +224,10 @@ const ChatBox = () => {
   ]);
 
   const quickReplies = [
-    "I need help with a transaction",
-    "I have a question about rates",
-    "I want to update my profile",
-    "I'm having login issues",
+    "What can you help me with on this site?",
+    "Remember: Our support hours are 8am to 8pm WAT",
+    "How do I get help with transaction issues?",
+    "How can I update my profile?",
   ];
 
   const { textareaRef, adjustHeight } = useAutoResizeTextarea({
@@ -53,47 +247,91 @@ const ChatBox = () => {
     scrollToBottom();
   }, [messages]);
 
-  const handleSend = () => {
-    if (message.trim()) {
-      setMessages([
-        ...messages,
-        { id: Date.now(), text: message, sender: "user" },
-      ]);
-      setMessage("");
-      adjustHeight(true);
-      // Simulate response
-      setTimeout(() => {
-        setMessages((prev) => [
-          ...prev,
-          {
-            id: Date.now(),
-            text: "Thank you for your message. Our support team will get back to you soon.",
-            sender: "support",
-          },
-        ]);
-      }, 1000);
+  useEffect(() => {
+    localStorage.setItem(
+      CHAT_KNOWLEDGE_STORAGE_KEY,
+      JSON.stringify(userKnowledge),
+    );
+  }, [userKnowledge]);
+
+  const getKnowledgeBasedAnswer = (question: string) => {
+    const qTokens = tokenize(question);
+    const allKnowledge = [...SITE_KNOWLEDGE, ...userKnowledge];
+
+    if (!qTokens.length || !allKnowledge.length) {
+      return "I can answer questions about the site based on what I know. Teach me using: Remember: <site information>.";
     }
+
+    const ranked = allKnowledge
+      .map((fact) => {
+        const factTokens = tokenize(fact);
+        const overlap = qTokens.filter((token) => factTokens.includes(token));
+        return { fact, score: overlap.length };
+      })
+      .filter((item) => item.score > 0)
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3);
+
+    if (!ranked.length) {
+      return "I don’t have that information yet. Please teach me with: Remember: <site information>, and I’ll use it in future answers.";
+    }
+
+    return formatKnowledgeReply(
+      question,
+      ranked.map((item) => item.fact),
+    );
   };
 
-  const handleQuickReply = (reply: string) => {
-    setMessages([...messages, { id: Date.now(), text: reply, sender: "user" }]);
-    // Simulate specific response based on reply
-    setTimeout(() => {
-      let response =
-        "Thank you for your message. Our support team will get back to you soon.";
-      if (reply.includes("transaction")) {
-        response =
-          "I'd be happy to help with your transaction. Can you please provide more details about the issue you're experiencing?";
-      } else if (reply.includes("rates")) {
-        response =
-          "I can help you with information about our current exchange rates. What currency pair are you interested in?";
-      } else if (reply.includes("profile")) {
-        response =
-          "To update your profile, please go to the Profile section in your dashboard. What specific information would you like to change?";
-      } else if (reply.includes("login")) {
-        response =
-          "I'm sorry you're having login issues. Have you tried resetting your password? If that doesn't work, please provide more details.";
+  const generateSupportReply = (input: string) => {
+    const trimmedInput = input.trim();
+    const rememberMatch = trimmedInput.match(
+      /^(remember|learn|note)\s*[:\-]\s*(.+)$/i,
+    );
+
+    if (rememberMatch?.[2]) {
+      const learnedFact = rememberMatch[2].trim();
+      if (!learnedFact) {
+        return "Please provide the information you want me to remember after 'Remember:'.";
       }
+
+      setUserKnowledge((prev) => {
+        if (prev.includes(learnedFact)) return prev;
+        return [...prev, learnedFact];
+      });
+
+      return "Noted. I’ve saved that and will use it to answer future questions about the site.";
+    }
+
+    if (
+      /what\s+do\s+you\s+know|list\s+knowledge|show\s+knowledge/i.test(
+        trimmedInput,
+      )
+    ) {
+      const combinedKnowledge = [...SITE_KNOWLEDGE, ...userKnowledge];
+      return combinedKnowledge.length
+        ? `Here is what I currently know:\n${combinedKnowledge
+            .map((fact) => `• ${fact}`)
+            .join("\n")}`
+        : "I don't have saved knowledge yet. Teach me with: Remember: <site info>.";
+    }
+
+    const navigationHelp = getNavigationHelp(trimmedInput);
+    if (navigationHelp) return navigationHelp;
+
+    return getKnowledgeBasedAnswer(trimmedInput);
+  };
+
+  const pushUserMessageAndReply = (input: string) => {
+    const trimmed = input.trim();
+    if (!trimmed) return;
+
+    setMessages((prev) => [
+      ...prev,
+      { id: Date.now(), text: trimmed, sender: "user" },
+    ]);
+
+    const response = generateSupportReply(trimmed);
+    setTimeout(() => {
       setMessages((prev) => [
         ...prev,
         {
@@ -102,7 +340,18 @@ const ChatBox = () => {
           sender: "support",
         },
       ]);
-    }, 1000);
+    }, 700);
+  };
+
+  const handleSend = () => {
+    if (!message.trim()) return;
+    pushUserMessageAndReply(message);
+    setMessage("");
+    adjustHeight(true);
+  };
+
+  const handleQuickReply = (reply: string) => {
+    pushUserMessageAndReply(reply);
   };
 
   const navigate = useNavigate();
